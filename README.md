@@ -1,7 +1,7 @@
 # 🐰 Is the Order a Rabbit? (Gochuumon wa Usagi Desu ka?) Fan Site
 
 <p align="center">
-  <img src="assets/img/favico.png" alt="Rabbit House Logo" width="200"/>
+  <img src="assets/img/favico.ico" alt="Rabbit House Logo" width="200"/>
 </p>
 
 ## 📖 Overview
@@ -16,7 +16,7 @@ git filter-branch --force --index-filter \
   'git rm --cached --ignore-unmatch assets/video/welcomev2.mp4' \
   --prune-empty --tag-name-filter cat -- --all
 ```
-- which messes up the github commit history hench can't push origin.
+- which messes up the github commit history hench can't push origin. (lfs related issue)
 
 ## ✨ Features
 
