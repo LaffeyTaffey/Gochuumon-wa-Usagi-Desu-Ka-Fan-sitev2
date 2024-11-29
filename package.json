@@ -1,0 +1,25 @@
+{
+  "name": "gochuumon-wa-usagi-desu-ka-fan-site",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r   <img src=\"assets/img/favico.ico\" alt=\"Rabbit House Logo\" width=\"200\"/>\r </p>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "tunnel": "concurrently \"npm start\" \"loclx tunnel http --to localhost:3000\" \"loclx http://localhost:54537 && start https://localxpose.io/dashboard\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "xml2js": "^0.6.2",
+    "loclx": "^24.4.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "nodemon": "^2.0.15"
+  }
+}

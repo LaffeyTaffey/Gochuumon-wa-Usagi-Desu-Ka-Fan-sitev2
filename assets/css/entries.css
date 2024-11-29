@@ -1,0 +1,324 @@
+.entries-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.entries-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.entry-tab-btn {
+    padding: 12px 30px;
+    border: none;
+    background-color: var(--secondary-pink);
+    color: var(--text-color);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.entry-tab-btn.entry-active {
+    background-color: var(--primary-pink);
+    transform: scale(1.05);
+}
+
+.entries-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.entries-content.entry-active {
+    display: block !important;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.entries-content.entry-active .entry-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+.entry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Shows 3 items per row */
+    gap: 30px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1200px) {
+    .entry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 items per row on medium screens */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .entry-grid {
+        grid-template-columns: 1fr;
+        /* 1 item per row on mobile */
+    }
+}
+
+.entry-card {
+    position: relative;
+    background-color: var(--background);
+    border-radius: 15px;
+    overflow: visible;
+    box-shadow: 0 4px 15px var(--nav-shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.hover-image {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    max-width: 200px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    pointer-events: none;
+    /* This prevents the hover image from interfering with interactions */
+}
+
+.entry-card:hover {
+    z-index: 100;
+}
+
+.entry-image {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    overflow: visible;
+}
+
+.entry-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.2s ease-out;
+    z-index: 1;
+}
+/* Hover effect styles */
+.entry-card:hover .entry-image img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    max-width: 60vw;
+    max-height: 60vh;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+/* Create overlay on hover */
+.entry-card:hover .entry-image::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.0);
+    z-index: 999;
+}
+
+/* Create overlay on hover */
+.entry-card:hover::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+/* Remove any existing hover image styles */
+.hover-image {
+    display: none;
+}
+
+.entry-card:hover {
+    z-index: 100;
+}
+
+/* Animation for the popup effect */
+/* Animation for the popup effect */
+@keyframes popupImage {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.entry-card:hover .entry-image img {
+    animation: popupImage 0.2s ease-out forwards;
+}
+
+.entry-info {
+    padding: 20px;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.entry-card:hover .entry-info {
+    transform: translateY(0);
+    position: relative;
+    z-index: 2;
+}
+
+.entry-quote {
+    display: flex;
+    gap: 10px;
+    color: var(--text-color);
+    font-style: italic;
+    padding: 15px;
+    background-color: var(--secondary-pink);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.entry-card:hover .entry-quote {
+    background-color: var(--primary-pink);
+}
+
+.entry-audio {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.entry-card:hover .entry-audio {
+    bottom: 15px;
+}
+
+.entry-audio audio {
+    width: 100%;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.entry-audio audio::-webkit-media-controls-panel {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+.entry-info {
+    padding: 20px;
+}
+
+.entry-info h3 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.entry-meta {
+    color: var(--primary-pink);
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.entry-quote {
+    display: flex;
+    gap: 10px;
+    color: var(--text-color);
+    font-style: italic;
+    padding: 10px;
+    background-color: var(--secondary-pink);
+    border-radius: 10px;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .entry-card {
+    background-color: var(--background-dark);
+}
+
+[data-theme="dark"] .entry-info h3,
+[data-theme="dark"] .entry-quote {
+    color: var(--text-color-dark);
+}
+
+/* Add staggered animation delays */
+.entry-card:nth-child(1) {
+    --delay: 1;
+}
+
+.entry-card:nth-child(2) {
+    --delay: 2;
+}
+
+.entry-card:nth-child(3) {
+    --delay: 3;
+}
+
+.entry-card:nth-child(4) {
+    --delay: 4;
+}
+
+.entry-card:nth-child(5) {
+    --delay: 5;
+}
+
+.entry-card:nth-child(6) {
+    --delay: 6;
+}
+
+.entry-card:nth-child(7) {
+    --delay: 7;
+}
+
+.entry-card:nth-child(8) {
+    --delay: 8;
+}
+
+.entry-card:nth-child(9) {
+    --delay: 9;
+}
+
+.entry-card:nth-child(10) {
+    --delay: 10;
+}

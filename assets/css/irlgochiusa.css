@@ -1,0 +1,293 @@
+#irl-gochiuma-locations {
+    position: relative;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--secondary-pink) 70%, transparent); /* Added opacity */
+    color: var(--text-color);
+    /* Add horizontal margins to create edge gaps */
+    margin: 0 5vw; /* Responsive margin using viewport width */
+    max-width: 1200px; /* Optional: prevent excessive width on large screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Optional: Adjust box-shadow for dark mode for better contrast */
+[data-theme="dark"] #irl-gochiuma-locations {
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+#irl-gochiuma-locations::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.section-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #6B4423;
+    position: relative;
+    z-index: 2;
+}
+
+.content-text {
+    text-align: justify;
+    margin-bottom: 1rem;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 600px;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anime-image {
+  clip-path: inset(0 50% 0 0); /* Show only the left 50% initially */
+  transition: clip-path 0.1s ease;
+  z-index: 2; /* Ensure it's above the base image */
+}
+
+.irl-photo {
+  z-index: 1; /* Base image */
+}
+
+.slider-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 4px;
+  background-color: #ffffff;
+  border: 1px solid #000;
+  cursor: grab;
+  z-index: 3;
+}
+
+.irl-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.interactive-map {
+    background-color: #FFF5E1;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.interactive-map:hover {
+    transform: scale(1.02);
+}
+
+.credits {
+    background-color: var(--background);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.credits:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.credits a {
+    color: #FF69B4;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.credits a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #FF69B4;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.credits a:hover {
+    color: #FF1493;
+}
+
+.credits a:hover::after {
+    transform: scaleX(1);
+}
+
+.irl-location {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5rem 0;
+}
+
+.anime-image, .irl-photo {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.location-img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.map-container {
+    background-color: var(--background);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.map-container h4 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.map-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.map-links a {
+    flex: 1;
+    background: linear-gradient(to right, #FFB7C5, #FFC8D6);
+    color: #6B4423;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(to right, #FF69B4, #FFB6C1);
+}
+
+iframe {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--background);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    width: 800px;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.map-button {
+    background: linear-gradient(to right, #FFB7C5, #FFC8D6);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    color: #6B4423;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.map-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(107, 68, 35, 0.3);
+}
+
+.additional.locations {
+    margin-top: 2rem;
+}
+
+.location-placeholder {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-placeholder:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.location-placeholder img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.static-anime-image, .static-irl-photo {
+    flex: 1;
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.static-anime-image img, .static-irl-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.location-placeholder:hover .static-anime-image img,
+.location-placeholder:hover .static-irl-photo img {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+body {
+    color: var(--text-color);
+}

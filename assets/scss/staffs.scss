@@ -1,0 +1,194 @@
+// Variables
+$primary-color: #FFB6C1;
+$secondary-color: #D8BFD8;
+$text-color: #333;
+$card-bg: #fff;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin transition($property: all) {
+    transition: $property 0.3s ease;
+}
+
+
+.staff-section {
+    position: relative;
+    overflow: hidden;
+
+    // Filter buttons
+    .staff-filters {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        .staff-filter {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid $primary-color;
+            background: transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &.active {
+                background: $primary-color;
+                color: white;
+            }
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+
+    .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        perspective: 1000px;
+
+        @media (max-width: 992px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .staff-card {
+        height: 350px;
+        perspective: 1000px;
+        cursor: pointer;
+
+        &:hover .staff-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .staff-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .staff-card-front,
+        .staff-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 1.5rem;
+            background: $card-bg;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .staff-card-front {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .staff-card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .staff-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        h3 {
+            color: $primary-color;
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .more-info-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: $primary-color;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+
+    // Modal Styling
+    .staff-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        &.show {
+            opacity: 1;
+        }
+
+        .staff-modal-content {
+            position: relative;
+            background: $card-bg;
+            width: 80%;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 15px;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+
+            &.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: rotate(90deg);
+            }
+        }
+    }
+}

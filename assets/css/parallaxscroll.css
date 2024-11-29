@@ -1,0 +1,210 @@
+:root {
+    --bg-morning: url('/assets/img/background/bg_morning.webp');
+    --bg-evening: url('/assets/img/background/bg_evening.webp');
+    --rabbit-house-day: url('/assets/img/background/rabbit_house_day.webp');
+    --rabbit-house-night: url('/assets/img/background/rabbit_house_night.webp');
+    --sunrise: url('/assets/img/background/sunrise.webp');
+    --moon: url('/assets/img/background/moon.webp');
+}
+
+body {
+    margin: 0;
+    transition: background-image 1s ease;
+}
+
+.parallax-container-framer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+
+.background-layer {
+    background-image: var(--bg-morning); /* Default background for light mode */
+    background-size: cover;
+    z-index: 1;
+    transition: background-image 1s ease;
+}
+
+.first-layer {
+    background-image: var(--rabbit-house-day);
+    background-size: 40%;
+    background-position: right bottom;
+    z-index: 2;
+    transition: background-image 1s ease;
+}
+
+.third-layer {
+    background-size: 20%;
+    z-index: 3;
+    transform: scale(1.1);
+    opacity: 1; /* Start fully visible */
+    transition: opacity 1s ease; /* Smooth transition for opacity */
+}
+
+
+/* Dark mode styles */
+[data-theme="dark"] .background-layer {
+    background-image: var(--bg-evening);
+}
+
+[data-theme="dark"] .first-layer {
+    background-image: var(--rabbit-house-night);
+}
+
+[data-theme="dark"] .third-layer {
+    background-image: var(--moon);
+    background-position: calc(50% + 600px) 150px; /* Start off-screen right */
+    animation: moonToSun 1s forwards; /* Animate moon transitioning to sun */
+}
+
+/* Light mode styles */
+[data-theme="light"] .background-layer {
+    background-image: var(--bg-morning);
+}
+
+[data-theme="light"] .first-layer {
+    background-image: var(--rabbit-house-day);
+}
+
+[data-theme="light"] .third-layer {
+    background-image: var(--sunrise);
+    background-position: calc(50% - 600px) 100px; /* Start off-screen left */
+    animation: sunToMoon 1s forwards; /* Animate sun transitioning to moon */
+}
+
+/* Keyframes for animations */
+@keyframes moonToSun {
+    0% {
+        background-position: calc(50% + 600px) 150px; /* Start moon off-screen right */
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        background-position: 50% 150px; /* Center */
+        opacity: 0; /* Fade out */
+    }
+    100% {
+        background-position: calc(50% - 600px) 100px; /* Move sun to left */
+        opacity: 1; /* Fully visible */
+    }
+}
+
+@keyframes sunToMoon {
+    0% {
+        background-position: calc(50% - 600px) 100px; /* Start sun off-screen left */
+        opacity: 1; /* Fully visible */
+    }
+    50% {
+        background-position: 50% 100px; /* Center */
+        opacity: 0; /* Fade out */
+    }
+    100% {
+        background-position: calc(50% + 600px) 150px; /* Move moon to right */
+        opacity: 1; /* Fully visible */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .first-layer {
+        background-size: 60%; /* Larger size for mobile */
+        background-position: right center; /* Adjust vertical position */
+    }
+
+    [data-theme="dark"] .third-layer {
+        background-position: calc(50% + 600px) 100px; /* Adjust moon position */
+    }
+
+    [data-theme="light"] .third-layer {
+        background-position: calc(50% - 600px) 50px; /* Adjust sun position */
+    }
+
+    /* Adjust keyframe animations for mobile */
+    @keyframes moonToSun {
+        0% {
+            background-position: calc(50% + 600px) 100px;
+            opacity: 1;
+        }
+        50% {
+            background-position: 50% 100px;
+            opacity: 0;
+        }
+        100% {
+            background-position: calc(50% - 600px) 50px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes sunToMoon {
+        0% {
+            background-position: calc(50% - 600px) 50px;
+            opacity: 1;
+        }
+        50% {
+            background-position: 50% 50px;
+            opacity: 0;
+        }
+        100% {
+            background-position: calc(50% + 600px) 100px;
+            opacity: 1;
+        }
+    }
+}
+
+/* For very small mobile devices */
+@media screen and (max-width: 480px) {
+    .first-layer {
+        background-size: 70%; /* Even larger for smaller screens */
+        background-position: right center;
+    }
+
+    [data-theme="dark"] .third-layer {
+        background-position: calc(50% + 600px) 80px;
+    }
+
+    [data-theme="light"] .third-layer {
+        background-position: calc(50% - 600px) 30px;
+    }
+
+    @keyframes moonToSun {
+        0% {
+            background-position: calc(50% + 600px) 80px;
+            opacity: 1;
+        }
+        50% {
+            background-position: 50% 80px;
+            opacity: 0;
+        }
+        100% {
+            background-position: calc(50% - 600px) 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes sunToMoon {
+        0% {
+            background-position: calc(50% - 600px) 30px;
+            opacity: 1;
+        }
+        50% {
+            background-position: 50% 30px;
+            opacity: 0;
+        }
+        100% {
+            background-position: calc(50% + 600px) 80px;
+            opacity: 1;
+        }
+    }
+}
