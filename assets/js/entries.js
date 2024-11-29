@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const entryTabBtns = document.querySelectorAll('.entries-tabs .entry-tab-btn');
     const entryContentPanels = document.querySelectorAll('.entries-content');
 
@@ -24,27 +24,27 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', () => {
             entryTabBtns.forEach(b => b.classList.remove('entry-active'));
             btn.classList.add('entry-active');
-            
+
             const contentId = btn.getAttribute('data-tab');
             const newContent = document.getElementById(contentId);
-            
+
             const currentActiveContent = document.querySelector('.entries-content.entry-active');
             if (currentActiveContent) {
                 currentActiveContent.style.opacity = '0';
                 currentActiveContent.style.transform = 'translateY(20px)';
-                
+
                 setTimeout(() => {
                     currentActiveContent.classList.remove('entry-active');
                     currentActiveContent.style.display = 'none';
-                    
+
                     newContent.style.display = 'block';
                     newContent.classList.add('entry-active');
-                    
+
                     newContent.offsetHeight; // Force reflow
-                    
+
                     newContent.style.opacity = '1';
                     newContent.style.transform = 'translateY(0)';
-                    
+
                     animateEntries(newContent);
                 }, 300);
             } else {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newContent.classList.add('entry-active');
                 newContent.style.opacity = '1';
                 newContent.style.transform = 'translateY(0)';
-                
+
                 animateEntries(newContent);
             }
         });
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.addEventListener('click', () => {
             const seasonId = card.closest('.entries-content').id;
             document.getElementById('watch').scrollIntoView({ behavior: 'smooth' });
-            
+
             if (typeof updateVideoPlayer === 'function') {
                 updateVideoPlayer(seasonId);
             }

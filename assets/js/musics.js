@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let listeningTime = 1234;
 
     function updateMusicContent(tab) {
-        switch(tab) {
+        switch (tab) {
             case 'playlists':
                 musicEmbedContainer.innerHTML = `
                     <div class="spotify-wrapper">
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
                 break;
             case 'recommendations':
-            musicEmbedContainer.innerHTML = `
+                musicEmbedContainer.innerHTML = `
                 <h3 class="recommendations-title">Recommended Tracks</h3>
                 <div class="recommendations-grid">
                     <div class="spotify-wrapper">
@@ -90,13 +90,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         </iframe>
                     </div>
                 </div>`;
-            break;
+                break;
+        }
     }
-}
 
     function updateCurrentTrack() {
-        currentTrackElement.textContent = tracks[currentTrackIndex];
-        currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+        // Get the current track info from the MusicPlayer instance
+        if (window.musicPlayer) {
+            const currentTrackInfo = window.musicPlayer.getCurrentTrackInfo();
+            currentTrackElement.textContent = currentTrackInfo;
+        }
     }
 
     function updateMusicStats() {

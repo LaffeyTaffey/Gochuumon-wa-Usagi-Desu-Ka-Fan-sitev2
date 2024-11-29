@@ -14,7 +14,7 @@ function addShimmerEffectAndLazyLoading() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const image = entry.target;
-                
+
                 // Create shimmer if not already exists
                 let shimmer = image.previousElementSibling;
                 if (!shimmer || !shimmer.classList.contains('shimmer')) {

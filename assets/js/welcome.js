@@ -42,7 +42,7 @@ $(document).ready(function () {
 
                 // Find the appropriate volume stage
                 const currentStage = volumeStages.findLast(stage => time >= stage.threshold);
-                
+
                 if (currentStage) {
                     video.volume = currentStage.volume;
                 }
@@ -54,10 +54,10 @@ $(document).ready(function () {
         }
     }
 
-    startButton.on('click', function() {
+    startButton.on('click', function () {
         $(this).prop('disabled', true).css('opacity', '0.5');
         subtitleContainer.fadeIn();
-        
+
         // Set flag that start button is pressed
         isStartButtonPressed = true;
 
@@ -65,7 +65,7 @@ $(document).ready(function () {
         if (isVideoUnmuted) {
             video.volume = 0.05;
         }
-        
+
         audio.play();
     });
 
@@ -107,21 +107,21 @@ $(document).ready(function () {
         updateSubtitles(audio.currentTime);
     });
 
-    audio.addEventListener('ended', function() {
-    // Add the fade-out class to trigger the CSS transition
-    welcomeScreen.addClass('fade-out');
+    audio.addEventListener('ended', function () {
+        // Add the fade-out class to trigger the CSS transition
+        welcomeScreen.addClass('fade-out');
 
-    // Use transitionend event to ensure fade-out completes
-    welcomeScreen.one('transitionend', function() {
-        welcomeScreen.remove();
-        
-        // Play a random track
-        const player = window.musicPlayer;
-        if (player) {
-            const randomTrackIndex = Math.floor(Math.random() * player.playlist.length);
-            player.loadTrack(randomTrackIndex);
-            player.togglePlay();
-        }
+        // Use transitionend event to ensure fade-out completes
+        welcomeScreen.one('transitionend', function () {
+            welcomeScreen.remove();
+
+            // Play a random track
+            const player = window.musicPlayer;
+            if (player) {
+                const randomTrackIndex = Math.floor(Math.random() * player.playlist.length);
+                player.loadTrack(randomTrackIndex);
+                player.togglePlay();
+            }
+        });
     });
-});
 });

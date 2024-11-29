@@ -1,20 +1,20 @@
-$(document).ready(function() {
+$(document).ready(function () {
     const messages = [
-    "Isn't Chino just adorable? 🐰",
-    "Enjoying your coffee? ☕",
-    "Did you know Chino loves cute bunnies? 🐇",
-    "Have you tried the Rabbit House menu? 🍰",
-    "Chino makes the best coffee! ☕",
-    "Every day is a good day for a cute bunny! 🐰",
-    "Have you seen Chino's new apron? It's so cute! 👗",
-    "Let's have a tea party with Chino! 🍵",
-    "Chino's smile brightens my day! 😊",
-    "Don't forget to pet the bunnies! 🐇",
-    "Chino loves her friends so much! ❤️",
-    "The Rabbit House is the coziest place! 🏡",
-    "Chino's favorite dessert is strawberry shortcake! 🍰",
-    "Every cup of coffee tells a story! ☕"
-];
+        "Isn't Chino just adorable? 🐰",
+        "Enjoying your coffee? ☕",
+        "Did you know Chino loves cute bunnies? 🐇",
+        "Have you tried the Rabbit House menu? 🍰",
+        "Chino makes the best coffee! ☕",
+        "Every day is a good day for a cute bunny! 🐰",
+        "Have you seen Chino's new apron? It's so cute! 👗",
+        "Let's have a tea party with Chino! 🍵",
+        "Chino's smile brightens my day! 😊",
+        "Don't forget to pet the bunnies! 🐇",
+        "Chino loves her friends so much! ❤️",
+        "The Rabbit House is the coziest place! 🏡",
+        "Chino's favorite dessert is strawberry shortcake! 🍰",
+        "Every cup of coffee tells a story! ☕"
+    ];
 
     const images = [
         "assets/img/popupChino/c1.webp",
@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     let hasShownPopup = false; // Track if the popup has been shown
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         const quizSection = $('#Others');
         const scrollPosition = $(this).scrollTop() + $(window).height();
         const quizPosition = quizSection.offset().top + quizSection.outerHeight();

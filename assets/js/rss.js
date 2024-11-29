@@ -41,7 +41,7 @@ galleryItems.forEach(item => {
     });
 });
 
-$(document).on('click', '.share', function() {
+$(document).on('click', '.share', function () {
     const postLink = $(this).data('link');
 
     if (navigator.share) {
@@ -65,7 +65,7 @@ $(document).on('click', '.share', function() {
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     const rssUrl = '/reddit-proxy';
     let postsArray = [];
     let displayedPostsCount = 6; // Number of posts to initially display
@@ -74,7 +74,7 @@ $(document).ready(function() {
         const description = $entry.find('content').text();
         const tempDiv = $('<div>').html(description);
         const matches = description.match(/\[link\]\((.*?)\).*?(\d+) comments/);
-        
+
         return {
             title: $entry.find('title').text(),
             link: $entry.find('link').attr('href'),
@@ -138,11 +138,11 @@ $(document).ready(function() {
     $.ajax({
         url: rssUrl,
         dataType: 'xml',
-        success: function(data) {
+        success: function (data) {
             $('#loading').hide();
             const uniquePosts = new Map();
 
-            $(data).find('entry').each(function() {
+            $(data).find('entry').each(function () {
                 const $entry = $(this);
                 const post = extractPostDetails($entry);
 
@@ -154,28 +154,28 @@ $(document).ready(function() {
             postsArray = Array.from(uniquePosts.values());
             displayPosts(postsArray);
         },
-        error: function() {
+        error: function () {
             $('#loading').hide();
             alert('Failed to load posts. Please try again later.');
         }
     });
 
-    $('#sort-select').on('change', function() {
+    $('#sort-select').on('change', function () {
         const selectedSort = $(this).val();
         sortPosts(selectedSort);
     });
 
-    $('#show-more').on('click', function() {
+    $('#show-more').on('click', function () {
         displayedPostsCount += 6; // Increase the count by 6
         displayPosts(postsArray); // Redisplay posts with the updated count
     });
 
-    $('#show-less').on('click', function() {
+    $('#show-less').on('click', function () {
         displayedPostsCount = Math.max(displayedPostsCount - 6, 6); // Decrease the count by 6 but not below 6
         displayPosts(postsArray); // Redisplay posts with the updated count
     });
 
-    $(document).on('click', '.upvote', function() {
+    $(document).on('click', '.upvote', function () {
         const upvoteCountElement = $(this).find('.rss-upvote-count');
         let currentVotes = parseInt(upvoteCountElement.text());
         currentVotes += 1;
@@ -183,7 +183,7 @@ $(document).ready(function() {
         $(this).data('votes', currentVotes);
     });
 
-    $(document).on('click', '.downvote', function() {
+    $(document).on('click', '.downvote', function () {
         const downvoteCountElement = $(this).find('.rss-downvote-count');
         let currentVotes = parseInt(downvoteCountElement.text());
         currentVotes += 1;
@@ -191,11 +191,11 @@ $(document).ready(function() {
         $(this).data('votes', currentVotes);
     });
 
-    $(document).on('click', '.comment-toggle', function() {
+    $(document).on('click', '.comment-toggle', function () {
         $(this).closest('.rss-post-interactions').find('.comment-section').toggle();
     });
 
-    $(document).on('click', '.submit-comment', function() {
+    $(document).on('click', '.submit-comment', function () {
         const commentInput = $(this).siblings('.comment-input');
         const commentText = commentInput.val();
         if (commentText) {
@@ -214,21 +214,21 @@ $(document).ready(function() {
     }
 
     function createPostCard(post) {
-    if (!post.imgSrc) return '';
+        if (!post.imgSrc) return '';
 
-    const publishDate = new Date(post.published);
-    const relativeTime = formatRelativeTime(publishDate);
-    const imgElement = new Image();
-imgElement.src = post.imgSrc;
-imgElement.onload = function() {
-    // Once the image is loaded, remove the shimmer effect and show the image
-    const shimmer = document.querySelector('.rss-post-image .shimmer');
-    shimmer.style.display = 'none'; // Hide the shimmer
-    const postImage = document.querySelector('.rss-post-image img');
-    postImage.classList.add('loaded'); // Add loaded class to fade in the image
-};
+        const publishDate = new Date(post.published);
+        const relativeTime = formatRelativeTime(publishDate);
+        const imgElement = new Image();
+        imgElement.src = post.imgSrc;
+        imgElement.onload = function () {
+            // Once the image is loaded, remove the shimmer effect and show the image
+            const shimmer = document.querySelector('.rss-post-image .shimmer');
+            shimmer.style.display = 'none'; // Hide the shimmer
+            const postImage = document.querySelector('.rss-post-image img');
+            postImage.classList.add('loaded'); // Add loaded class to fade in the image
+        };
 
-    return `
+        return `
         <div class="rss-post-container" data-aos="zoom-in" data-aos-delay="50">
             <a href="${post.link}" class="rss-post-link" target="_blank">
                 <div class="rss-post-header">
@@ -272,12 +272,12 @@ imgElement.onload = function() {
             </div>
         </div>
     `;
-}
+    }
 
     function formatRelativeTime(date) {
         const now = new Date();
         const diffInSeconds = Math.floor((now - date) / 1000);
-        
+
         const intervals = [
             { label: 'year', seconds: 31536000 },
             { label: 'month', seconds: 2592000 },
@@ -291,8 +291,8 @@ imgElement.onload = function() {
         for (let interval of intervals) {
             const count = Math.floor(diffInSeconds / interval.seconds);
             if (count >= 1) {
-                return count === 1 
-                    ? `1 ${interval.label} ago` 
+                return count === 1
+                    ? `1 ${interval.label} ago`
                     : `${count} ${interval.label}s ago`;
             }
         }
@@ -303,12 +303,12 @@ imgElement.onload = function() {
     $.ajax({
         url: rssUrl,
         dataType: 'xml',
-        success: function(data) {
+        success: function (data) {
             $('#loading').hide();
             let postsHtml = '';
             const uniquePosts = new Map();
 
-            $(data).find('entry').each(function() {
+            $(data).find('entry').each(function () {
                 const $entry = $(this);
                 const post = extractPostDetails($entry);
 
@@ -329,13 +329,13 @@ imgElement.onload = function() {
             $('#posts-container').html(postsHtml);
 
             // Post animation
-        const postElements = document.querySelectorAll('.rss-post-container');
-        postElements.forEach((post, index) => {
-            post.style.animationDelay = `${index * 100}ms`;
-            post.classList.add('post-enter');
-        });
+            const postElements = document.querySelectorAll('.rss-post-container');
+            postElements.forEach((post, index) => {
+                post.style.animationDelay = `${index * 100}ms`;
+                post.classList.add('post-enter');
+            });
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             $('#loading').html(`
                 <div class="alert alert-danger" data-aos="fade-in">
                     Error loading content: ${textStatus}

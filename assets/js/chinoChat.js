@@ -9,7 +9,7 @@ function playSound(sound) {
     sound.play();
 }
 
-window.PICKAXE=window.PICKAXE||{pickaxes:[],style:"kHsjoCQGgI0GWASmgIdIA2CHA0wGQyCwBQBUiEBzQQC+EgGQwgMA3gLICDMAoAnQgvFSCsUIPQYgIHqAEw4NXUgIz6DFQ4OkwghP2AGnoMFJgKAFA8gEA4QAI9gVPBABGqBU3gAggTEBAUQ6ApYkAAgIFMxwLcKgRvlAhyyAIG8DFAoAF1QOTugMODACreB2osAqaIAYhAOaAh6ECCr4BCSwACigJ2BAyEaA0TCAqqOAQquAQ2WAoAKAAISAz6CAB0MAT4DRhIABEYBgkoCicoACEoDm4IAgkoCzc4C2s4DUVIABY4CDQ4AV1YCgFoDWhoAzloB3IoCAl4BTYYA3pIBTo4CykoBYh4BWsYBY84BKooB0d4DlGYD59IBCF4C1+oDRB4AY2oC0F4AEG4CEiIBA2YBAxIAUoYAMt4BOIIDECIAFS4ACJIALYICXQIAXh4AMX4Ab+IBgR4AeAYAmBYCpWIDhQAAZABTADIFgABgQCyQIABZEAAAyACZRAMpdgFRAABAgAPXwCZgIBuocAdEiAKLDACEogESiQAqEoBqL0Ax4iAJBHACWRgADmwDpsIAAm0Ak8WAB4zAGIjgBzQwDjIYBOI0APSGAGkZAAhpAGbACBKgAYDQCBxIBKLMARaKAG1JAH45gCUyQBpwIAoZ8A1N2ATLpAMXQgGECQDzAoAQ9UABEuAKHvAIKZgAwTAAQgEBdQCADIBviMAc76AGWnAFvQgGCgwAXBIB9CUA9fqAETBAKZNgAU/QB27IA66MAsRiAGW9AAwkgGBUQAMi4BmQEAAGaAABxAECIgFljwA5jIAehUAlFyACZXAAwEgAJswCHGoAeCUAps+ANlbAJTfgFYSQAMXoBGF0ApYyAB5dAKgkgCqtQBsgYBCe8ALiSAAB5AEQSgBukQDBYIAGwkAU5+AfGZAA0LgElkQATqYBOXEALzmAOcJABLdgCgqQBgA4AipsAtZqAfQ/AOo1gAQ4wCLgIBy2EAR1SAGNFAC3UgCLBYAQAqAG/UgDfqoAs2OAA75gAvaoAqQKAAm6gCahoAsGKAGXBgBRG4AAARAA="},window.PICKAXE.pickaxes.push({id:"Kafuu_Chino_8JTND",type:"inline"});const{id:_fid}=window.PICKAXE.pickaxes[0];fetch(`https://embed.pickaxeproject.com/axe/api/script/${_fid}`).then((e=>e.json())).then((({v:e})=>{const t=`https://cdn.jsdelivr.net/gh/pickaxeproject/cdn@${e}/dist`;if(!document.querySelector(`script[src="${t}/bundle.js"]`)){const e=document.createElement("script");e.src=t+"/bundle.js",e.defer=!0,document.head.appendChild(e)}}));
+window.PICKAXE = window.PICKAXE || { pickaxes: [], style: "kHsjoCQGgI0GWASmgIdIA2CHA0wGQyCwBQBUiEBzQQC+EgGQwgMA3gLICDMAoAnQgvFSCsUIPQYgIHqAEw4NXUgIz6DFQ4OkwghP2AGnoMFJgKAFA8gEA4QAI9gVPBABGqBU3gAggTEBAUQ6ApYkAAgIFMxwLcKgRvlAhyyAIG8DFAoAF1QOTugMODACreB2osAqaIAYhAOaAh6ECCr4BCSwACigJ2BAyEaA0TCAqqOAQquAQ2WAoAKAAISAz6CAB0MAT4DRhIABEYBgkoCicoACEoDm4IAgkoCzc4C2s4DUVIABY4CDQ4AV1YCgFoDWhoAzloB3IoCAl4BTYYA3pIBTo4CykoBYh4BWsYBY84BKooB0d4DlGYD59IBCF4C1+oDRB4AY2oC0F4AEG4CEiIBA2YBAxIAUoYAMt4BOIIDECIAFS4ACJIALYICXQIAXh4AMX4Ab+IBgR4AeAYAmBYCpWIDhQAAZABTADIFgABgQCyQIABZEAAAyACZRAMpdgFRAABAgAPXwCZgIBuocAdEiAKLDACEogESiQAqEoBqL0Ax4iAJBHACWRgADmwDpsIAAm0Ak8WAB4zAGIjgBzQwDjIYBOI0APSGAGkZAAhpAGbACBKgAYDQCBxIBKLMARaKAG1JAH45gCUyQBpwIAoZ8A1N2ATLpAMXQgGECQDzAoAQ9UABEuAKHvAIKZgAwTAAQgEBdQCADIBviMAc76AGWnAFvQgGCgwAXBIB9CUA9fqAETBAKZNgAU/QB27IA66MAsRiAGW9AAwkgGBUQAMi4BmQEAAGaAABxAECIgFljwA5jIAehUAlFyACZXAAwEgAJswCHGoAeCUAps+ANlbAJTfgFYSQAMXoBGF0ApYyAB5dAKgkgCqtQBsgYBCe8ALiSAAB5AEQSgBukQDBYIAGwkAU5+AfGZAA0LgElkQATqYBOXEALzmAOcJABLdgCgqQBgA4AipsAtZqAfQ/AOo1gAQ4wCLgIBy2EAR1SAGNFAC3UgCLBYAQAqAG/UgDfqoAs2OAA75gAvaoAqQKAAm6gCahoAsGKAGXBgBRG4AAARAA=" }, window.PICKAXE.pickaxes.push({ id: "Kafuu_Chino_8JTND", type: "inline" }); const { id: _fid } = window.PICKAXE.pickaxes[0]; fetch(`https://embed.pickaxeproject.com/axe/api/script/${_fid}`).then((e => e.json())).then((({ v: e }) => { const t = `https://cdn.jsdelivr.net/gh/pickaxeproject/cdn@${e}/dist`; if (!document.querySelector(`script[src="${t}/bundle.js"]`)) { const e = document.createElement("script"); e.src = t + "/bundle.js", e.defer = !0, document.head.appendChild(e) } }));
 
 window.addEventListener('load', () => {
     const chatCircle = document.querySelector('.chat-bot-circle');
@@ -125,77 +125,77 @@ window.addEventListener('load', () => {
     });
 
     // Add Tippy interaction
-document.querySelector('.tippy-companion').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const menu = document.querySelector('.coffee-menu');
-    if (menu.style.display === 'none' || menu.style.display === '') {
-        menu.style.display = 'block';
-        // Add wiggle animation to Tippy when menu opens
-        e.target.style.animation = 'none';
-        e.target.offsetHeight; // Trigger reflow
-        e.target.style.animation = 'tippyFloat 3s ease-in-out infinite';
-    } else {
-        menu.style.display = 'none';
-    }
-});
+    document.querySelector('.tippy-companion').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menu = document.querySelector('.coffee-menu');
+        if (menu.style.display === 'none' || menu.style.display === '') {
+            menu.style.display = 'block';
+            // Add wiggle animation to Tippy when menu opens
+            e.target.style.animation = 'none';
+            e.target.offsetHeight; // Trigger reflow
+            e.target.style.animation = 'tippyFloat 3s ease-in-out infinite';
+        } else {
+            menu.style.display = 'none';
+        }
+    });
 
-document.querySelector('.tippy-companion').addEventListener('click', (e) => {
-    e.stopPropagation();
-    playSound(tabSound);
-    const menu = document.querySelector('.coffee-menu');
-    menu.classList.toggle('show');
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    const menu = document.querySelector('.coffee-menu');
-    const tippy = document.querySelector('.tippy-companion');
-    if (!menu.contains(e.target) && !tippy.contains(e.target)) {
-        menu.style.display = 'none';
-    }
-});
-
-document.querySelectorAll('.coffee-menu li').forEach(item => {
-    item.addEventListener('click', () => {
+    document.querySelector('.tippy-companion').addEventListener('click', (e) => {
+        e.stopPropagation();
         playSound(tabSound);
-        item.style.animation = 'menuItemPop 0.5s ease';
-        setTimeout(() => {
-            item.style.animation = '';
-        }, 500);
-        
-        // Show a cute ordering message in the chat bubble
-        const itemName = item.textContent.split('¥')[0].trim();
-        chatBubble.textContent = `Would you like to order ${itemName}? It's one of our favorites!`;
-        chatBubble.classList.add('show');
+        const menu = document.querySelector('.coffee-menu');
+        menu.classList.toggle('show');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const menu = document.querySelector('.coffee-menu');
+        const tippy = document.querySelector('.tippy-companion');
+        if (!menu.contains(e.target) && !tippy.contains(e.target)) {
+            menu.style.display = 'none';
+        }
+    });
+
+    document.querySelectorAll('.coffee-menu li').forEach(item => {
+        item.addEventListener('click', () => {
+            playSound(tabSound);
+            item.style.animation = 'menuItemPop 0.5s ease';
+            setTimeout(() => {
+                item.style.animation = '';
+            }, 500);
+
+            // Show a cute ordering message in the chat bubble
+            const itemName = item.textContent.split('¥')[0].trim();
+            chatBubble.textContent = `Would you like to order ${itemName}? It's one of our favorites!`;
+            chatBubble.classList.add('show');
 
         });
 
         item.addEventListener('mouseenter', () => {
             playSound(hoverSound);
+        });
     });
-});
 
-// Add steam effect when chat is opened
-chatCircle.addEventListener('click', () => {
-    if (!isPopupOpen) {
-        document.querySelector('.coffee-steam').style.opacity = '1';
-    } else {
-        document.querySelector('.coffee-steam').style.opacity = '0';
-    }
+    // Add steam effect when chat is opened
+    chatCircle.addEventListener('click', () => {
+        if (!isPopupOpen) {
+            document.querySelector('.coffee-steam').style.opacity = '1';
+        } else {
+            document.querySelector('.coffee-steam').style.opacity = '0';
+        }
     });
 
     // Cleanup on page unload
     window.addEventListener('unload', () => {
         clearInterval(messageInterval);
     });
-    
+
     // Ensure initial visibility
     document.querySelector('.chat-environment').style.display = 'block';
     document.querySelector('.coffee-steam').style.display = 'block';
     document.querySelector('.coffee-beans').style.display = 'block';
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let rabbitCoins = 500; // Starting balance
     const rabbitCoinDisplay = document.getElementById('rabbit-coin-amount');
     const buyButtons = document.querySelectorAll('.buy-button');
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     buyButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation(); // Prevent triggering parent li click event
             playSound(clickSound);
             const item = this.closest('li');
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateRabbitCoins();
                 chatBubble.textContent = `Enjoy your ${itemName}! That'll be ${price} Rabbit Coins.`;
                 chatBubble.classList.add('show');
-                
+
                 // Animate the button
                 this.classList.add('buying');
                 setTimeout(() => this.classList.remove('buying'), 500);

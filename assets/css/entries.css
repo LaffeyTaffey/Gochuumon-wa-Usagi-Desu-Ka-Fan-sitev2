@@ -120,6 +120,7 @@
     transition: all 0.2s ease-out;
     z-index: 1;
 }
+
 /* Hover effect styles */
 .entry-card:hover .entry-image img {
     position: fixed;

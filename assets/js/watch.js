@@ -22,7 +22,7 @@ function initializeVideoPlayer() {
     let currentEpisodeIndex = 0;
 
     // Modal functionality
-    const modal = document .getElementById('frameModal');
+    const modal = document.getElementById('frameModal');
     const modalImg = document.getElementById('modalImage');
     const closeModal = document.querySelector('.close-modal');
 
@@ -37,16 +37,16 @@ function initializeVideoPlayer() {
     }
 
     playPauseBtn.addEventListener('click', () => {
-    if (videoPlayer.paused) {
-        videoPlayer.muted = false; // Unmute when playing
-        videoPlayer.play();
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        updateCanvas();
-    } else {
-        videoPlayer.pause();
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-    }
-});
+        if (videoPlayer.paused) {
+            videoPlayer.muted = false; // Unmute when playing
+            videoPlayer.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            updateCanvas();
+        } else {
+            videoPlayer.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    });
 
     // Add video ended event
     videoPlayer.addEventListener('ended', () => {
@@ -60,30 +60,30 @@ function initializeVideoPlayer() {
     });
 
     function loadVideo(index) {
-    currentEpisodeIndex = index;
-    const episode = videoData[currentSeason].episodes[index];
-    videoPlayer.src = episode.src;
-    videoTitleDiv.textContent = episode.title;
+        currentEpisodeIndex = index;
+        const episode = videoData[currentSeason].episodes[index];
+        videoPlayer.src = episode.src;
+        videoTitleDiv.textContent = episode.title;
 
-    // Update episode details
-    document.getElementById('episodeTitle').textContent = episode.title;
-    document.getElementById('episodeDescription').textContent = episode.description;
+        // Update episode details
+        document.getElementById('episodeTitle').textContent = episode.title;
+        document.getElementById('episodeDescription').textContent = episode.description;
 
-    // Update anime details
-    document.getElementById('animeTitle').textContent = videoData[currentSeason].title;
-    document.getElementById('animeDescription').textContent = videoData[currentSeason].description;
-    document.getElementById('animeSeason').textContent = `Season: ${currentSeason}`;
-    document.getElementById('animeEpisodeCount').textContent = `Total Episodes: ${videoData[currentSeason].episodeCount}`;
+        // Update anime details
+        document.getElementById('animeTitle').textContent = videoData[currentSeason].title;
+        document.getElementById('animeDescription').textContent = videoData[currentSeason].description;
+        document.getElementById('animeSeason').textContent = `Season: ${currentSeason}`;
+        document.getElementById('animeEpisodeCount').textContent = `Total Episodes: ${videoData[currentSeason].episodeCount}`;
 
-    videoPlayer.load();
+        videoPlayer.load();
 
-    // Show initial frame when video is loaded
-    videoPlayer.addEventListener('loadeddata', () => {
-        ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
-        totalFrames = Math.floor(videoPlayer.duration * fps);
-        document.getElementById('totalFrames').textContent = totalFrames;
-    });
-}
+        // Show initial frame when video is loaded
+        videoPlayer.addEventListener('loadeddata', () => {
+            ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
+            totalFrames = Math.floor(videoPlayer.duration * fps);
+            document.getElementById('totalFrames').textContent = totalFrames;
+        });
+    }
 
     function updateCanvas() {
         if (videoPlayer.paused || videoPlayer.ended) return;
@@ -112,12 +112,12 @@ function initializeVideoPlayer() {
     episodeSelector.addEventListener('change', (e) => loadVideo(parseInt(e.target.value)));
 
     prevFrameBtn.addEventListener('click', () => {
-        videoPlayer.currentTime = Math.max(videoPlayer.currentTime - 1/30, 0);
+        videoPlayer.currentTime = Math.max(videoPlayer.currentTime - 1 / 30, 0);
         ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
     });
 
     nextFrameBtn.addEventListener('click', () => {
-        videoPlayer.currentTime = Math.min(videoPlayer.currentTime + 1/30, videoPlayer.duration);
+        videoPlayer.currentTime = Math.min(videoPlayer.currentTime + 1 / 30, videoPlayer.duration);
         ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
     });
 
@@ -164,52 +164,52 @@ function initializeVideoPlayer() {
 
     // Link entry cards to watch section
     document.querySelectorAll('.entry-card').forEach((card, index) => {
-    card.addEventListener('click', () => {
-        // Map the index to the correct season/entry ID
-        switch(index) {
-            case 0: // Season 1
-                currentSeason = '1';
-                break;
-            case 1: // Season 2
-                currentSeason = '2';
-                break;
-            case 2: // Dear My Sister
-                currentSeason = 'movie';
-                break;
-            case 3: // Sing For You
-                currentSeason = 'ova';
-                break;
-            case 4: // BLOOM
-                currentSeason = '3';
-                break;
-            default:
-                currentSeason = '1';
-        }
+        card.addEventListener('click', () => {
+            // Map the index to the correct season/entry ID
+            switch (index) {
+                case 0: // Season 1
+                    currentSeason = '1';
+                    break;
+                case 1: // Season 2
+                    currentSeason = '2';
+                    break;
+                case 2: // Dear My Sister
+                    currentSeason = 'movie';
+                    break;
+                case 3: // Sing For You
+                    currentSeason = 'ova';
+                    break;
+                case 4: // BLOOM
+                    currentSeason = '3';
+                    break;
+                default:
+                    currentSeason = '1';
+            }
 
-        populateEpisodeSelector();
-        loadVideo(0); // Load the first episode of the selected season
-        document.getElementById('watch').scrollIntoView({ behavior: 'smooth' });
+            populateEpisodeSelector();
+            loadVideo(0); // Load the first episode of the selected season
+            document.getElementById('watch').scrollIntoView({ behavior: 'smooth' });
+        });
     });
-});
 
     // Modal for clicking on canvas
-videoCanvas.addEventListener('click', () => {
-    modal.style.display = 'block';
-    modalImg.src = videoCanvas.toDataURL();
-    modal.classList.add('show');
-    
-    // Ensure the video is playing and unmuted
-    videoPlayer.muted = false; // Unmute the video
-    videoPlayer.play(); // Play the video
-});
+    videoCanvas.addEventListener('click', () => {
+        modal.style.display = 'block';
+        modalImg.src = videoCanvas.toDataURL();
+        modal.classList.add('show');
 
-// Close modal functionality
-closeModal.addEventListener('click', closeModalWithAnimation);
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        closeModalWithAnimation();
-    }
-});
+        // Ensure the video is playing and unmuted
+        videoPlayer.muted = false; // Unmute the video
+        videoPlayer.play(); // Play the video
+    });
+
+    // Close modal functionality
+    closeModal.addEventListener('click', closeModalWithAnimation);
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModalWithAnimation();
+        }
+    });
 
     function closeModalWithAnimation() {
         modal.classList.remove('show');
@@ -225,49 +225,49 @@ window.addEventListener('click', (event) => {
         }
     });
 
-// Modal controls
-document.getElementById('modalPrevFrame').addEventListener('click', () => {
-    currentFrame = Math.max(currentFrame - 1, 0);
-    videoPlayer.currentTime = currentFrame / fps;
-    ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
-    modalImg.src = videoCanvas.toDataURL();
-});
+    // Modal controls
+    document.getElementById('modalPrevFrame').addEventListener('click', () => {
+        currentFrame = Math.max(currentFrame - 1, 0);
+        videoPlayer.currentTime = currentFrame / fps;
+        ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
+        modalImg.src = videoCanvas.toDataURL();
+    });
 
-document.getElementById('modalPlayVideo').addEventListener('click', () => {
-    videoPlayer.play();
-});
+    document.getElementById('modalPlayVideo').addEventListener('click', () => {
+        videoPlayer.play();
+    });
 
-document.getElementById('modalNextFrame').addEventListener('click', () => {
-    currentFrame = Math.min(currentFrame + 1, totalFrames - 1);
-    videoPlayer.currentTime = currentFrame / fps;
-    ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
-    modalImg.src = videoCanvas.toDataURL();
-});
+    document.getElementById('modalNextFrame').addEventListener('click', () => {
+        currentFrame = Math.min(currentFrame + 1, totalFrames - 1);
+        videoPlayer.currentTime = currentFrame / fps;
+        ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
+        modalImg.src = videoCanvas.toDataURL();
+    });
 
-document.getElementById('modalDownloadFrame').addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = `frame-${Date.now()}.png`;
-    link.href = videoCanvas.toDataURL();
-    link.click();
-});
+    document.getElementById('modalDownloadFrame').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = `frame-${Date.now()}.png`;
+        link.href = videoCanvas.toDataURL();
+        link.click();
+    });
 
-document.getElementById('modalClose').addEventListener('click', closeModalWithAnimation);
+    document.getElementById('modalClose').addEventListener('click', closeModalWithAnimation);
 
 
-// Fullscreen button
-const fullscreenBtn = document.getElementById('fullscreenBtn');
-fullscreenBtn.addEventListener('click', () => {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    } else {
-        videoCanvas.requestFullscreen();
-        videoPlayer.muted = false; // Unmute the video when entering fullscreen
-        videoPlayer.play(); // Ensure the video plays
-    }
-});
+    // Fullscreen button
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    fullscreenBtn.addEventListener('click', () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            videoCanvas.requestFullscreen();
+            videoPlayer.muted = false; // Unmute the video when entering fullscreen
+            videoPlayer.play(); // Ensure the video plays
+        }
+    });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (typeof videoData !== 'undefined') {
         initializeVideoPlayer();
     } else {

@@ -5,7 +5,7 @@ class ButtonSoundEffects {
         this.hoverSound = new Audio('assets/audio/buttonEffects/click-buttons-ui-menu-sounds-effects-button-2-203594.mp3');
         this.backSound = new Audio('assets/audio/buttonEffects/old-radio-button-click-97549.mp3');
         this.tabSound = new Audio('assets/audio/buttonEffects/switch-150130.mp3');
-        
+
         this.initializeButtons();
     }
 

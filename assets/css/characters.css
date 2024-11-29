@@ -297,7 +297,10 @@
     color: var(--hover-color-dark);
 }
 
-[data-theme="dark"] .character-card h3, .character-card h4, .character-card li, .character-card ol,
+[data-theme="dark"] .character-card h3,
+.character-card h4,
+.character-card li,
+.character-card ol,
 [data-theme="dark"] .character-card p {
     color: #ffffff;
 }

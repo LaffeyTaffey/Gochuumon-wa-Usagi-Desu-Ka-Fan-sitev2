@@ -1,12 +1,14 @@
 .video-player-container {
-    max-width: 800px; /* Adjust max-width as needed */
+    max-width: 800px;
+    /* Adjust max-width as needed */
     margin: 0 auto;
     background-color: var(--background);
     border-radius: 15px;
     padding: 40px;
     box-shadow: 0 4px 25px var(--nav-shadow);
     transition: transform 0.3s ease;
-    overflow: hidden; /* Ensures content stays within the fixed width */
+    overflow: hidden;
+    /* Ensures content stays within the fixed width */
 }
 
 .video-player-container:hover {
@@ -32,8 +34,10 @@
 }
 
 .video-canvas-container {
-    width: 100%; /* Ensures canvas fits within max-width */
-    padding-top: 56.25%; /* Aspect ratio 16:9 */
+    width: 100%;
+    /* Ensures canvas fits within max-width */
+    padding-top: 56.25%;
+    /* Aspect ratio 16:9 */
     background-color: #000;
     border-radius: 10px;
     overflow: hidden;
@@ -169,23 +173,32 @@
 }
 
 .modal-content {
-    position: absolute; /* Change to absolute */
-    top: 50%; /* Position at 50% from the top */
-    left: 50%; /* Position at 50% from the left */
-    transform: translate(-50%, -50%) scale(0.7); /* Center the content and apply scale */
-    width: auto; /* Change to auto instead of 100% */
-    max-width: 90%; /* Add max-width to prevent overflow */
+    position: absolute;
+    /* Change to absolute */
+    top: 50%;
+    /* Position at 50% from the top */
+    left: 50%;
+    /* Position at 50% from the left */
+    transform: translate(-50%, -50%) scale(0.7);
+    /* Center the content and apply scale */
+    width: auto;
+    /* Change to auto instead of 100% */
+    max-width: 90%;
+    /* Add max-width to prevent overflow */
     background-color: var(--background);
-    padding: 20px; /* Add some padding */
+    padding: 20px;
+    /* Add some padding */
     display: flex;
-    flex-direction: column; /* Stack children vertically */
+    flex-direction: column;
+    /* Stack children vertically */
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
 }
 
 .modal.show .modal-content {
-    transform: translate(-50%, -50%) scale(1); /* Maintain centering while scaling */
+    transform: translate(-50%, -50%) scale(1);
+    /* Maintain centering while scaling */
 }
 
 .close-modal {
@@ -241,7 +254,8 @@
 
 .anime-details-container,
 .anime-details {
-    max-width: 800px; /* Align with video player container's width */
+    max-width: 800px;
+    /* Align with video player container's width */
     margin: 0 auto;
 }
 
@@ -263,7 +277,8 @@
     font-size: 1.1em;
     color: var(--text-color);
     margin-bottom: 8px;
-    text-align: justify; /* Justify text alignment */
+    text-align: justify;
+    /* Justify text alignment */
 }
 
 .anime-details #episodeDetails {
@@ -285,12 +300,16 @@
 .video-info,
 .anime-details h2,
 .anime-details h3 {
-    text-align: justify; /* Justify text alignment */
+    text-align: justify;
+    /* Justify text alignment */
 }
 
-/* Optional for media queries */
 @media (max-width: 768px) {
-    .video-player-container, .anime-details-container, .anime-details {
-        max-width: 100%; /* Allows full-width on smaller screens */
+
+    .video-player-container,
+    .anime-details-container,
+    .anime-details {
+        max-width: 100%;
+        /* Allows full-width on smaller screens */
     }
 }

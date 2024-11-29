@@ -31,12 +31,12 @@
     --quiz-text: var(--quiz-text-light);
 
     --sign-overlap: 15px;
-        /* Control how much the sign overlaps with the nav */
-        --sign-width: 90px;
-        --sign-height: 90px;
-        --chain-length: 40px;
-    
-        --transition-duration: 0.3s;
+    /* Control how much the sign overlaps with the nav */
+    --sign-width: 90px;
+    --sign-height: 90px;
+    --chain-length: 40px;
+
+    --transition-duration: 0.3s;
     transition: background-color var(--transition-duration), color var(--transition-duration);
 }
 
@@ -588,12 +588,13 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-between; /* Space between left, center, and right */
+    justify-content: space-between;
+    /* Space between left, center, and right */
     align-items: stretch;
     z-index: 9999;
     opacity: 1;
-    transition: 
-        opacity 0.5s ease-in-out, 
+    transition:
+        opacity 0.5s ease-in-out,
         visibility 0.5s ease-in-out,
         transform 0.5s ease-in-out;
     visibility: hidden;
@@ -621,8 +622,8 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: scale(1.1);
-    transition: 
-        opacity 0.2s ease-in-out, 
+    transition:
+        opacity 0.2s ease-in-out,
         visibility 0.2s ease-in-out,
         transform 0.2s ease-in-out;
 }
@@ -632,11 +633,12 @@ body {
         opacity: 1;
         transform: scale(1);
     }
+
     to {
         opacity: 0;
         transform: scale(1.1);
         visibility: hidden;
-        }
+    }
 }
 
 .welcome-content {
@@ -672,7 +674,8 @@ body {
     padding: 20px 0;
 }
 
-.left, .right {
+.left,
+.right {
     flex: 1;
 }
 
@@ -799,7 +802,7 @@ body {
 #unmute-button.unmuted:hover {
     background: linear-gradient(135deg, #45a049, #4CAF50);
     transform: scale(1.05);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .button-container {
@@ -889,8 +892,8 @@ body {
         align-items: center;
         z-index: 9999;
         opacity: 1;
-        transition: 
-            opacity 0.5s ease-in-out, 
+        transition:
+            opacity 0.5s ease-in-out,
             visibility 0.5s ease-in-out,
             transform 0.5s ease-in-out;
         transform: scale(0.9);
@@ -1063,9 +1066,9 @@ body {
 
     .mini-player.active {
         position: absolute;
-        bottom: -60px; 
+        bottom: -60px;
         left: 10px;
-        width: calc(100% - 20px); 
+        width: calc(100% - 20px);
         max-width: 170px;
         max-height: 30px;
         transform: none;
@@ -1085,7 +1088,7 @@ body {
     transform: translateY(-100%);
     opacity: 0;
     transition: all 0.3s ease;
-   
+
 }
 
 .mini-player.active {
@@ -1276,6 +1279,7 @@ body {
 }
 
 @media (max-width: 768px) {
+
     .nav-logo,
     .nav-links {
         display: none;
@@ -1379,7 +1383,8 @@ body {
 
     .mobile-nav-links {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 column grid */
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 column grid */
         gap: 15px;
         justify-content: center;
         align-items: center;
@@ -1402,7 +1407,8 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 50px; /* Consistent height */
+        height: 50px;
+        /* Consistent height */
         text-transform: uppercase;
         font-weight: bold;
         letter-spacing: 1px;
@@ -1416,6 +1422,7 @@ body {
 
 /* Hide mobile nav elements on desktop */
 @media (min-width: 769px) {
+
     .mobile-nav-toggle,
     .mobile-nav-overlay {
         display: none !important;
@@ -1497,8 +1504,10 @@ body {
 
 /* Custom Scrollbar Styles */
 html {
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: var(--primary-pink) var(--background); /* For Firefox */
+    scrollbar-width: thin;
+    /* For Firefox */
+    scrollbar-color: var(--primary-pink) var(--background);
+    /* For Firefox */
 }
 
 /* Scrollbar styles for WebKit browsers */
@@ -1507,13 +1516,13 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--background); 
+    background: var(--background);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: var(--primary-pink);
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -1522,11 +1531,12 @@ html {
 
 /* Dark theme scrollbar */
 [data-theme="dark"] {
-    scrollbar-color: var(--primary-pink-dark) var(--background-dark); /* For Firefox */
+    scrollbar-color: var(--primary-pink-dark) var(--background-dark);
+    /* For Firefox */
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-track {
-    background: var(--background-dark); 
+    background: var(--background-dark);
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {

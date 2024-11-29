@@ -91,6 +91,7 @@
 
 @media (max-width: 768px) {
     .parallax-container {
-        display: none; /* Hide the parallax-container on mobile */
+        display: none;
+        /* Hide the parallax-container on mobile */
     }
 }

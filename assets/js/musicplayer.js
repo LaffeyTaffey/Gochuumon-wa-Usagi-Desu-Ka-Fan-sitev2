@@ -8,7 +8,7 @@ class MusicPlayer {
         this.analyser = null;
         this.isRepeat = false;
         this.audio.addEventListener('ended', () => this.handleTrackEnd());
-        
+
         this.playlist = [
             { title: "Song 1", artist: "Kafuu Chino", file: "assets/audio/Music/03.mp3" },
             { title: "Song 2", artist: "Syaro Kirima", file: "assets/audio/Music/04.mp3" },
@@ -32,13 +32,13 @@ class MusicPlayer {
             { title: "Song 20", artist: "Osu", file: "assets/audio/Music/22.mp3" },
         ];
 
-        
+
         this.initElements();
         this.initPlaylist();
         this.initEventListeners();
         this.initMiniPlayer();
         this.loadTrack(this.currentTrack);
-}
+    }
 
     initElements() {
         this.playerPanel = document.querySelector('.music-player-panel');
@@ -66,11 +66,11 @@ class MusicPlayer {
         });
 
         this.repeatBtn.addEventListener('click', () => {
-        this.toggleRepeat();
-        if (this.isRepeat) {
-            this.restartTrack();
-        }
-    });
+            this.toggleRepeat();
+            if (this.isRepeat) {
+                this.restartTrack();
+            }
+        });
 
         this.playBtn.addEventListener('click', () => this.togglePlay());
         this.prevBtn.addEventListener('click', () => this.prevTrack());
@@ -83,39 +83,39 @@ class MusicPlayer {
     }
 
     shufflePlaylist() {
-    for (let i = this.playlist.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [this.playlist[i], this.playlist[j]] = [this.playlist[j], this.playlist[i]];
+        for (let i = this.playlist.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.playlist[i], this.playlist[j]] = [this.playlist[j], this.playlist[i]];
+        }
+        this.currentTrack = 0;
+        this.loadTrack(this.currentTrack);
+        this.initPlaylist();
     }
-    this.currentTrack = 0;
-    this.loadTrack(this.currentTrack);
-    this.initPlaylist();
-}
 
-toggleRepeat() {
-    this.isRepeat = !this.isRepeat;
-    this.repeatBtn.classList.toggle('active');
-    if (this.isRepeat) {
-        this.audio.loop = true;
-    } else {
-        this.audio.loop = false;
+    toggleRepeat() {
+        this.isRepeat = !this.isRepeat;
+        this.repeatBtn.classList.toggle('active');
+        if (this.isRepeat) {
+            this.audio.loop = true;
+        } else {
+            this.audio.loop = false;
+        }
     }
-}
 
-restartTrack() {
-    this.audio.currentTime = 0;
-    this.audio.play();
-    this.isPlaying = true;
-    this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-}
-
-handleTrackEnd() {
-    if (this.isRepeat) {
-        this.restartTrack();
-    } else {
-        this.nextTrack();
+    restartTrack() {
+        this.audio.currentTime = 0;
+        this.audio.play();
+        this.isPlaying = true;
+        this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
-}
+
+    handleTrackEnd() {
+        if (this.isRepeat) {
+            this.restartTrack();
+        } else {
+            this.nextTrack();
+        }
+    }
 
     initVisualizer() {
         const canvas = document.getElementById('audioVisualizer');
@@ -126,31 +126,31 @@ handleTrackEnd() {
         const ctx = canvas.getContext('2d');
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.analyser = this.audioContext.createAnalyser();
-        
+
         const source = this.audioContext.createMediaElementSource(this.audio);
         source.connect(this.analyser);
         this.analyser.connect(this.audioContext.destination);
-        
+
         const animate = () => {
             const bufferLength = this.analyser.frequencyBinCount;
             const dataArray = new Uint8Array(bufferLength);
             this.analyser.getByteFrequencyData(dataArray);
-            
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = 'rgba(255, 183, 197, 0.5)';
-            
+
             const barWidth = canvas.width / bufferLength * 2.5;
             let x = 0;
-            
-            for(let i = 0; i < bufferLength; i++) {
+
+            for (let i = 0; i < bufferLength; i++) {
                 const barHeight = dataArray[i] / 2;
                 ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
                 x += barWidth + 1;
             }
-            
+
             requestAnimationFrame(animate);
         };
-        
+
         animate();
     }
 
@@ -185,11 +185,11 @@ handleTrackEnd() {
             this.trackTitleEl.textContent = track.title;
             this.trackArtistEl.textContent = track.artist;
             this.audio.load();
-            
+
             // Update mini player
             this.miniTrackTitle.textContent = `${track.title} - ${track.artist}`;
             this.miniPlayer.classList.add('active');
-            
+
             // Update playlist highlighting
             const trackList = document.querySelector('.track-list');
             if (trackList) {
@@ -199,31 +199,31 @@ handleTrackEnd() {
             }
         }
     }
-togglePanel() {
-    console.log('Toggle panel called'); 
-    console.log('Player panel:', this.playerPanel);
-    console.log('Music toggle:', this.musicToggle);
+    togglePanel() {
+        console.log('Toggle panel called');
+        console.log('Player panel:', this.playerPanel);
+        console.log('Music toggle:', this.musicToggle);
 
-    if (this.playerPanel) {
-        this.playerPanel.classList.toggle('active');
-        
-        // Ensure the music toggle icon exists before manipulating
-        const musicToggleIcon = this.musicToggle.querySelector('i');
-        if (musicToggleIcon) {
-            musicToggleIcon.classList.toggle('music-playing');
-        }
+        if (this.playerPanel) {
+            this.playerPanel.classList.toggle('active');
 
-        showNotification('Music player ' + (this.playerPanel.classList.contains('active') ? 'opened' : 'closed'));
-        
-        if (!this.playerPanel.classList.contains('active')) {
-            if (this.miniPlayer) {
-                this.miniPlayer.classList.add('active');
+            // Ensure the music toggle icon exists before manipulating
+            const musicToggleIcon = this.musicToggle.querySelector('i');
+            if (musicToggleIcon) {
+                musicToggleIcon.classList.toggle('music-playing');
             }
+
+            showNotification('Music player ' + (this.playerPanel.classList.contains('active') ? 'opened' : 'closed'));
+
+            if (!this.playerPanel.classList.contains('active')) {
+                if (this.miniPlayer) {
+                    this.miniPlayer.classList.add('active');
+                }
+            }
+        } else {
+            console.error('Player panel not found!');
         }
-    } else {
-        console.error('Player panel not found!');
     }
-}
 
     togglePlay() {
         if (this.isPlaying) {
@@ -240,16 +240,16 @@ togglePanel() {
         this.currentTrack = (this.currentTrack - 1 + this.playlist.length) % this.playlist.length;
         this.loadTrack(this.currentTrack);
         this.audio.play();
-this.isPlaying = true;
-this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        this.isPlaying = true;
+        this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     nextTrack() {
         this.currentTrack = (this.currentTrack + 1) % this.playlist.length;
         this.loadTrack(this.currentTrack);
         this.audio.play();
-this.isPlaying = true;
-this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        this.isPlaying = true;
+        this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     updateProgress() {

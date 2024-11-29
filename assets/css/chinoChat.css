@@ -14,7 +14,8 @@
     height: 100px;
     pointer-events: none;
     z-index: 99999;
-    display: block; /* Ensure visibility */
+    display: block;
+    /* Ensure visibility */
 }
 
 .coffee-steam {
@@ -27,7 +28,8 @@
     pointer-events: none;
     width: 20px;
     height: 30px;
-    display: block; /* Ensure visibility */
+    display: block;
+    /* Ensure visibility */
 }
 
 .coffee-steam svg {
@@ -45,7 +47,8 @@
     z-index: 1000;
     cursor: pointer;
     transform-origin: bottom;
-    animation: tippyFloat 3s ease-in-out infinite;animation: tippyBounce 2s infinite;
+    animation: tippyFloat 3s ease-in-out infinite;
+    animation: tippyBounce 2s infinite;
 }
 
 .tippy-companion img {
@@ -66,7 +69,7 @@
     height: 64px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--cream-white), var(--chino-blue));
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 5;
@@ -87,7 +90,7 @@
 
 .chat-bot-circle:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .coffee-menu {
@@ -101,7 +104,7 @@
     z-index: 1005;
     max-height: 400px;
     width: 300px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     font-family: 'Comic Sans MS', cursive;
     animation: menuPop 0.3s ease-out;
     transform: scale(0);
@@ -143,7 +146,7 @@
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(5px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     overflow: hidden;
     display: flex;
@@ -169,7 +172,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transition: 0.5s;
 }
 
@@ -235,6 +238,7 @@
         transform: scale(0.8);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -242,9 +246,12 @@
 }
 
 @keyframes titleGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         filter: drop-shadow(0 0 2px var(--chino-blue));
     }
+
     50% {
         filter: drop-shadow(0 0 5px var(--rabbit-pink));
     }
@@ -254,9 +261,11 @@
     0% {
         transform: scale(0.95);
     }
+
     50% {
         transform: scale(1.02);
     }
+
     100% {
         transform: scale(1);
     }
@@ -272,7 +281,8 @@
     opacity: 0.15;
     z-index: 99999;
     animation: rotate 20s linear infinite;
-    display: block; /* Ensure visibility */
+    display: block;
+    /* Ensure visibility */
 }
 
 .chat-bot-circle {
@@ -293,7 +303,7 @@
     left: 95px;
     padding: 10px 15px;
     border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 200px;
     font-size: 13px;
     line-height: 1.4;
@@ -379,18 +389,23 @@
     0% {
         box-shadow: 0 0 5px var(--primary-pink);
     }
+
     50% {
         box-shadow: 0 0 15px var(--primary-pink);
     }
+
     100% {
         box-shadow: 0 0 5px var(--primary-pink);
     }
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }
@@ -401,9 +416,11 @@
         transform: translateY(0) scale(1);
         opacity: 0;
     }
+
     50% {
         opacity: 0.7;
     }
+
     100% {
         transform: translateY(-20px) scale(1.5);
         opacity: 0;
@@ -411,27 +428,36 @@
 }
 
 @keyframes tippyBounce {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.1) translateY(-5px);
     }
 }
 
 @keyframes tippyFloat {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) rotate(-5deg);
     }
+
     50% {
         transform: translateY(-5px) rotate(5deg);
     }
 }
 
 @keyframes sparkle {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 0;
     }
+
     50% {
         opacity: 1;
     }
@@ -441,6 +467,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -449,9 +476,12 @@
 /* For mobile responsiveness */
 @media (max-width: 768px) {
     .blushing-emoji {
-        bottom: 85px; /* Adjust for mobile */
-        left: 27px; /* Adjust for mobile */
-        width: 35px; /* Slightly smaller on mobile */
+        bottom: 85px;
+        /* Adjust for mobile */
+        left: 27px;
+        /* Adjust for mobile */
+        width: 35px;
+        /* Slightly smaller on mobile */
         height: 35px;
     }
 }
@@ -475,7 +505,7 @@
     text-align: center;
     font-weight: bold;
     margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .buy-button {

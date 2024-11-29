@@ -303,7 +303,8 @@
         width: 100vw;
         height: 100vh;
         z-index: 1000;
-        overflow: hidden; /* Prevent scrolling on the entire reader */
+        overflow: hidden;
+        /* Prevent scrolling on the entire reader */
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -314,7 +315,8 @@
         top: 0;
         left: 0;
         width: 100%;
-        flex-direction: row; /* Keep horizontal layout */
+        flex-direction: row;
+        /* Keep horizontal layout */
         justify-content: space-between;
         align-items: center;
         padding: 0.75rem;
@@ -350,9 +352,11 @@
         position: relative;
         width: 100vw;
         max-width: 100%;
-        height: calc(100% - 60px); /* Adjust for header */
+        height: calc(100% - 60px);
+        /* Adjust for header */
         padding: 0;
-        overflow: hidden; /* Prevent content scrolling */
+        overflow: hidden;
+        /* Prevent content scrolling */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -364,7 +368,8 @@
         max-height: 100vh;
         object-fit: contain;
         width: 100%;
-        pointer-events: none; /* Prevent image dragging */
+        pointer-events: none;
+        /* Prevent image dragging */
     }
 
     #read-manga {
@@ -430,7 +435,7 @@
         z-index: 15;
     }
 
-    .prev-area, 
+    .prev-area,
     .next-area {
         flex: 1;
         cursor: pointer;
@@ -461,10 +466,11 @@
 
 @media (pointer: coarse) {
     .manga-reader {
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scrolling on iOS */
     }
 
-    .manga-btn, 
+    .manga-btn,
     .back-to-entries {
         tap-highlight-color: transparent;
         -webkit-tap-highlight-color: transparent;
@@ -473,8 +479,9 @@
 
 /* Prevent full-page zoom on input focus */
 @media screen and (max-width: 768px) {
-    input, 
-    select, 
+
+    input,
+    select,
     textarea {
         font-size: 16px;
     }
@@ -482,7 +489,8 @@
 
 /* Touch-friendly Adjustments */
 @media (pointer: coarse) {
-    .manga-page, 
+
+    .manga-page,
     .manga-page-fs {
         touch-action: pan-y;
         user-select: none;
@@ -490,10 +498,11 @@
     }
 
     /* Enhance tap targets */
-    .manga-btn, 
-    .reader-btn, 
+    .manga-btn,
+    .reader-btn,
     .back-to-entries {
-        min-height: 44px; /* Recommended minimum tap target size */
+        min-height: 44px;
+        /* Recommended minimum tap target size */
         min-width: 44px;
         display: flex;
         align-items: center;
@@ -509,6 +518,7 @@
     }
 
     .dropdown-item {
-        padding: 0.75rem 1rem; /* Larger touch target */
+        padding: 0.75rem 1rem;
+        /* Larger touch target */
     }
 }

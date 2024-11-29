@@ -10,7 +10,7 @@ fetch('/animewallpaper-proxy')
 
         // Store the original header
         const originalHeader = `<h2 data-aos="fade-up">Gallery</h2>`;
-        
+
         // Clear existing content
         gallerySection.innerHTML = originalHeader;
 

@@ -425,7 +425,7 @@ const characterSectionsData = {
         ]
     },
 
-"Maya Jōga": {
+    "Maya Jōga": {
         bio: {
             appearance: "Maya has short brown hair and brown eyes. Usually seen in her school uniform.",
             personality: "Energetic and outgoing. Often the instigator of activities among her friends. Has a habit of nicknaming people."
@@ -508,7 +508,7 @@ const characterSectionsData = {
             "Age estimated to be in her 30s"
         ]
     },
-"Rin Mate": {
+    "Rin Mate": {
         bio: {
             appearance: "Young woman with short dark hair and glasses. Often seen in casual clothing.",
             personality: "Calm and collected. Has a dry sense of humor and is supportive of her friends."
@@ -622,7 +622,7 @@ const characterSectionsData = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Character tab functionality
     const characterTabs = document.querySelectorAll('.characters-tabs .tab-btn');
     const characterContents = document.querySelectorAll('.characters-content');
@@ -633,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add click event to all character images
     document.querySelectorAll('.character-image').forEach(image => {
-        image.addEventListener('click', function() {
+        image.addEventListener('click', function () {
             const img = this.querySelector('img');
             modal.style.display = 'block';
             modalImg.src = img.src;
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
     closeBtn.addEventListener('click', closeImageModal);
 
     // Close modal when clicking outside the image
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeImageModal();
         }
@@ -664,34 +664,34 @@ document.addEventListener('DOMContentLoaded', function() {
         tab.addEventListener('click', () => {
             // Remove active class from all tabs
             characterTabs.forEach(t => t.classList.remove('active'));
-            
+
             // Add active class to clicked tab
             tab.classList.add('active');
-            
+
             const contentId = tab.getAttribute('data-tab');
             const newContent = document.getElementById(contentId);
-            
+
             // Fade out current active content
             const currentActiveContent = document.querySelector('.characters-content.active');
             if (currentActiveContent) {
                 currentActiveContent.style.opacity = '0';
                 currentActiveContent.style.transform = 'translateY(20px)';
-                
+
                 // Wait for fade out transition to complete
                 setTimeout(() => {
                     currentActiveContent.classList.remove('active');
                     currentActiveContent.style.display = 'none';
-                    
+
                     // Show and fade in new content
                     newContent.style.display = 'block';
                     newContent.classList.add('active');
-                    
+
                     // Force reflow
                     newContent.offsetHeight;
-                    
+
                     newContent.style.opacity = '1';
                     newContent.style.transform = 'translateY(0)';
-                    
+
                     // Reset AOS animations for the new content
                     if (typeof AOS !== 'undefined') {
                         AOS.refresh();
@@ -703,7 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newContent.classList.add('active');
                 newContent.style.opacity = '1';
                 newContent.style.transform = 'translateY(0)';
-                
+
                 if (typeof AOS !== 'undefined') {
                     AOS.refresh();
                 }
@@ -713,10 +713,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Character sections functionality (keep this part as it was)
     document.querySelectorAll('.character-sections li').forEach(section => {
-        section.addEventListener('click', function() {
+        section.addEventListener('click', function () {
             const characterName = this.closest('.character-card').querySelector('h3').textContent.trim();
             const sectionName = this.textContent.trim().toLowerCase();
-            
+
             if (!this.querySelector('ol')) {
                 if (sectionName === 'appearance' || sectionName === 'personality') {
                     showSectionDetails(characterName, 'bio');

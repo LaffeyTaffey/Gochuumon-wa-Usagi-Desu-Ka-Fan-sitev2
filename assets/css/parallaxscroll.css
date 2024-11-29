@@ -33,7 +33,8 @@ body {
 }
 
 .background-layer {
-    background-image: var(--bg-morning); /* Default background for light mode */
+    background-image: var(--bg-morning);
+    /* Default background for light mode */
     background-size: cover;
     z-index: 1;
     transition: background-image 1s ease;
@@ -51,8 +52,10 @@ body {
     background-size: 20%;
     z-index: 3;
     transform: scale(1.1);
-    opacity: 1; /* Start fully visible */
-    transition: opacity 1s ease; /* Smooth transition for opacity */
+    opacity: 1;
+    /* Start fully visible */
+    transition: opacity 1s ease;
+    /* Smooth transition for opacity */
 }
 
 
@@ -67,8 +70,10 @@ body {
 
 [data-theme="dark"] .third-layer {
     background-image: var(--moon);
-    background-position: calc(50% + 600px) 150px; /* Start off-screen right */
-    animation: moonToSun 1s forwards; /* Animate moon transitioning to sun */
+    background-position: calc(50% + 600px) 150px;
+    /* Start off-screen right */
+    animation: moonToSun 1s forwards;
+    /* Animate moon transitioning to sun */
 }
 
 /* Light mode styles */
@@ -82,53 +87,75 @@ body {
 
 [data-theme="light"] .third-layer {
     background-image: var(--sunrise);
-    background-position: calc(50% - 600px) 100px; /* Start off-screen left */
-    animation: sunToMoon 1s forwards; /* Animate sun transitioning to moon */
+    background-position: calc(50% - 600px) 100px;
+    /* Start off-screen left */
+    animation: sunToMoon 1s forwards;
+    /* Animate sun transitioning to moon */
 }
 
 /* Keyframes for animations */
 @keyframes moonToSun {
     0% {
-        background-position: calc(50% + 600px) 150px; /* Start moon off-screen right */
-        opacity: 1; /* Fully visible */
+        background-position: calc(50% + 600px) 150px;
+        /* Start moon off-screen right */
+        opacity: 1;
+        /* Fully visible */
     }
+
     50% {
-        background-position: 50% 150px; /* Center */
-        opacity: 0; /* Fade out */
+        background-position: 50% 150px;
+        /* Center */
+        opacity: 0;
+        /* Fade out */
     }
+
     100% {
-        background-position: calc(50% - 600px) 100px; /* Move sun to left */
-        opacity: 1; /* Fully visible */
+        background-position: calc(50% - 600px) 100px;
+        /* Move sun to left */
+        opacity: 1;
+        /* Fully visible */
     }
 }
 
 @keyframes sunToMoon {
     0% {
-        background-position: calc(50% - 600px) 100px; /* Start sun off-screen left */
-        opacity: 1; /* Fully visible */
+        background-position: calc(50% - 600px) 100px;
+        /* Start sun off-screen left */
+        opacity: 1;
+        /* Fully visible */
     }
+
     50% {
-        background-position: 50% 100px; /* Center */
-        opacity: 0; /* Fade out */
+        background-position: 50% 100px;
+        /* Center */
+        opacity: 0;
+        /* Fade out */
     }
+
     100% {
-        background-position: calc(50% + 600px) 150px; /* Move moon to right */
-        opacity: 1; /* Fully visible */
+        background-position: calc(50% + 600px) 150px;
+        /* Move moon to right */
+        opacity: 1;
+        /* Fully visible */
     }
 }
 
 @media screen and (max-width: 768px) {
     .first-layer {
-        background-size: 60%; /* Larger size for mobile */
-        background-position: right center; /* Adjust vertical position */
+        background-size: 60%;
+        /* Larger size for mobile */
+        background-position: right center;
+        /* Adjust vertical position */
     }
 
     [data-theme="dark"] .third-layer {
-        background-position: calc(50% + 600px) 100px; /* Adjust moon position */
+        background-position: calc(50% + 600px) 100px;
+        /* Adjust moon position */
     }
 
     [data-theme="light"] .third-layer {
-        background-position: calc(50% - 600px) 50px; /* Adjust sun position */
+        background-position: calc(50% - 600px) 50px;
+        /* Adjust sun position */
     }
 
     /* Adjust keyframe animations for mobile */
@@ -137,10 +164,12 @@ body {
             background-position: calc(50% + 600px) 100px;
             opacity: 1;
         }
+
         50% {
             background-position: 50% 100px;
             opacity: 0;
         }
+
         100% {
             background-position: calc(50% - 600px) 50px;
             opacity: 1;
@@ -152,10 +181,12 @@ body {
             background-position: calc(50% - 600px) 50px;
             opacity: 1;
         }
+
         50% {
             background-position: 50% 50px;
             opacity: 0;
         }
+
         100% {
             background-position: calc(50% + 600px) 100px;
             opacity: 1;
@@ -166,7 +197,8 @@ body {
 /* For very small mobile devices */
 @media screen and (max-width: 480px) {
     .first-layer {
-        background-size: 70%; /* Even larger for smaller screens */
+        background-size: 70%;
+        /* Even larger for smaller screens */
         background-position: right center;
     }
 
@@ -183,10 +215,12 @@ body {
             background-position: calc(50% + 600px) 80px;
             opacity: 1;
         }
+
         50% {
             background-position: 50% 80px;
             opacity: 0;
         }
+
         100% {
             background-position: calc(50% - 600px) 30px;
             opacity: 1;
@@ -198,10 +232,12 @@ body {
             background-position: calc(50% - 600px) 30px;
             opacity: 1;
         }
+
         50% {
             background-position: 50% 30px;
             opacity: 0;
         }
+
         100% {
             background-position: calc(50% + 600px) 80px;
             opacity: 1;

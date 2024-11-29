@@ -47,7 +47,7 @@
     text-decoration: none;
 }
 
-.rss-upvote-count, 
+.rss-upvote-count,
 .rss-comment-count {
     font-weight: bold;
     color: var(--text-color);
@@ -100,7 +100,8 @@
 }
 
 .shimmer {
-    position: absolute; /* Position the shimmer absolutely within the container */
+    position: absolute;
+    /* Position the shimmer absolutely within the container */
     top: 0;
     left: 0;
     width: 100%;
@@ -108,7 +109,8 @@
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.2) 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
-    z-index: 1; /* Ensure it is above the image */
+    z-index: 1;
+    /* Ensure it is above the image */
     transition: opacity 0.3s ease;
 }
 
@@ -116,6 +118,7 @@
     0% {
         background-position: 200% 0;
     }
+
     100% {
         background-position: -200% 0;
     }
@@ -135,12 +138,15 @@
 
 /* Hide content when loading */
 .rss-post-content {
-    opacity: 0; /* Initially hidden */
-    transition: opacity 0.3s ease; /* Add transition for opacity */
+    opacity: 0;
+    /* Initially hidden */
+    transition: opacity 0.3s ease;
+    /* Add transition for opacity */
 }
 
 .rss-post-content.loaded {
-    opacity: 1; /* Show content when loaded */
+    opacity: 1;
+    /* Show content when loaded */
 }
 
 .rss-post-interactions {
@@ -211,6 +217,7 @@
         opacity: 0;
         transform: scale(0.8) translateY(20px);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -218,9 +225,17 @@
 }
 
 @keyframes postHover {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .post-enter {
@@ -251,8 +266,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Mobile Responsiveness */
@@ -441,15 +461,26 @@
 }
 
 .fab:hover {
-    transform: scale(1.15);  /* Slightly larger scale */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);  /* Larger shadow */
-    background-color: var(--secondary-pink);  /* Change color on hover */
+    transform: scale(1.15);
+    /* Slightly larger scale */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Larger shadow */
+    background-color: var(--secondary-pink);
+    /* Change color on hover */
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .fab:hover {
@@ -458,16 +489,19 @@
 
 @media (max-width: 768px) {
     .fab {
-        width: 56px; /* Slightly larger for better touch target */
+        width: 56px;
+        /* Slightly larger for better touch target */
         height: 56px;
         bottom: 16px;
         right: 16px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.16);
-        font-size: 24px; /* Slightly larger icon */
+        font-size: 24px;
+        /* Slightly larger icon */
     }
 
     .fab:active {
-        transform: scale(1.1); /* Slight press effect */
+        transform: scale(1.1);
+        /* Slight press effect */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
@@ -487,7 +521,8 @@
 /* Accessibility and touch improvements */
 @media (pointer: coarse) {
     .fab {
-        touch-action: manipulation; /* Prevent default touch behaviors */
+        touch-action: manipulation;
+        /* Prevent default touch behaviors */
         user-select: none;
         -webkit-user-select: none;
     }
@@ -519,17 +554,6 @@ a,
 button,
 .interactive {
     cursor: none;
-}
-
-/* Particle Effects */
-#particles-js {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
 }
 
 main,
@@ -783,7 +807,8 @@ footer {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("../img/loading.webp"); /* webp as background */
+    background-image: url("../img/loading.webp");
+    /* webp as background */
     background-size: 500px 288px;
     background-repeat: no-repeat;
     background-position: center;

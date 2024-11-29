@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const showMoreBtn = document.getElementById('showMoreBtn');
     const hiddenItems = document.querySelectorAll('.timeline-item.hidden');
     let isExpanded = false;
 
-    showMoreBtn.addEventListener('click', function() {
+    showMoreBtn.addEventListener('click', function () {
         if (!isExpanded) {
             hiddenItems.forEach(item => {
                 item.classList.remove('hidden');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showMoreBtn.textContent = 'Show More';
             isExpanded = false;
             // Scroll back to the history section
-            document.getElementById('history').scrollIntoView({behavior: 'smooth'});
+            document.getElementById('history').scrollIntoView({ behavior: 'smooth' });
         }
     });
 });

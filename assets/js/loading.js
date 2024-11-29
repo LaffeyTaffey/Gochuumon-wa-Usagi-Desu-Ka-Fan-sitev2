@@ -18,11 +18,11 @@ document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = link.getAttribute('href');
-        
+
         // Only show loading if it's a section link
         if (targetId.startsWith('#')) {
             showLoading();
-            
+
             setTimeout(() => {
                 hideLoading();
                 document.querySelector(targetId).scrollIntoView({
