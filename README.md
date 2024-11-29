@@ -1,13 +1,13 @@
 # 🐰 Is the Order a Rabbit? (Gochuumon wa Usagi Desu ka?) Fan Site
 
 <p align="center">
-  <img src="assets/img/parallax/usagi-logo.webp" alt="order-rabbit-logo" width="200"/>
+  <img src="assets/img/parallax/usagi-logo.webp" alt="order-rabbit-logo" width="500"/>
 </p>
 
 <p align="center">
   <img src="assets/img/favico.webp" alt="Rabbit House Logo" width="200"/>
   <img src="assets/img/pyonpyon.webp" alt="wolf chino" width="200"/>
-  <img src="assets/img/tippy.webp" alt="tippy" width="200"/>
+  <img src="assets/img/chibi/tippy.webp" alt="tippy" width="200"/>
 </p>
 
 <p align="center">
