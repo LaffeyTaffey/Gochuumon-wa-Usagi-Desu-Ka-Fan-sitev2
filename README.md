@@ -7,7 +7,7 @@
 <p align="center">
   <img src="assets/img/favico.webp" alt="Rabbit House Logo" width="200"/>
   <img src="assets/img/pyonpyon.webp" alt="wolf chino" width="200"/>
-  <img src="assets/img/chibi/tippy.webp" alt="tippy" width="200"/>
+  <img src="assets/img/background/rabbit_house_day.webp" alt="rabbit-house-day" width="200"/>
 </p>
 
 <p align="center">
@@ -20,13 +20,17 @@ Welcome to the unofficial fan site dedicated to "Is the Order a Rabbit?" (ご注
 
 ## 📖 Info
 This is the new repository, since i did an opsy (used filter-branch) to the old one.
-- i did:
+> what i did:
 ```bash
 git filter-branch --force --index-filter \
   'git rm --cached --ignore-unmatch assets/video/welcomev2.mp4' \
   --prune-empty --tag-name-filter cat -- --all
 ```
-- which messes up the github commit history hench can't push origin. (lfs related issue)
+> which messes up the github commit history hench can't push origin. (lfs related issue)
+  > Previous repository: 
+  ```bash
+  https://github.com/LaffeyTaffey/Gochuumon-wa-Usagi-Desu-Ka-Fan-site
+  ```
 
 ## ✨ Features
 
@@ -134,10 +138,6 @@ Animation Studio: White Fox/Encourage Films
 
 <p align="center">
   <img src="assets/img/weezer.webp" alt="chino" width="200"/>
-</p>
-
-<p align="center">
-  <img src="assets/img/background/rabbit_house_day.webp" alt="rabbit-house-day" width="200"/>
 </p>
 
 <p align="center"> Made with ☕ and 💖 by fans of Is the Order a Rabbit? </p>
