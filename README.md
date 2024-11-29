@@ -1,13 +1,17 @@
 # 🐰 Is the Order a Rabbit? (Gochuumon wa Usagi Desu ka?) Fan Site
 
 <p align="center">
-  <img src="assets/img/favico.webp" alt="Rabbit House Logo" width="200"/>
-  <img src="assets/img/pyonpyon.webp" alt="Rabbit House Logo" width="200"/>
-  <img src="assets/img/tippy.webp" alt="Rabbit House Logo" width="200"/>
+  <img src="assets/img/parallax/usagi-logo.webp" alt="order-rabbit-logo" width="200"/>
 </p>
 
 <p align="center">
-  <img src="assets/img/chino-welcome.webp" alt="Rabbit House Logo" width="200"/>
+  <img src="assets/img/favico.webp" alt="Rabbit House Logo" width="200"/>
+  <img src="assets/img/pyonpyon.webp" alt="wolf chino" width="200"/>
+  <img src="assets/img/tippy.webp" alt="tippy" width="200"/>
+</p>
+
+<p align="center">
+  <img src="assets/img/chino-welcome.webp" alt="chino" width="200"/>
 </p>
 
 ## 📖 Overview
@@ -128,4 +132,14 @@ Creator: Koi (小意)
 Publisher: Houbunsha
 Animation Studio: White Fox/Encourage Films
 
+<p align="center">
+  <img src="assets/img/weezer.webp" alt="chino" width="200"/>
+</p>
+
+<p align="center">
+  <img src="assets/img/background/rabbit_house_day.webp" alt="rabbit-house-day" width="200"/>
+</p>
+
 <p align="center"> Made with ☕ and 💖 by fans of Is the Order a Rabbit? </p>
+
+
