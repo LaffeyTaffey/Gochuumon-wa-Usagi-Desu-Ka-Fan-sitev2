@@ -34,7 +34,7 @@ git filter-branch --force --index-filter \
 
 ## ✨ Features
 
-- 🎬 **Anime Player**
+- 🎬 **Anime Player** (video files not uploaded, lfs limitations)
   - Stream episodes with custom video controls
   - Frame-by-frame navigation
   - Screenshot capture functionality
