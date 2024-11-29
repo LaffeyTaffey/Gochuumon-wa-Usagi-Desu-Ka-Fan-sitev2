@@ -22,25 +22,25 @@ function updateThemeToggleIcon() {
 }
 
 // Scroll handling
-        let lastScrollTop = 0;
-        const header = document.querySelector('.header-nav');
-        const title = document.querySelector('.site-title');
+let lastScrollTop = 0;
+const header = document.querySelector('.header-nav');
+const title = document.querySelector('.site-title');
 
-        window.addEventListener('scroll', () => {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > lastScrollTop) {
-                header.classList.add('hidden');
-                title.style.opacity = '0';
-            } else {
-                header.classList.remove('hidden');
-                title.style.opacity = '1';
-            }
-            
-            lastScrollTop = scrollTop;
-        });
+window.addEventListener('scroll', () => {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        // Theme toggle
+    if (scrollTop > lastScrollTop) {
+        header.classList.add('hidden');
+        title.style.opacity = '0';
+    } else {
+        header.classList.remove('hidden');
+        title.style.opacity = '1';
+    }
+
+    lastScrollTop = scrollTop;
+});
+
+// Theme toggle
 const themeToggle = document.querySelector('.theme-toggle');
 const html = document.documentElement;
 
@@ -53,34 +53,37 @@ themeToggle.addEventListener('click', () => {
     showNotification(`Switched to ${newTheme} mode`);
 });
 
-        // Back button
-        const backButton = document.querySelector('.back-button');
-        backButton.addEventListener('click', () => {
-            window.history.back();
-        });
+// Back button
+const backButton = document.querySelector('.back-button');
+backButton.addEventListener('click', () => {
+    window.history.back();
+});
 
-        // Navigation link animations
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                showNotification(`Navigating to ${href.substring(1)}`);
-                // Add your actual navigation logic here
-            });
-        });
+// Navigation link animations
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default navigation
+        const href = link.getAttribute('href');
+        showNotification(`Navigating to ${href.substring(1)}`);
+        // Delay navigation to allow the notification to show
+        setTimeout(() => {
+            window.location.href = href;
+        }, 2000);
+    });
+});
 
-        // Notification system
-        function showNotification(message) {
-            const notification = document.querySelector('.notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2000);
-        }
+// Notification system
+function showNotification(message) {
+    const notification = document.querySelector('.notification');
+    notification.textContent = message;
+    notification.classList.add('show');
 
-document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 500);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
     AOS.init({
         duration: 1000,
         once: false,
