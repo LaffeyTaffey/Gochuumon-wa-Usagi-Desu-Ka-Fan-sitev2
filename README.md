@@ -103,6 +103,8 @@ cd Gochuumon-wa-Usagi-Desu-Ka-Fan-site
     - AOS (Animate On Scroll)
     - Web Audio API
     - NodeJS (express, axios, cors, xml2js)
+    - GSAP
+    - Lottie
 
 - 📱 **Compatibility**
     - 💻 Desktop Browsers (Chrome, Firefox, Safari, Edge)
@@ -116,6 +118,12 @@ cd Gochuumon-wa-Usagi-Desu-Ka-Fan-site
     - Community features
     - Multi-language support
     - Mobile Responsive Design (Some parts are not optimized)
+    - Geoguesser for irl locations shoots in calmar france and hungary at the anime
+    - Updated character information on all seasons of the anime
+    - Revamped quiz section
+    - parallax scrolling
+    - disabling custom cursor in mobile view
+    - Gallery (still an rss based on reddit searched of "is the order a rabbit")
 
 - 🤝 **Contributing**
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.

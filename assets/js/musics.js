@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const moodPlaylists = {
         'Creative': '5nQVTrkecpLuGIV5QOyWvH',
-        'Coding': '37i9dQZF1DX5trt9i14X7j',
-        'Relaxing': '37i9dQZF1DX4WYpdgoIcn6',
-        'Gaming': '37i9dQZF1DWTyiBJ6yEqeu'
+        'Coding': '4hixfLQf7xOTrB5sPssjqt',
+        'Relaxing': '4HEkqQ3VxqXbuKJ56K5o2g',
+        'Gaming': '2Jurp21dN0PCNcRJujzj0b'
     };
 
     const recommendations = [
@@ -93,6 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     }
+
+    // Initialize the music player
+document.addEventListener('DOMContentLoaded', () => {
+    window.musicPlayer = new MusicPlayer(); // Ensure this line runs first
+
+    // Set intervals after the music player is initialized
+    setInterval(updateCurrentTrack, 5000);
+    setInterval(updateMusicStats, 10000);
+
+    // Initial content load
+    updateMusicContent('playlists');
+});
 
     function updateCurrentTrack() {
         // Get the current track info from the MusicPlayer instance

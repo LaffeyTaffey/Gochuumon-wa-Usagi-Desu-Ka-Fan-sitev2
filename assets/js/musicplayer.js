@@ -82,6 +82,14 @@ class MusicPlayer {
         this.repeatBtn.addEventListener('click', () => this.toggleRepeat());
     }
 
+    getCurrentTrackInfo() {
+        if (this.currentTrack >= 0 && this.currentTrack < this.playlist.length) {
+            const track = this.playlist[this.currentTrack];
+            return `${track.title} - ${track.artist}`;
+        }
+        return "No track playing.";
+    }
+
     shufflePlaylist() {
         for (let i = this.playlist.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
