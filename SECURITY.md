@@ -11,7 +11,7 @@
 
 If you discover a security vulnerability within this project, please report it as soon as possible. 
 
-1. **Contact**: Send an email to [security@example.com](mailto:faithchaos666@gmail.com) or open an issue in the repository with the label `security`.
+1. **Contact**: Send an email to [faithchaos666@gmail.com](mailto:faithchaos666@gmail.com) or open an issue in the repository with the label `security`.
 2. **Details**: Include as much detail as possible, including:
    - A description of the vulnerability
    - Steps to reproduce the issue
