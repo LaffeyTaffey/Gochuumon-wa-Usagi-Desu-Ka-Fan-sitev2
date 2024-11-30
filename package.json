@@ -13,10 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "xml2js": "^0.6.2",
-    "loclx": "^24.4.1"
+    "loclx": "^24.4.1",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",

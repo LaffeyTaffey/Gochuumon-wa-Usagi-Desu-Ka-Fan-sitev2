@@ -1261,7 +1261,30 @@
 
     <div class="chat-bubble"></div>
 
-    <div id="pickaxe-inline-Kafuu_Chino_8JTND"></div>
+    <div id="chat-container" style="display: none;">
+        <div id="chat-background"></div>
+        <div id="chat-header">
+            <img src="assets/img/chinochat/profile_chino.webp" alt="Chino" class="profile-pic">
+            <div class="chat-title">
+                Kafuu Chino 🐰☕
+                <div id="api-status"></div>
+            </div>
+        </div>
+        <div id="messages"></div>
+        <div id="thinking-phase" style="display: none;">
+            <img src="assets/img/chinochat/thinking_phase.webp" alt="Thinking" class="thinking-image">
+            <div class="thinking-details">
+                <div class="rabbit-emoji">🐰</div>
+                <div class="estimated-time"></div>
+            </div>
+        </div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Please chat with chino!...">
+            <button id="send-btn">Send</button>
+            <button id="regenerate-btn" style="display: none;">🔄 Regenerate</button>
+            <button id="edit-btn" style="display: none;">✏️ Edit</button>
+        </div>
+    </div>
 
     <div class="coffee-menu">
         <h4>🏠 Rabbit House Menu 🐰</h4>
@@ -1520,6 +1543,7 @@
     <script src="assets/js/parallax.js"></script>
     <script src="assets/js/performance.js"></script>
     <script src="assets/js/gsap.js"></script>
+    <script src="assets/js/chatbot.js"></script>
 </body>
 
 </html>

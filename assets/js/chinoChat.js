@@ -9,12 +9,18 @@ function playSound(sound) {
     sound.play();
 }
 
-window.PICKAXE = window.PICKAXE || { pickaxes: [], style: "kHsjoCQGgI0GWASmgIdIA2CHA0wGQyCwBQBUiEBzQQC+EgGQwgMA3gLICDMAoAnQgvFSCsUIPQYgIHqAEw4NXUgIz6DFQ4OkwghP2AGnoMFJgKAFA8gEA4QAI9gVPBABGqBU3gAggTEBAUQ6ApYkAAgIFMxwLcKgRvlAhyyAIG8DFAoAF1QOTugMODACreB2osAqaIAYhAOaAh6ECCr4BCSwACigJ2BAyEaA0TCAqqOAQquAQ2WAoAKAAISAz6CAB0MAT4DRhIABEYBgkoCicoACEoDm4IAgkoCzc4C2s4DUVIABY4CDQ4AV1YCgFoDWhoAzloB3IoCAl4BTYYA3pIBTo4CykoBYh4BWsYBY84BKooB0d4DlGYD59IBCF4C1+oDRB4AY2oC0F4AEG4CEiIBA2YBAxIAUoYAMt4BOIIDECIAFS4ACJIALYICXQIAXh4AMX4Ab+IBgR4AeAYAmBYCpWIDhQAAZABTADIFgABgQCyQIABZEAAAyACZRAMpdgFRAABAgAPXwCZgIBuocAdEiAKLDACEogESiQAqEoBqL0Ax4iAJBHACWRgADmwDpsIAAm0Ak8WAB4zAGIjgBzQwDjIYBOI0APSGAGkZAAhpAGbACBKgAYDQCBxIBKLMARaKAG1JAH45gCUyQBpwIAoZ8A1N2ATLpAMXQgGECQDzAoAQ9UABEuAKHvAIKZgAwTAAQgEBdQCADIBviMAc76AGWnAFvQgGCgwAXBIB9CUA9fqAETBAKZNgAU/QB27IA66MAsRiAGW9AAwkgGBUQAMi4BmQEAAGaAABxAECIgFljwA5jIAehUAlFyACZXAAwEgAJswCHGoAeCUAps+ANlbAJTfgFYSQAMXoBGF0ApYyAB5dAKgkgCqtQBsgYBCe8ALiSAAB5AEQSgBukQDBYIAGwkAU5+AfGZAA0LgElkQATqYBOXEALzmAOcJABLdgCgqQBgA4AipsAtZqAfQ/AOo1gAQ4wCLgIBy2EAR1SAGNFAC3UgCLBYAQAqAG/UgDfqoAs2OAA75gAvaoAqQKAAm6gCahoAsGKAGXBgBRG4AAARAA=" }, window.PICKAXE.pickaxes.push({ id: "Kafuu_Chino_8JTND", type: "inline" }); const { id: _fid } = window.PICKAXE.pickaxes[0]; fetch(`https://embed.pickaxeproject.com/axe/api/script/${_fid}`).then((e => e.json())).then((({ v: e }) => { const t = `https://cdn.jsdelivr.net/gh/pickaxeproject/cdn@${e}/dist`; if (!document.querySelector(`script[src="${t}/bundle.js"]`)) { const e = document.createElement("script"); e.src = t + "/bundle.js", e.defer = !0, document.head.appendChild(e) } }));
-
 window.addEventListener('load', () => {
+    // Update selectors to match the new HTML structure
     const chatCircle = document.querySelector('.chat-bot-circle');
-    const chatWidget = document.getElementById('pickaxe-inline-Kafuu_Chino_8JTND');
+    const chatWidget = document.getElementById('chat-container'); // Changed from chatbot-container
     const chatBubble = document.querySelector('.chat-bubble');
+    
+    // Add null checks to prevent errors
+    if (!chatCircle || !chatWidget || !chatBubble) {
+        console.error('One or more required elements are missing');
+        return;
+    }
+
     let isPopupOpen = false;
 
     // Expanded Kafuu Chino messages
@@ -94,17 +100,25 @@ window.addEventListener('load', () => {
     // Change message every 15 seconds
     const messageInterval = setInterval(showNextMessage, 15000);
 
-    // Update click handler
+    // Update click handler with new animation classes
     chatCircle.addEventListener('click', () => {
         playSound(clickSound);
         if (!isPopupOpen) {
+            chatWidget.classList.remove('hide');
             chatWidget.classList.add('show');
             chatBubble.classList.remove('show');
             toggleSteam(true);
             isPopupOpen = true;
         } else {
             chatWidget.classList.remove('show');
+            chatWidget.classList.add('hide');
             toggleSteam(false);
+            
+            // Remove 'hide' class after animation
+            setTimeout(() => {
+                chatWidget.classList.remove('hide');
+            }, 400);
+
             setTimeout(showNextMessage, 1000);
             isPopupOpen = false;
         }
@@ -117,8 +131,19 @@ window.addEventListener('load', () => {
 
     // Close popup when clicking outside
     document.addEventListener('click', (e) => {
-        if (!chatWidget.contains(e.target) && !chatCircle.contains(e.target) && isPopupOpen) {
+        if (chatWidget.classList.contains('show') && 
+            !chatWidget.contains(e.target) && 
+            !chatCircle.contains(e.target)) {
+            
             chatWidget.classList.remove('show');
+            chatWidget.classList.add('hide');
+            
+            // Remove 'hide' class after animation
+            setTimeout(() => {
+                chatWidget.classList.remove('hide');
+            }, 400);
+
+            toggleSteam(false);
             setTimeout(showNextMessage, 1000);
             isPopupOpen = false;
         }
@@ -251,4 +276,8 @@ document.addEventListener('DOMContentLoaded', function () {
             chatBubble.classList.remove('show');
         });
     });
+    const chatEnvironment = document.querySelector('.chat-environment');
+    if (chatEnvironment) {
+        chatEnvironment.style.display = 'block';
+    }
 });

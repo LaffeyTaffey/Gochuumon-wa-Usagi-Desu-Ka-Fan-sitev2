@@ -105,6 +105,10 @@ cd Gochuumon-wa-Usagi-Desu-Ka-Fan-site
     - NodeJS (express, axios, cors, xml2js)
     - GSAP
     - Lottie
+    - cheerio
+    - body-parser
+    - cosmos api (for chinochat)
+    - loclx (for tunneling the localhost)
 
 - 📱 **Compatibility**
     - 💻 Desktop Browsers (Chrome, Firefox, Safari, Edge)
