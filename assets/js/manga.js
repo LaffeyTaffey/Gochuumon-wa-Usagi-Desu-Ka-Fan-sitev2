@@ -259,7 +259,7 @@ class MangaReader {
         }
 
         // Construct the page path
-        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${chapterForPath}/${this.currentPage.toString().padStart(3, '0')}.jpg`;
+        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${chapterForPath}/${this.currentPage.toString().padStart(3, '0')}.webp`;
 
         console.log(`Loading image from path: ${pagePath}`); // Debug log
 
@@ -275,13 +275,13 @@ class MangaReader {
         // Preload next page
         if (this.currentPage < this.totalPages) {
             const nextPage = new Image();
-            nextPage.src = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${(this.currentPage + 1).toString().padStart(3, '0')}.jpg`;
+            nextPage.src = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${(this.currentPage + 1).toString().padStart(3, '0')}.webp`;
         }
 
         // Preload previous page
         if (this.currentPage > 1) {
             const prevPage = new Image();
-            prevPage.src = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${(this.currentPage - 1).toString().padStart(3, '0')}.jpg`;
+            prevPage.src = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${(this.currentPage - 1).toString().padStart(3, '0')}.webp`;
         }
     }
 
@@ -457,7 +457,7 @@ class MangaReader {
 
     updatePage() {
         console.log(`Updating page to: ${this.currentPage}`); // Debug log
-        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${this.currentPage.toString().padStart(3, '0')}.jpg`;
+        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${this.currentPage.toString().padStart(3, '0')}.webp`;
         $('.manga-page, .manga-page-fs').attr('src', pagePath);
         $('.page-counter').text(`Page ${this.currentPage}/${this.totalPages}`);
         $('.manga-title').text(`Volume ${this.currentVolume} - Chapter ${this.currentChapter}`);
@@ -465,10 +465,10 @@ class MangaReader {
     }
 
     downloadCurrentPage() {
-        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${this.currentPage.toString().padStart(3, '0')}.jpg`;
+        const pagePath = `assets/img/Manga/Volume-${this.currentVolume}/v${this.currentVolume}c${this.currentChapter.toString().padStart(3, '0')}/${this.currentPage.toString().padStart(3, '0')}.webp`;
         const link = document.createElement('a');
         link.href = pagePath;
-        link.download = `GochiUsa_Vol${this.currentVolume}_Ch${this.currentChapter}_Page${this.currentPage}.jpg`;
+        link.download = `GochiUsa_Vol${this.currentVolume}_Ch${this.currentChapter}_Page${this.currentPage}.webp`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

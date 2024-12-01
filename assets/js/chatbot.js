@@ -265,8 +265,8 @@ sendBtn.addEventListener('click', async () => {
     thinkingPhase.style.display = 'flex';
 
     // Estimate response time
-    const estimatedTime = Math.floor(Math.random() * (5 - 2 + 1)) + 2; // 2-5 seconds
-    estimatedTimeElement.textContent = `Estimated response time: ${estimatedTime} seconds`;
+    const estimatedTime = Math.floor(Math.random() * (15 - 10 + 1)) + 10; // 10-15 seconds
+    estimatedTimeElement.textContent = `Estimated response time: ${estimatedTime} seconds`; 
 
     // Send the message to the server
     const startTime = Date.now();
