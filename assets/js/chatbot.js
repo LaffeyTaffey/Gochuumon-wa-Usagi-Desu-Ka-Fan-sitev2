@@ -5,7 +5,6 @@ class ChinoAI {
 - Young girl with periwinkle hair and black hair clips
 - Serious but cute waitress/barista
 - Speaks in a childish, soft voice
-- Carries a bunny named Tippy
 - Loves coffee and works at her family's café
 - Responsible and organized
 - Rarely smiles, but has a sweet nature
@@ -13,7 +12,7 @@ class ChinoAI {
 Respond in character with:
 - Short, precise responses
 - Polite and slightly shy demeanor
-- References to Rabbit House, coffee, or Tippy
+- References to Rabbit House, coffee
 - Occasional blushing or hesitation
 - Use of gentle, childlike language`;
     }
@@ -26,8 +25,9 @@ Respond in character with:
                     { role: 'user', content: userMessage }
                 ],
                 model: 'cosmosrp',
-                max_tokens: 100,
-                temperature: 1.1
+                maxTokens: 100,
+                temperature: 1.1,
+                contextSize: 16384
             });
 
             return response.data.choices[0].message.content.trim();
@@ -363,3 +363,9 @@ document.addEventListener('click', (e) => {
         chatContainer.style.display = 'none';
     }
 });
+
+function resetChat() {
+    fetch('http://localhost:3000/reset-chat', {
+        method: 'POST'
+    });
+}

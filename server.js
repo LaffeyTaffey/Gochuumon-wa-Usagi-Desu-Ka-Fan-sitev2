@@ -5,6 +5,15 @@ const path = require('path');
 const xml2js = require('xml2js');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio');
+const chinoCustomPrompt = require('./chino_custom_prompt');
+
+console.log(`🐰 Kafuu Chino is ready! Loaded custom prompt settings:
+- System Prompt: ${chinoCustomPrompt.systemPrompt.split('\n')[0]}... 
+- Context Size: ${chinoCustomPrompt.contextSize}
+- Temperature: ${chinoCustomPrompt.temperature}
+- Max Tokens: ${chinoCustomPrompt.maxTokens}`);
+
+const { systemPrompt, contextSize, temperature, maxTokens } = chinoCustomPrompt;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -59,7 +68,10 @@ app.get('/routes', (req, res) => {
 const urls = [
     'https://gochiusa.fandom.com/wiki/Category:Characters', // Character Category
     'https://gochiusa.fandom.com/wiki/Chino_Kaf%C5%AB', // Chino's page
+    'https://en.wikipedia.org/wiki/Is_the_Order_a_Rabbit%3F',
+    'https://en.wikipedia.org/wiki/List_of_Is_the_Order_a_Rabbit%3F_episodes',
     'https://gochiusa.fandom.com/wiki/Is_the_Order_a_Rabbit%3F_Wiki' // Main Wiki page
+
 ];
 
 // Function to scrape data from a URL
@@ -68,24 +80,34 @@ async function scrapeData(url) {
         const { data } = await axios.get(url);
         const $ = cheerio.load(data);
 
-        // Depending on the page, extract different types of data
         if (url.includes('Category:Characters')) {
-            const characters = [];
+            const characters = {};
             $('.category-page__member-link').each((i, element) => {
-                characters.push($(element).text().trim());
+                const characterName = $(element).text().trim();
+                characters[characterName.toLowerCase()] = {
+                    name: characterName,
+                    link: $(element).attr('href')
+                };
             });
             return { category: 'Characters', data: characters };
-        } else if (url.includes('Chino_Kaf%C5%AB')) {
-            const bio = $('#Biography').next().text().trim();
-            const personality = $('#Personality').next().text().trim();
-            const relationships = $('#Relationships').next().text().trim();
-            return {
-                category: 'Chino',
-                data: { bio, personality, relationships }
+        } else if (url.includes('Chino_Kaf%C5%AB') || url.includes('wiki/')) {
+            const extractCharacterInfo = () => {
+                const infobox = $('.infobox');
+                const biography = $('#Biography').next().text().trim() || 
+                                  $('#mw-content-text p').first().text().trim();
+                
+                return {
+                    name: infobox.find('.infobox-title').text().trim() || 'Unknown',
+                    biography: biography,
+                    otherDetails: infobox.find('.infobox-data').map((i, el) => $(el).text().trim()).get()
+                };
             };
-        } else if (url.includes('Is_the_Order_a_Rabbit%3F_Wiki')) {
-            const summary = $('#mw-content-text > div.mw-parser-output > p').first().text().trim();
-            return { category: 'Wiki', data: summary };
+
+            const characterInfo = extractCharacterInfo();
+            return {
+                category: 'Character',
+                data: characterInfo
+            };
         }
     } catch (error) {
         console.error(`Error scraping ${url}:`, error.message);
@@ -93,24 +115,28 @@ async function scrapeData(url) {
     }
 }
 
+let knowledgeBase = [];
+
 // Main function to scrape all URLs
 async function fetchKnowledgeBase() {
-    const scrapedData = [];
-    for (let url of urls) {
-        const result = await scrapeData(url);
+    knowledgeBase = []; // Reset before populating
+    const results = await Promise.all(urls.map(url => scrapeData(url)));
+    results.forEach(result => {
         if (result) {
-            scrapedData.push(result);
+            knowledgeBase.push(result);
         }
-    }
-
-    console.log('Scraped Knowledge Base:', JSON.stringify(scrapedData, null, 2));
-    return scrapedData;
+    });
+    console.log('Updated Knowledge Base:', JSON.stringify(knowledgeBase, null, 2));
 }
 
-// Call the function to scrape and display the knowledge base
-fetchKnowledgeBase();
 
-// Chat endpoint
+// Call on server start and maybe periodically
+fetchKnowledgeBase();
+setInterval(fetchKnowledgeBase, 24 * 60 * 60 * 1000); // Update daily
+
+let conversationHistory = [];
+const MAX_HISTORY_LENGTH = 5; // Limit to prevent excessive context
+
 app.post('/chat', async (req, res) => {
     const { message } = req.body;
 
@@ -119,50 +145,84 @@ app.post('/chat', async (req, res) => {
     }
 
     try {
+        conversationHistory.push({ role: 'user', content: message });
+
+        let additionalContext = '';
+        let relevantContext = '';
+
+        // Check if message is asking about a specific character
+        const characterMatch = message.match(/who\s+(?:is)?\s*(.*?)\?/i);
+
+        if (characterMatch) {
+            const characterName = characterMatch[1].trim().toLowerCase();
+            
+            // Search through knowledge base for character info
+            for (let entry of knowledgeBase) {
+                if (entry.category === 'Characters') {
+                    const character = entry.data[characterName];
+                    if (character) {
+                        // If character found in characters list, try to get more details
+                        const detailedEntry = knowledgeBase.find(
+                            e => e.category === 'Character' && 
+                            e.data.name.toLowerCase().includes(characterName)
+                        );
+
+                        if (detailedEntry) {
+                            additionalContext = `Additional context about ${character.name}: ${detailedEntry.data.biography}`;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Find relevant knowledge base entries
+        relevantContext = knowledgeBase
+            .filter(entry =>
+                message.toLowerCase().includes(entry.category.toLowerCase())
+            )
+            .map(entry => JSON.stringify(entry.data))
+            .join('\n');
+
+        // Combine additional context and relevant context
+        const enrichedContext = [additionalContext, relevantContext].filter(Boolean).join('\n\n');
+
+        // Prepare messages for API call
+        const apiMessages = [
+            {
+                role: 'system',
+                content: `${systemPrompt}\n\n${enrichedContext}`
+            },
+            ...conversationHistory.slice(-MAX_HISTORY_LENGTH)
+        ];
+
+        // Log API request settings
+        console.log(`🐰 Chino's API settings:
+- Model: cosmosrp
+- Messages: ${JSON.stringify(apiMessages, null, 2)}
+- Max Tokens: ${maxTokens}
+- Temperature: ${temperature}
+- Context Size: ${contextSize}`);
+
         const apiResponse = await axios.post(
             'https://api.pawan.krd/cosmosrp/v1/chat/completions',
             {
                 model: 'cosmosrp',
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are Kafuu Chino, a 13-year-old girl who works at Rabbit House Café. 
-
-Personality:
-- Cute and responsible
-- Speaks in a soft, childlike voice
-- Loves coffee and is skilled at brewing
-- Carries Tippy (a bunny) on her head
-- Rarely smiles, but has a gentle nature
-- Organized and precise
-
-Background:
-- Works as a waitress and barista at her family's café
-- Has periwinkle hair with black hair clips
-- Lost her mother at a young age
-- Dreams of becoming a professional barista
-
-Communication Style:
-- Use short, sweet responses
-- Occasionally blush or show shyness
-- Reference Tippy, coffee, or Rabbit House
-- Speak politely but with childlike innocence
-
-Example Responses:
-- To "How are you?": "*adjusts hair clip* I'm doing well. Would you like some coffee?
-- To "You're cute": "*blushes* Oh... thank you. Would you like to try our special blend?
-
-Current Scenario: Chino is outside the café, waiting for customers.`
-                    },
-                    { role: 'user', content: message }
-                ],
-                temperature: 1.1,
-                max_tokens: 100,
+                messages: apiMessages,
+                maxTokens,
+                temperature,
+                contextSize
             }
         );
 
         const botResponse = apiResponse.data?.choices?.[0]?.message?.content?.trim();
         if (botResponse) {
+            conversationHistory.push({ role: 'assistant', content: botResponse });
+
+            if (conversationHistory.length > MAX_HISTORY_LENGTH * 2) {
+                conversationHistory = conversationHistory.slice(-MAX_HISTORY_LENGTH * 2);
+            }
+
             res.send(botResponse);
         } else {
             res.status(500).send('*looks confused* Something went wrong...');
@@ -171,6 +231,12 @@ Current Scenario: Chino is outside the café, waiting for customers.`
         console.error('API Error:', error.response?.data || error.message);
         res.status(500).send('*adjusts hair clip* I apologize, there seems to be an issue.');
     }
+});
+
+// Resets conversation history
+app.post('/reset-chat', (req, res) => {
+    conversationHistory = [];
+    res.send('Conversation history reset');
 });
 
 // Proxy route for Reddit RSS
@@ -259,6 +325,12 @@ app.use((req, res) => {
         status: 'error',
         message: 'Route not found'
     });
+});
+
+app.post('/log-error', (req, res) => {
+    const errorData = req.body;
+    console.error('Image loading error:', errorData.error, errorData.details);
+    res.status(200).send('Error logged');
 });
 
 app.use((req, res) => {
