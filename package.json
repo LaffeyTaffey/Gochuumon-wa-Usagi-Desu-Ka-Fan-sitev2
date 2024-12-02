@@ -15,9 +15,13 @@
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "cheerio": "^1.0.0",
+    "chokidar": "^4.0.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "fast-glob": "^3.3.2",
     "loclx": "^24.4.1",
+    "memfs": "^4.14.1",
+    "node-cache": "^5.1.2",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

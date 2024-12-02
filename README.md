@@ -109,6 +109,12 @@ cd Gochuumon-wa-Usagi-Desu-Ka-Fan-site
     - body-parser
     - cosmos api (for chinochat)
     - loclx (for tunneling the localhost)
+    - worker_threads
+    - fast-glob
+    - chokidar
+    - node-cache
+    - memfs
+    - fs
 
 - 📱 **Compatibility**
     - 💻 Desktop Browsers (Chrome, Firefox, Safari, Edge)

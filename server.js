@@ -6,6 +6,13 @@ const xml2js = require('xml2js');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio');
 const chinoCustomPrompt = require('./chino_custom_prompt');
+const chokidar = require('chokidar');
+const fg = require('fast-glob');
+const { promises: fsPromises } = require('fs');
+const { readFileSync } = require('fs');
+const NodeCache = require('node-cache');
+const { Volume } = require('memfs');
+const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
 
 console.log(`🐰 Kafuu Chino is ready! Loaded custom prompt settings:
 - System Prompt: ${chinoCustomPrompt.systemPrompt.split('\n')[0]}... 
@@ -63,6 +70,135 @@ app.get('/routes', (req, res) => {
         }));
     res.json(routes);
 });
+
+if (isMainThread) {
+    function processFilesInParallel(filePaths) {
+        const workers = filePaths.map(filePath => {
+            return new Worker(__filename, { 
+                workerData: { filePath } 
+            });
+        });
+
+        return Promise.allSettled(
+            workers.map(worker => 
+                new Promise((resolve, reject) => {
+                    worker.on('message', resolve);
+                    worker.on('error', (err) => {
+                        console.error(`Worker error for ${workerData.filePath}:`, err);
+                        reject(err);
+                    });
+                    worker.on('exit', (code) => {
+                        if (code !== 0) {
+                            console.warn(`Worker for ${workerData.filePath} exited with code ${code}`);
+                            reject(new Error(`Worker stopped with exit code ${code}`));
+                        }
+                    });
+                })
+            )
+        );
+    }
+}
+
+const fileCache = new NodeCache({
+    stdTTL: 60, // 1 minute cache
+    checkPeriod: 120 // check for expired keys every 2 minutes
+});
+
+async function fastFileRetrieval(filePath) {
+    const cachedFile = fileCache.get(filePath);
+    if (cachedFile) return cachedFile;
+
+    const fileContent = await readFile(filePath, 'utf8');
+    fileCache.set(filePath, fileContent);
+    return fileContent;
+}
+
+const vol = new Volume();
+
+function loadFilesInMemory() {
+    // Preload critical files into memory
+    const configFiles = {
+        '/config/chino_custom_prompt.js': readFileSync('./chino_custom_prompt.js'),
+        '/config/urls.json': readFileSync('./urls.json')
+    };
+
+    Object.entries(configFiles).forEach(([path, content]) => {
+        vol.writeFileSync(path, content);
+    });
+
+    return vol;
+}
+
+async function fastFileDiscovery() {
+    try {
+        const files = await fg([
+            './data/**/*.json', 
+            './config/*.js',
+            '!./node_modules'
+        ], { 
+            dot: true,
+            onlyFiles: true,
+            absolute: true
+        });
+
+        return files;
+    } catch (error) {
+        console.error('File Discovery Error:', error);
+        return [];
+    }
+}
+
+async function initializeFileManagement() {
+    try {
+        // Discover files
+        const discoveredFiles = await fastFileDiscovery();
+        console.log('Discovered Files:', discoveredFiles);
+
+        // Load files in memory (make sure readFileSync is imported)
+        const memoryVolume = loadFilesInMemory();
+
+        // Set up file watching
+        const watcher = setupFastFileLoading();
+
+        // Parallel file processing if needed
+        if (discoveredFiles.length > 0) {
+            await processFilesInParallel(discoveredFiles);
+        }
+    } catch (error) {
+        console.error('File Management Initialization Error:', error);
+    }
+}
+
+// Call function when server starts
+initializeFileManagement().catch(console.error);
+
+function setupFastFileLoading() {
+    const watcher = chokidar.watch(['./urls.json', './config.json', './data/**/*.json'], {
+        persistent: true,
+        ignoreInitial: false,
+        depth: 2,
+        awaitWriteFinish: {
+            stabilityThreshold: 200,
+            pollInterval: 100
+        }
+    });
+
+    watcher
+        .on('change', async (path) => {
+            console.log(`File ${path} has been changed`);
+            try {
+                await fetchKnowledgeBase();
+                console.log(`Successfully reloaded data after ${path} change`);
+            } catch (error) {
+                console.error(`Error reloading data after ${path} change:`, error);
+            }
+        })
+        .on('add', (path) => console.log(`File ${path} has been added`))
+        .on('unlink', (path) => console.log(`File ${path} has been removed`))
+        .on('error', error => console.error(`Watcher error: ${error}`));
+
+    return watcher;
+}
 
 // URLs for scraping
 const urls = [
@@ -232,6 +368,19 @@ app.post('/chat', async (req, res) => {
         res.status(500).send('*adjusts hair clip* I apologize, there seems to be an issue.');
     }
 });
+
+function performanceMiddleware(req, res, next) {
+    const start = Date.now();
+    
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(`${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`);
+    });
+    
+    next();
+}
+
+app.use(performanceMiddleware);
 
 // Resets conversation history
 app.post('/reset-chat', (req, res) => {
