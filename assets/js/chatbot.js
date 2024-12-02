@@ -266,7 +266,25 @@ sendBtn.addEventListener('click', async () => {
 
     // Estimate response time
     const estimatedTime = Math.floor(Math.random() * (15 - 10 + 1)) + 10; // 10-15 seconds
-    estimatedTimeElement.textContent = `Estimated response time: ${estimatedTime} seconds`; 
+    estimatedTimeElement.textContent = `Estimated response time: ${estimatedTime} seconds`;
+
+    // Array of audio file paths
+    const audioFiles = [
+        'assets/audio/Notifications/notification.mp3', // rare one
+        ...Array.from({ length: 17 }, (_, i) => `assets/audio/Notifications/notif${i + 1}.wav`) // notif1.wav to notif17.wav
+    ];
+
+    // Function to select a random audio file with a higher chance for notification.mp3
+    function getRandomAudioFile() {
+        const randomNum = Math.random();
+        // 20% chance to select notification.mp3, 80% chance to select one of the other sounds
+        if (randomNum < 0.2) {
+            return audioFiles[0]; // notification.mp3
+        } else {
+            const randomIndex = Math.floor(Math.random() * (audioFiles.length - 1)) + 1; // avoid the first element
+            return audioFiles[randomIndex];
+        }
+    }
 
     // Send the message to the server
     const startTime = Date.now();
@@ -294,8 +312,9 @@ sendBtn.addEventListener('click', async () => {
             notificationEmoji.classList.add('notification-emoji');
             notificationEmoji.textContent = '1';
 
-            // Add ping sound
-            const pingSound = new Audio('assets/audio/buttonEffects/notification.mp3');
+            // Select a random sound
+            const soundFile = getRandomAudioFile();
+            const pingSound = new Audio(soundFile);
             pingSound.play();
 
             // Add to chat bubble

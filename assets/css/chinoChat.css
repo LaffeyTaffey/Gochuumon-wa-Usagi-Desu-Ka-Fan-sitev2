@@ -764,7 +764,8 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-image: url('../img/chinochat/thinking_phase_bg.webp');
+    background-size: cover;
 }
 
 .thinking-image {
@@ -780,7 +781,7 @@
 
 .estimated-time {
     font-size: 12px;
-    color: #666;
+    color: #110e0e;
 }
 
 #api-status {
