@@ -72,6 +72,35 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Dropdown functionality for desktop
+    const dropdownContainers = document.querySelectorAll('.dropdown-container');
+
+    dropdownContainers.forEach(container => {
+        const dropdownToggle = container.querySelector('.dropdown-toggle');
+        const dropdownMenu = container.querySelector('.dropdown-menu');
+
+        // Hover event for desktop
+        container.addEventListener('mouseenter', () => {
+            dropdownMenu.style.opacity = '1';
+            dropdownMenu.style.visibility = 'visible';
+            dropdownMenu.style.transform = 'translateY(0)';
+        });
+
+        container.addEventListener('mouseleave', () => {
+            dropdownMenu.style.opacity = '0';
+            dropdownMenu.style.visibility = 'hidden';
+            dropdownMenu.style.transform = 'translateY(-10px)';
+        });
+
+        // Click event for mobile/touch devices
+        dropdownToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdownMenu.classList.toggle('show');
+        });
+    });
+});
+
 // Notification system
 function showNotification(message) {
     const notification = document.querySelector('.notification');
@@ -120,6 +149,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Dropdown functionality for desktop
+    const dropdownContainers = document.querySelectorAll('.dropdown-container');
+    
+    dropdownContainers.forEach(container => {
+        const dropdownToggle = container.querySelector('.dropdown-toggle');
+        const dropdownMenu = container.querySelector('.dropdown-menu');
+        
+        // Hover events for desktop
+        container.addEventListener('mouseenter', () => {
+            dropdownMenu.classList.add('show');
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            dropdownMenu.classList.remove('show');
+        });
+    });
 });
 
 window.addEventListener('resize', () => {
