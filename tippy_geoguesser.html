@@ -1,1 +1,1203 @@
-<!-- To be implemented-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gochiusa GeoGuessr Adventure</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Local -->
+    <link rel="stylesheet" href="assets/css/news.css">
+    <link rel="stylesheet" href="assets/css/usagi.css">
+    <link rel="stylesheet" href="assets/css/music.css">
+    <link rel="stylesheet" href="assets/css/chinoChat.css">
+    <link rel="stylesheet" href="assets/css/parallax.css">
+    <link rel="stylesheet" href="assets/css/parallaxscroll.css">
+    <link rel="icon" href="assets/img/favico.ico" type="image/x-icon">
+
+    <style>
+        :root {
+            /* Gochiusa Color Palette */
+            --cafe-brown: #6B4423;
+            --text-color: #333;
+            --button-color: #87CEEB;
+            --button-hover: #4682B4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #game-area {
+            display: flex;
+            height: 70vh;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        #street-view,
+        #guess-area {
+            flex: 1;
+            padding: 10px;
+        }
+
+        #map-frame {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-pink);
+            border-radius: 10px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--secondary-pink);
+            border-radius: 10px;
+        }
+
+        .control-panel {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            background-color: var(--secondary-pink);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-panel .left-section,
+        .control-panel .right-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px 15px;
+            margin-right: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-display .score-label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: var(--cafe-brown);
+            font-size: 0.9em;
+        }
+
+        .score-display #score {
+            color: var(--cafe-brown);
+            font-size: 1.1em;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .game-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .round-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .round-container .round-label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: var(--cafe-brown);
+            font-size: 0.9em;
+        }
+
+        .round-container #round {
+            color: var(--cafe-brown);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .round-container .round-separator {
+            color: var(--cafe-brown);
+            margin: 0 5px;
+            font-weight: bold;
+        }
+
+        #make-guess,
+        #settings-btn,
+        #next-round {
+            background-color: var(--button-color);
+            border: 2px solid var(--button-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        #make-guess::before,
+        #settings-btn::before,
+        #next-round::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transition: all 0.5s ease;
+        }
+
+
+        #make-guess:hover,
+        #settings-btn:hover,
+        #next-round:hover {
+            background-color: var(--button-hover);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #make-guess:hover::before,
+        #settings-btn:hover::before,
+        #next-round:hover::before {
+            left: 100%;
+        }
+
+        #make-guess:active,
+        #settings-btn:active,
+        #next-round:active {
+            transform: scale(0.95);
+        }
+
+        button {
+            background-color: var(--button-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        #score-panel {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        #settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .settings-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+        }
+
+        .theme-characters {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .character-select {
+            text-align: center;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .character-select.selected {
+            opacity: 1;
+            border-bottom: 3px solid var(--primary-pink);
+        }
+
+        .character-select img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="header-nav">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div class="mobile-nav-toggle">
+                    <div class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="mobile-nav-overlay">
+                    <div class="mobile-nav-content">
+                        <div class="mobile-nav-links">
+                            <a href="#parallax">Home</a>
+                            <a href="#history">History</a>
+                            <a href="#staff">Staff</a>
+                            <a href="#characters">Characters</a>
+                            <a href="#music">Music</a>
+                            <a href="#gallery">Gallery</a>
+                            <a href="#entries">Entries</a>
+                            <a href="#watch">Watch Anime/Frames</a>
+                            <a href="#read-manga">Manga Reader</a>
+                            <a href="#irl-gochiuma-locations">Others ;3</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center content -->
+                <div class="flex-grow-1 text-center">
+                    <h1 class="site-title">Gochuumon wa Usagi Desu ka?</h1>
+                </div>
+
+                <!-- Right side controlsz -->
+                <div class="nav-controls">
+                    <button class="back-button">
+                        <i class="fas fa-arrow-left"></i>
+                        <span class="tooltip-custom">Go Back</span>
+                    </button>
+                    <div class="mini-player">
+                        <div class="mini-player-content">
+                            <span class="mini-track-title">No track playing</span>
+                        </div>
+                    </div>
+                    <button class="music-button">
+                        <i class="fas fa-music"></i>
+                        <span class="tooltip-custom">Toggle Music</span>
+                    </button>
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                        <span class="tooltip-custom">Toggle Theme</span>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#parallax">Home</a>
+                <a href="#history">History</a>
+                <a href="#staff">Staff</a>
+                <a href="#characters">Characters</a>
+                <a href="#music">Music</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#entries">Entries</a>
+                <a href="#watch">Watch Anime/Frames</a>
+                <a href="#read-manga">Manga Reader</a>
+                <a href="#irl-gochiuma-locations">Others ;3</a>
+            </div>
+            <!-- Left side logo -->
+            <div class="nav-logo">
+                <div class="sign-board">
+                    <div class="sign-front">
+                        <img data-src="assets/img/favico.webp" alt="Gochuumon wa Usagi Logo">
+                    </div>
+                    <div class="sign-side left"></div>
+                    <div class="sign-side right"></div>
+                    <div class="corner-piece corner-tl"></div>
+                    <div class="corner-piece corner-tr"></div>
+                    <div class="corner-piece corner-bl"></div>
+                    <div class="corner-piece corner-br"></div>
+                    <div class="wood-grain"></div>
+                </div>
+                <div class="chain-system">
+                    <div class="chain-strand left">
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                    </div>
+                    <div class="chain-strand right">
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                    </div>
+                </div>
+                <div class="mounting-bracket bracket-left">
+                    <div class="bracket-screw screw-tl"></div>
+                    <div class="bracket-screw screw-tr"></div>
+                    <div class="bracket-screw screw-bl"></div>
+                    <div class="bracket-screw screw-br"></div>
+                </div>
+                <div class="mounting-bracket bracket-right">
+                    <div class="bracket-screw screw-tl"></div>
+                    <div class="bracket-screw screw-tr"></div>
+                    <div class="bracket-screw screw-bl"></div>
+                    <div class="bracket-screw screw-br"></div>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+    <div class="notification"></div>
+
+    <div class="parallax-container-framer">
+        <div class="layer background-layer"></div>
+        <div class="layer first-layer"></div>
+        <div class="layer second-layer"></div>
+        <div class="layer third-layer"></div>
+    </div>
+
+    <main>
+        <div class="parallax-container" id="parallax">
+            <video class="background-video-parallax" autoplay muted loop playsinline>
+                <source src="assets/video/background/parallax-container.webm" type="video/webm">
+            </video>
+            <div class="parallax-layer layer-1" data-speed="0">
+                <img data-src="assets/img/parallax/usagi_layer1.webp" alt="Parallax Layer 1">
+            </div>
+            <div class="parallax-layer layer-2" data-speed="0.7">
+                <img data-src="assets/img/parallax/usagi_layer2.webp" alt="Parallax Layer 2">
+            </div>
+            <div class="parallax-layer layer-3" data-speed="-0.3">
+                <img data-src="assets/img/parallax/usagi_layer3.webp" alt="Parallax Layer 3">
+            </div>
+            <div class="parallax-layer layer-4" data-speed="-0.5">
+                <img data-src="assets/img/parallax/usagi_layer4.webp" alt="Parallax Layer 4">
+            </div>
+            <div class="static-side-element usagi-sign">
+                <img data-src="assets/img/parallax/usagi-logo.webp" alt="Usagi Sign">
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div id="game-area">
+                <div id="street-view">
+                    <iframe id="map-frame" loading="lazy" allowfullscreen></iframe>
+                </div>
+                <div id="guess-area">
+                    <div id="map"></div>
+                    <div class="control-panel">
+                        <div class="left-section">
+                            <div class="score-display">
+                                <span class="score-label">Score:</span>
+                                <span id="score">0</span>
+                            </div>
+                            <div class="round-container">
+                                <span class="round-label">Round:</span>
+                                <span id="round">1</span>
+                                <span class="round-separator">/</span>
+                                <span class="round-total">5</span>
+                            </div>
+                        </div>
+                        <div class="right-section">
+                            <div class="game-controls">
+                                <button id="make-guess">Make Guess</button>
+                                <button id="settings-btn">Settings</button>
+                                <button id="next-round">Next Round</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings-modal">
+                <div class="settings-content">
+                    <h2>Game Settings</h2>
+                    <div class="theme-characters">
+                        <div class="character-select" data-character="cocoa">
+                            <img data-src="assets/img/chibi/chibi_cocoa.webp" alt="Cocoa">
+                            <p>Cocoa</p>
+                        </div>
+                        <div class="character-select" data-character="chino">
+                            <img data-src="assets/img/chibi/chibi_chino.webp" alt="Chino">
+                            <p>Chino</p>
+                        </div>
+                        <div class="character-select" data-character="rize">
+                            <img data-src="assets/img/chibi/chibi_rize.webp" alt="Rize">
+                            <p>Rize</p>
+                        </div>
+                    </div>
+                    <div id="ability-description">
+                        <h3>Character Ability</h3>
+                        <p id="current-ability-text">Select a character to see their ability</p>
+                    </div>
+                    <div>
+                        <label>Difficulty:
+                            <select id="difficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </label>
+                    </div>
+                    <br>
+                    <button id="save-settings">Save Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+    </main>
+
+    <!-- Addtional Features -->
+
+    <button id="fab" class="fab" aria-label="Scroll to top" data-aos="fade-up">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="custom-cursor"></div>
+
+
+    <div class="loading-overlay">
+        <div class="loading-spinner">
+            <svg viewBox="0 0 140 64" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M30.262 57.02L7.195 40.723c-5.84-3.976-7.56-12.06-3.842-18.063 3.715-6 11.467-7.65 17.306-3.68l4.52 3.76 2.6-5.274c3.717-6.002 11.47-7.65 17.305-3.68 5.84 3.97 7.56 12.054 3.842 18.062L34.49 56.118c-.897 1.512-2.793 1.915-4.228.9z"
+                    class="heart heart-left">
+                    <animate attributeName="fill-opacity" begin="0s" dur="1.4s" values="0.5;1;0.5" calcMode="linear"
+                        repeatCount="indefinite" />
+                </path>
+                <path
+                    d="M105.512 56.12l-14.44-24.272c-3.716-6.008-1.996-14.093 3.843-18.062 5.835-3.97 13.588-2.322 17.306 3.68l2.6 5.274 4.52-3.76c5.84-3.97 13.592-2.32 17.307 3.68 3.718 6.003 1.998 14.088-3.842 18.064L109.74 57.02c-1.434 1.014-3.33.61-4.228-.9z"
+                    class="heart heart-right">
+                    <animate attributeName="fill-opacity" begin="0.7s" dur="1.4s" values="0.5;1;0.5" calcMode="linear"
+                        repeatCount="indefinite" />
+                </path>
+                <path
+                    d="M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z"
+                    class="heart heart-center" />
+            </svg>
+        </div>
+        <div class="loading-text">Loading Chino's Cawfee...</div>
+    </div>
+
+    <div class="chat-environment">
+        <div class="coffee-steam">
+            <svg width="20" height="30" viewBox="0 0 20 30">
+                <path d="M10 0C5 15 15 15 10 30" stroke="rgba(74, 37, 6, 0.3)" stroke-width="2" fill="none">
+                    <animate attributeName="d"
+                        values="M10 0C5 15 15 15 10 30;M10 0C15 15 5 15 10 30;M10 0C5 15 15 15 10 30" dur="3s"
+                        repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        <svg class="coffee-beans" width="64px" height="64px" viewBox="0 0 72 72" id="emoji"
+            xmlns="http://www.w3.org/2000/svg" fill="#000000">
+            <g id="SVGRepo_bgCarrier" stroke-width="0" />
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+            <g id="SVGRepo_iconCarrier">
+                <g id="color">
+                    <ellipse cx="36" cy="36" rx="19" ry="28" fill="#A57939" />
+                    <g>
+                        <path fill="#6A462F" fill-rule="evenodd"
+                            d="M36 64C35.9846 64 35.981 63.9785 35.9956 63.9736C44.4605 61.1397 50.792 49.7143 50.792 36.0508C50.792 22.3796 44.4534 10.9491 35.9814 8.1232C35.9134 8.10052 35.9283 8 36 8C46.4934 8 55 20.536 55 36C55 51.464 46.4934 64 36 64Z"
+                            clip-rule="evenodd" />
+                        <path fill="#6A462F"
+                            d="M35.9956 63.9736L36.3131 64.9218L35.9956 63.9736ZM49.792 36.0508C49.792 42.734 48.2426 48.841 45.6871 53.6002C43.1261 58.3698 39.5986 61.7128 35.6781 63.0253L36.3131 64.9218C40.8575 63.4004 44.7282 59.6138 47.4492 54.5463C50.1758 49.4684 51.792 43.031 51.792 36.0508H49.792ZM35.665 9.07182C39.5885 10.3805 43.1193 13.7226 45.6829 18.4933C48.2408 23.2536 49.792 29.3638 49.792 36.0508H51.792C51.792 29.0666 50.174 22.6259 47.4446 17.5467C44.7209 12.4778 40.8463 8.69175 36.2978 7.17458L35.665 9.07182ZM36 9C40.8166 9 45.2921 11.8765 48.6076 16.7625C51.9193 21.643 54 28.4415 54 36H56C56 28.0945 53.8274 20.893 50.2625 15.6395C46.7013 10.3915 41.6769 7 36 7V9ZM54 36C54 43.5585 51.9193 50.357 48.6076 55.2375C45.2921 60.1235 40.8166 63 36 63V65C41.6769 65 46.7013 61.6085 50.2625 56.3605C53.8274 51.107 56 43.9055 56 36H54ZM36.2978 7.17458C36.7904 7.3389 36.9844 7.82089 36.9272 8.20152C36.8694 8.58686 36.5324 9 36 9V7C35.3959 7 35.0156 7.4634 34.9494 7.90467C34.8839 8.34123 35.1043 8.88483 35.665 9.07182L36.2978 7.17458ZM35.6781 63.0253C34.553 63.402 34.8885 65 36 65V63C37.0808 63 37.409 64.5549 36.3131 64.9218L35.6781 63.0253Z" />
+                    </g>
+                    <g>
+                        <path fill="#6A462F" fill-rule="evenodd"
+                            d="M36 60.9996C36 60.9996 30 49.8067 30 35.9996C30 22.2397 35.9591 11.0761 35.9998 11C35.9711 11.0538 33 16.6294 33 23.4996C33 30.4032 36 35.9996 36 35.9996C36 35.9996 39 41.596 39 48.4996C39 55.4032 36 60.9996 36 60.9996Z"
+                            clip-rule="evenodd" />
+                        <path fill="#6A462F"
+                            d="M36 60.9996L35.1186 61.4721C35.2928 61.7969 35.6314 61.9996 36 61.9996C36.3686 61.9996 36.7072 61.7969 36.8814 61.4721L36 60.9996ZM35.9998 11L36.8817 11.4713C37.142 10.9843 36.9583 10.3785 36.4713 10.1181C35.9843 9.85776 35.3785 10.0414 35.118 10.5283L35.9998 11ZM36 35.9996L36.8814 35.5271L36 35.9996ZM29 35.9996C29 43.0422 30.529 49.4021 32.0508 53.992C32.8126 56.2896 33.575 58.1509 34.1488 59.4413C34.4357 60.0866 34.6757 60.5897 34.8451 60.9336C34.9299 61.1056 34.997 61.2379 35.0435 61.3283C35.0668 61.3735 35.085 61.4083 35.0976 61.4323C35.1039 61.4443 35.1089 61.4537 35.1124 61.4603C35.1142 61.4636 35.1156 61.4663 35.1166 61.4682C35.1171 61.4692 35.1176 61.47 35.1179 61.4707C35.1181 61.471 35.1183 61.4713 35.1183 61.4715C35.1185 61.4718 35.1186 61.4721 36 60.9996C36.8814 60.5271 36.8815 60.5273 36.8815 60.5275C36.8815 60.5275 36.8816 60.5275 36.8816 60.5275C36.8815 60.5275 36.8814 60.5273 36.8812 60.5269C36.8808 60.5261 36.88 60.5247 36.8789 60.5226C36.8767 60.5183 36.873 60.5114 36.868 60.5018C36.8579 60.4827 36.8424 60.4529 36.8217 60.4128C36.7804 60.3325 36.7186 60.2108 36.6392 60.0498C36.4806 59.7277 36.2518 59.2484 35.9762 58.6287C35.425 57.3889 34.6874 55.589 33.9492 53.3626C32.471 48.9042 31 42.7641 31 35.9996L29 35.9996ZM35.118 10.5283C35.0545 10.6471 29 21.9887 29 35.9996L31 35.9996C31 22.4906 36.8636 11.5052 36.8816 11.4717L35.118 10.5283ZM34 23.4996C34 20.2029 34.714 17.201 35.4387 15.0073C36.1623 12.8167 36.8861 11.4631 36.8817 11.4713L35.1178 10.5286C35.0663 10.6251 32 16.3787 32 23.4996L34 23.4996ZM36 35.9996C36.8814 35.5271 36.8815 35.5273 36.8816 35.5275C36.8816 35.5276 36.8817 35.5277 36.8817 35.5278C36.8818 35.5279 36.8818 35.5279 36.8818 35.5279C36.8817 35.5278 36.8815 35.5274 36.8811 35.5266C36.8803 35.5251 36.8788 35.5223 36.8766 35.5181C36.8722 35.5097 36.8651 35.4961 36.8554 35.4773C36.836 35.4397 36.8065 35.3815 36.7681 35.3037C36.6915 35.1481 36.5799 34.9145 36.445 34.611C36.175 34.0037 35.8124 33.1192 35.4492 32.0237C34.721 29.8274 34 26.8124 34 23.4996L32 23.4996C32 27.0904 32.779 30.3253 33.5508 32.6531C33.9376 33.8198 34.325 34.7658 34.6175 35.4236C34.7638 35.7527 34.8866 36.0101 34.974 36.1876C35.0178 36.2763 35.0527 36.3451 35.0772 36.3928C35.0895 36.4167 35.0993 36.4353 35.1062 36.4486C35.1097 36.4552 35.1125 36.4605 35.1146 36.4644C35.1156 36.4664 35.1165 36.468 35.1172 36.4693C35.1175 36.4699 35.1178 36.4704 35.118 36.4709C35.1182 36.4711 35.1183 36.4714 35.1184 36.4716C35.1185 36.4718 35.1186 36.4721 36 35.9996ZM36 35.9996C35.1186 36.4721 35.1185 36.4719 35.1184 36.4717C35.1184 36.4716 35.1183 36.4715 35.1183 36.4714C35.1182 36.4713 35.1182 36.4713 35.1182 36.4713C35.1183 36.4714 35.1185 36.4718 35.1189 36.4726C35.1197 36.4741 35.1212 36.4769 35.1234 36.4811C35.1278 36.4895 35.1349 36.5031 35.1446 36.5219C35.164 36.5595 35.1935 36.6177 35.2319 36.6955C35.3085 36.8511 35.4201 37.0847 35.555 37.3882C35.825 37.9955 36.1876 38.88 36.5508 39.9755C37.279 42.1718 38 45.1868 38 48.4996L40 48.4996C40 44.9088 39.221 41.6739 38.4492 39.3461C38.0624 38.1795 37.675 37.2334 37.3825 36.5756C37.2362 36.2465 37.1134 35.9891 37.026 35.8116C36.9822 35.7229 36.9474 35.6541 36.9228 35.6064C36.9105 35.5825 36.9008 35.5639 36.8938 35.5506C36.8903 35.544 36.8875 35.5387 36.8854 35.5348C36.8844 35.5328 36.8835 35.5312 36.8829 35.5299C36.8825 35.5293 36.8822 35.5288 36.882 35.5283C36.8818 35.5281 36.8817 35.5278 36.8816 35.5277C36.8815 35.5274 36.8814 35.5271 36 35.9996ZM38 48.4996C38 51.8124 37.279 54.8274 36.5508 57.0237C36.1876 58.1192 35.825 59.0037 35.555 59.611C35.4201 59.9145 35.3085 60.1481 35.2319 60.3037C35.1935 60.3815 35.164 60.4397 35.1446 60.4773C35.1349 60.4961 35.1278 60.5097 35.1234 60.5181C35.1212 60.5223 35.1197 60.5251 35.1189 60.5266C35.1185 60.5274 35.1183 60.5278 35.1182 60.5279C35.1182 60.5279 35.1182 60.5279 35.1183 60.5278C35.1183 60.5277 35.1184 60.5276 35.1184 60.5275C35.1185 60.5273 35.1186 60.5271 36 60.9996C36.8814 61.4721 36.8815 61.4718 36.8816 61.4716C36.8817 61.4714 36.8818 61.4711 36.882 61.4709C36.8822 61.4704 36.8825 61.4699 36.8829 61.4693C36.8835 61.468 36.8844 61.4664 36.8854 61.4644C36.8875 61.4605 36.8903 61.4552 36.8938 61.4486C36.9007 61.4353 36.9105 61.4167 36.9228 61.3928C36.9473 61.3451 36.9822 61.2763 37.026 61.1876C37.1134 61.0101 37.2362 60.7527 37.3825 60.4236C37.675 59.7658 38.0624 58.8198 38.4492 57.6531C39.221 55.3253 40 52.0904 40 48.4996L38 48.4996Z" />
+                    </g>
+                </g>
+                <g id="line">
+                    <ellipse cx="36" cy="36" rx="19" ry="28" fill="none" stroke="#000000" stroke-width="2" />
+                    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M36 36C36 36 33 30.4036 33 23.5C33 16.5964 36 11 36 11" />
+                    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M36 36C36 36 39 41.5964 39 48.5C39 55.4036 36 61 36 61" />
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <img data-src="assets/img/Tippy.webp" class="tippy-companion" alt="Tippy" title="Click to see Chino's menu!">
+
+    <div class="chat-bot-circle">
+        <img data-src="assets/img/chinoChat.ico#64" alt="Chat Bot">
+    </div>
+
+    <div class="chat-bubble"></div>
+
+    <div id="chat-container" style="display: none;">
+        <div id="chat-background"></div>
+        <div id="chat-header">
+            <img data-src="assets/img/chinochat/profile_chino.webp" alt="Chino" class="profile-pic">
+            <div class="chat-title">
+                Kafuu Chino 🐰☕
+                <div id="api-status"></div>
+            </div>
+        </div>
+        <div id="messages"></div>
+        <div id="thinking-phase" style="display: none;">
+            <img data-src="assets/img/chinochat/thinking_phase.webp" alt="Thinking" class="thinking-image">
+            <div class="thinking-details">
+                <div class="rabbit-emoji">🐰</div>
+                <div class="estimated-time"></div>
+            </div>
+        </div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Please chat with chino!...">
+            <button id="send-btn">Send</button>
+            <button id="regenerate-btn" style="display: none;">🔄 Regenerate</button>
+            <button id="edit-btn" style="display: none;">✏️ Edit</button>
+        </div>
+    </div>
+
+    <div class="coffee-menu">
+        <h4>🏠 Rabbit House Menu 🐰</h4>
+        <div class="rabbit-coin-balance">
+            <span id="rabbit-coin-amount">500</span> 🐰 Rabbit Coins
+        </div>
+
+        <div class="menu-category">☕ Coffee Specialties</div>
+        <ul>
+            <li data-price="45">
+                Kilimanjaro Coffee <span class="price">45 🐰</span>
+                <span class="description">Our signature blend with rich, complex flavors</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="40">
+                Cappuccino <span class="price">40 🐰</span>
+                <span class="description">Perfectly balanced with silky milk foam</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="38">
+                Café au Lait <span class="price">38 🐰</span>
+                <span class="description">Smooth and creamy, perfect for morning</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="42">
+                Mocha <span class="price">42 🐰</span>
+                <span class="description">A delightful blend of espresso and chocolate</span>
+                <button class="buy-button">Buy</button>
+            </li>
+        </ul>
+
+        <div class="menu-category">🍰 Sweet Treats</div>
+        <ul>
+            <li data-price="58">
+                Rabbit House Special Cake <span class="price">58 🐰</span>
+                <span class="description">Daily fresh-baked cake with seasonal fruits</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="65">
+                Tippy's Favorite Parfait <span class="price">65 🐰</span>
+                <span class="description">Layers of ice cream, fruits, and cookies</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="50">
+                Chino's Chocolate Brownie <span class="price">50 🐰</span>
+                <span class="description">Rich, fudgy brownie with a scoop of vanilla ice cream</span>
+                <button class="buy-button">Buy</button>
+            </li>
+        </ul>
+
+        <div class="menu-category">🍵 Non-Coffee Drinks</div>
+        <ul>
+            <li data-price="42">
+                Green Tea Latte <span class="price">42 🐰</span>
+                <span class="description">Made with premium matcha powder</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="38">
+                Hot Chocolate <span class="price">38 🐰</span>
+                <span class="description">Rich and creamy, topped with whipped cream</span>
+                <button class="buy-button">Buy</button>
+            </li>
+            <li data-price="35">
+                Fruit Smoothie <span class="price">35 🐰</span>
+                <span class="description">Blend of fresh seasonal fruits</span>
+                <button class="buy-button">Buy</button>
+            </li>
+        </ul>
+    </div>
+    <!-- HTML -->
+    <a href="https://character.ai/chat/xnSbLWXop06fpWEKz-VKImTjIgQw3-PiRGmqfoziFFA" target="_blank"
+        class="blushing-emoji">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="18" fill="#FFB7C5" />
+            <path
+                d="M18 24C15.5 24 13.5 22.5 13.5 20.5C13.5 20.2239 13.7239 20 14 20H22C22.2761 20 22.5 20.2239 22.5 20.5C22.5 22.5 20.5 24 18 24Z"
+                fill="#FF69B4" />
+            <circle cx="12" cy="15" r="2" fill="#FF69B4">
+                <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="24" cy="15" r="2" fill="#FF69B4">
+                <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <path d="M13 17C13 17 14 19 18 19C22 19 23 17 23 17" stroke="#FF69B4" stroke-width="2"
+                stroke-linecap="round">
+                <animate attributeName="d"
+                    values="M13 17C13 17 14 19 18 19C22 19 23 17 23 17;M13 18C13 18 14 20 18 20C22 20 23 18 23 18;M13 17C13 17 14 19 18 19C22 19 23 17 23 17"
+                    dur="3s" repeatCount="indefinite" />
+            </path>
+        </svg>
+    </a>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>A fan-made website dedicated to the anime "Is the Order a Rabbit?" made by Levi</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#characters">Characters</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#quiz">Quiz</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-share">
+                    <button class="share-btn" data-platform="twitter"><i class="fa-brands fa-twitter"></i></button>
+                    <button class="share-btn" data-platform="facebook"><i class="fa-brands fa-facebook"></i></button>
+                    <button class="share-btn" data-platform="linkedin"><i class="fa-brands fa-linkedin"></i></button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Made by</h3>
+                <a href="https://github.com/LaffeyTaffey" target="_blank">
+                    <i class="fa-brands fa-github" style="font-size: 24px; color: var(--footer-text);"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Is the Order a Rabbit? Fan Site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Continuation-->
+
+    <div class="music-player-panel">
+        <div class="music-player-content">
+            <div class="visualizer-container">
+                <canvas id="audioVisualizer"></canvas>
+            </div>
+            <div class="now-playing">
+                <img data-src="assets/img/weezer.webp" alt="Album Art" class="album-cover">
+                <div class="track-info">
+                    <h3 class="track-title">No Track Selected</h3>
+                    <p class="track-artist">Unknown Artist</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="time-info">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">0:00</span>
+                </div>
+                <div class="control-buttons">
+                    <button class="control-btn shuffle"><i class="fas fa-random"></i></button>
+                    <button class="control-btn prev"><i class="fas fa-step-backward"></i></button>
+                    <button class="control-btn play"><i class="fas fa-play"></i></button>
+                    <button class="control-btn next"><i class="fas fa-step-forward"></i></button>
+                    <button class="control-btn repeat"><i class="fas fa-redo"></i></button>
+                </div>
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
+        </div>
+        <div class="playlist-container">
+            <h3>Playlist</h3>
+            <ul class="track-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Character-specific game modifiers
+        const CHARACTER_ABILITIES = {
+            cocoa: {
+                name: "Cocoa",
+                ability: "Extra Hint",
+                description: "Provides a helpful location hint at the start of each round",
+                modify: function (gameInstance) {
+                    try {
+                        const hints = {
+                            "France": "Hint: Looks like a charming European cafe street!",
+                            "Hungary": "Hint: Urban setting with interesting architecture",
+                            "default": "Scenic location with unique characteristics"
+                        };
+
+                        if (gameInstance.currentLocation && gameInstance.currentLocation.region) {
+                            gameInstance.locationHint = hints[gameInstance.currentLocation.region] || hints.default;
+                            gameInstance.showCharacterHint();
+                        }
+                    } catch (error) {
+                        console.error("Error in Cocoa's ability:", error);
+                    }
+                }
+            },
+            chino: {
+                name: "Chino",
+                ability: "Precision Bonus",
+                description: "Increases points earned for more accurate guesses",
+                modify: function (gameInstance) {
+                    gameInstance.scoringMultiplier = 1.2;
+                }
+            },
+            rize: {
+                name: "Rize",
+                ability: "Distance Reduction",
+                description: "Reduces the penalty for distance in scoring",
+                modify: function (gameInstance) {
+                    gameInstance.distanceReductionFactor = 0.8;
+                }
+            }
+        };
+
+        // Expanded location database
+        const locations = [
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731698971550!6m8!1m7!1sUDeb8ZgQeR1hacX8QxoDHg!2m2!1d48.07602120420642!2d7.358850250442073!3f295.1430699413258!4f13.314338862111114!5f0.7820865974627469",
+                lat: 48.076021,
+                lng: 7.358850,
+                region: "France",
+                difficulty: "easy"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731700428861!6m8!1m7!1sfbOzXLxcIR8gcsP-14IM1w!2m2!1d48.07619477343237!2d7.35846757621527!3f163.41206206766722!4f-1.3994257764788927!5f0.7820865974627469",
+                lat: 48.076194,
+                lng: 7.358467,
+                region: "France",
+                difficulty: "easy"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731735285132!6m8!1m7!1sFC9NT87hsVag1HRiaZK6LQ!2m2!1d48.07799489900381!2d7.355680515658755!3f103.56209437237635!4f4.312777402236364!5f0.8079472716015412",
+                lat: 48.077994,
+                lng: 7.355680,
+                region: "France",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731738499384!6m8!1m7!1sdZ054jnV5bRF6h1olocciA!2m2!1d48.0771804755481!2d7.361328836659704!3f193.0156631219519!4f2.83568044013397!5f0.7820865974627469",
+                lat: 48.077180,
+                lng: 7.361328,
+                region: "France",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731740164402!6m8!1m7!1sXEcR8kJ9i3b3MTQij1rncA!2m2!1d48.07622120464004!2d7.354327879241388!3f157.61820031035427!4f7.192318423564345!5f0.7820865974627469",
+                lat: 48.076221,
+                lng: 7.354327,
+                region: "France",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731741560440!6m8!1m7!1sSI-7DgM9sr4mXErNuPNwAw!2m2!1d48.1670511718898!2d7.297102164420915!3f118.69024210115568!4f8.798592839291388!5f0.7820865974627469",
+                lat: 48.167051,
+                lng: 7.297102,
+                region: "France",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731742265922!6m8!1m7!1s72wbFq71DXJzPCmaT6z_qQ!2m2!1d48.07646068854198!2d7.36098806603548!3f139.58762739288477!4f13.288346101785208!5f0.7820865974627469",
+                lat: 48.076460,
+                lng: 7.360988,
+                region: "France",
+                difficulty: "easy"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731742838523!6m8!1m7!1sGrN2ef4zEBlUyDRMe1_L7g!2m2!1d48.07433853254033!2d7.359683479719591!3f209.23697988393485!4f2.6705976233596544!5f0.7820865974627469",
+                lat: 48.074338,
+                lng: 7.359683,
+                region: "France",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731743963873!6m8!1m7!1sLbd9nP7s62PgNQdA6ZVLgw!2m2!1d48.07411933112647!2d7.359399730427215!3f76.32295084421894!4f12.578158090074382!5f0.7820865974627469",
+                lat: 48.074119,
+                lng: 7.359399,
+                region: "France",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731744507763!6m8!1m7!1sHL1wwr6zwZ6ApRbeQI2w2g!2m2!1d48.58003570376869!2d7.743074431308988!3f353.50636953902796!4f7.487678780911807!5f1.5164582667551612",
+                lat: 48.580035,
+                lng: 7.743074,
+                region: "France",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731744926367!6m8!1m7!1srHudfAYFPpa11bLNJDT43g!2m2!1d48.07451215847319!2d7.360351092293983!3f240.19927395607385!4f3.7734861630895864!5f2.891393991268303",
+                lat: 48.074512,
+                lng: 7.360351,
+                region: "France",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731746722929!6m8!1m7!1s-iFOl1VmKROqNpqNVXncBg!2m2!1d48.07562607691835!2d7.359222798450768!3f173.9431507137133!4f2.6001888615042503!5f0.7820865974627469",
+                lat: 48.075626,
+                lng: 7.359222,
+                region: "France",
+                difficulty: "easy"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731747212371!6m8!1m7!1sMmd334dIgtmYQEak79CDzw!2m2!1d48.07407211090847!2d7.359247475142269!3f237.9099148075341!4f12.770247209484197!5f0.7820865974627469",
+                lat: 48.074072,
+                lng: 7.359247,
+                region: "France",
+                difficulty: "medium"
+            },
+            // Hungarian locations
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731748508 162!6m8!1m7!1sCAoSLEFGMVFpcE04OVVoVTUwUTZha0JDM3R3eHo3aUNSakJvV3p0MHhqc0JKU1NM!2m2!1d47.5185562271493!2d19.08139396490302!3f124.01241240696766!4f21.982143397670114!5f1.9531374918225648",
+                lat: 47.518556,
+                lng: 19.081394,
+                region: "Hungary",
+                difficulty: "easy"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731748730419!6m8!1m7!1sCAoSLEFGMVFpcE1NaHBYNjl1ZndvSXhublBYbmxNVWFGTDZKTTl6RU5ENV9qX1NH!2m2!1d47.5183655718422!2d19.0814409616318!3f88.29863566507048!4f18.170645441814315!5f1.5366184664772655",
+                lat: 47.518366,
+                lng: 19.081441,
+                region: "Hungary",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731748942144!6m8!1m7!1sCAoSLEFGMVFpcE1IUk9IMW5LdklSV0VyLWJEUTF3emIyWDJPclM5enBmSGd1a2hu!2m2!1d47.51834183615217!2d19.08187753334101!3f71.8812097916842!4f12.539097885087017!5f0.7820865974627469",
+                lat: 47.518342,
+                lng: 19.081878,
+                region: "Hungary",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731749640942!6m8!1m7!1sCAoSLEFGMVFpcE9UNGpCSmNPTkZPNTB6X3hseDhBSXBtWWk1bWVhNjdKcktoYjc1!2m2!1d47.48374319683808!2d19.05188187194119!3f170.4189223388175!4f18.183031377609268!5f0.7820865974627469",
+                lat: 47.483743,
+                lng: 19.051882,
+                region: "Hungary",
+                difficulty: "medium"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731751413359!6m8!1m7!1sCAoSLEFGMVFpcE5ReWY3cEg1dE5ZYkE5RmE2WDZ4VlZMdGZmN0VMLUlFZGlUODF1!2m2!1d47.48371600710892!2d19.05200971090607!3f76.09045382185087!4f6.66997957935466!5f0.4000000000000002",
+                lat: 47.483716,
+                lng: 19.052010,
+                region: "Hungary",
+                difficulty: "hard"
+            },
+            {
+                iframe: "https://www.google.com/maps/embed?pb=!4v1731751728817!6m8!1m7!1sCAoSLEFGMVFpcE1fQXpaek9GN2s3QUJDeGZnN0lYbHhPb1Z3SjctVERQWHJNSHNO!2m2!1d47.48373824839541!2d19.05182268358018!3f85.64195431768573!4f-6.833435269114716!5f0.7820865974627469",
+                lat: 47.483738,
+                lng: 19.051823,
+                region: "Hungary",
+                difficulty: "hard"
+            }
+        ];
+
+        class GochiusaGeoGuesser {
+            constructor() {
+                this.currentLocation = null;
+                this.score = 0;
+                this.round = 1;
+                this.maxRounds = 5;
+                this.difficulty = "easy";
+                this.selectedCharacter = "cocoa";
+
+                this.initMap();
+                this.bindEvents();
+                this.locationHint = "";
+                this.scoringMultiplier = 1;
+                this.distanceReductionFactor = 1;
+            }
+
+            initMap() {
+                this.map = L.map('map').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+                this.guessMarker = null;
+            }
+
+            bindEvents() {
+                document.getElementById('make-guess').addEventListener('click', () => this.makeGuess());
+                document.getElementById('next-round').addEventListener('click', () => this.nextRound());
+                document.getElementById('settings-btn').addEventListener('click', () => this.showSettings());
+                document.getElementById('save-settings').addEventListener('click', () => this.saveSettings());
+
+                this.map.on('click', (e) => {
+                    if (this.guessMarker) this.map.removeLayer(this.guessMarker);
+                    this.guessMarker = L.marker(e.latlng).addTo(this.map);
+                });
+
+                // Character selection
+                document.querySelectorAll('.character-select').forEach(el => {
+                    el.addEventListener('click', () => {
+                        // Remove selected from all
+                        document.querySelectorAll('.character-select').forEach(x => x.classList.remove('selected'));
+
+                        // Add selected to clicked character
+                        el.classList.add('selected');
+
+                        // Get the character
+                        const character = el.dataset.character;
+
+                        // Update ability description
+                        const abilityDescriptionEl = document.getElementById('current-ability-text');
+                        const characterAbility = CHARACTER_ABILITIES[character];
+
+                        if (characterAbility) {
+                            abilityDescriptionEl.textContent = characterAbility.description;
+                        }
+                    });
+                });
+            }
+
+            loadLocation() {
+                const availableLocations = locations.filter(loc => loc.difficulty === this.difficulty);
+                if (availableLocations.length > 0) {
+                    this.currentLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
+                    document.getElementById('map-frame').src = this.currentLocation.iframe;
+                } else {
+                    alert("No locations available for the selected difficulty.");
+                }
+            }
+
+            makeGuess() {
+                if (!this.guessMarker) {
+                    alert("Place your guess on the map first!");
+                    return;
+                }
+
+                const { lat, lng } = this.guessMarker.getLatLng();
+                const distance = this.calculateDistance(lat, lng, this.currentLocation.lat, this.currentLocation.lng);
+
+                this.updateScore(distance);
+                alert(`You were ${Math.round(distance)} meters away from ${this.currentLocation.region}!`);
+
+                this.map.removeLayer(this.guessMarker);
+                this.guessMarker = null;
+            }
+
+            updateScore(distance) {
+                const basePoints = 5000;
+                const adjustedDistance = distance * this.distanceReductionFactor;
+                const points = Math.max(0, basePoints - Math.round(adjustedDistance / 100)) * this.scoringMultiplier;
+
+                this.score += Math.round(points);
+
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('round').textContent = this.round;
+            }
+
+            showCharacterHint() {
+                // Create or update hint element
+                let hintElement = document.getElementById('character-hint');
+                if (!hintElement) {
+                    hintElement = document.createElement('div');
+                    hintElement.id = 'character-hint';
+                    hintElement.style.backgroundColor = 'rgba(255,255,255,0.8)';
+                    hintElement.style.padding = '10px';
+                    hintElement.style.position = 'absolute';
+                    hintElement.style.top = '10px';
+                    hintElement.style.left = '10px';
+                    document.getElementById('street-view').appendChild(hintElement);
+                }
+                hintElement.textContent = this.locationHint;
+            }
+
+            showAbilityActivationNotification() {
+                // Create notification element if it doesn't exist
+                let notificationEl = document.getElementById('ability-notification');
+                if (!notificationEl) {
+                    notificationEl = document.createElement('div');
+                    notificationEl.id = 'ability-notification';
+                    notificationEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            transition: opacity 0.3s;
+        `;
+                    document.body.appendChild(notificationEl);
+                }
+
+                // Get current character and ability
+                const selectedCharacter = document.querySelector('.character-select.selected').dataset.character;
+                const characterAbility = CHARACTER_ABILITIES[selectedCharacter];
+
+                // Set notification text
+                notificationEl.textContent = `${characterAbility.name}'s ${characterAbility.ability} activated!`;
+                notificationEl.style.opacity = '1';
+
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notificationEl.style.opacity = '0';
+                }, 3000);
+            }
+
+            nextRound() {
+                if (this.round < this.maxRounds) {
+                    this.round++;
+                    this.loadLocation();
+                    this.map.setView([0, 0], 2);
+
+                    // Reapply character ability
+                    const characterAbility = CHARACTER_ABILITIES[this.selectedCharacter];
+                    if (characterAbility) {
+                        characterAbility.modify(this);
+
+                        // Show a subtle reminder of the active ability
+                        this.showAbilityActivationNotification();
+                    }
+                } else {
+                    this.endGame();
+                }
+            }
+
+            endGame() {
+                alert(`Game Over! Final Score: ${this.score}`);
+                this.resetGame();
+            }
+
+            resetGame() {
+                this.score = 0;
+                this.round = 1;
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('round').textContent = this.round;
+                this.loadLocation();
+            }
+
+            calculateDistance(lat1, lon1, lat2, lon2) {
+                const R = 6371e3; // Earth's radius in meters
+                const φ1 = (lat1 * Math.PI) / 180;
+                const φ2 = (lat2 * Math.PI) / 180;
+                const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+                const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+                const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c;
+            }
+
+            showSettings() {
+                document.getElementById('settings-modal').style.display = 'flex';
+            }
+
+            saveSettings() {
+                this.difficulty = document.getElementById('difficulty').value;
+
+                // Show ability activation
+                this.showAbilityActivationNotification();
+
+                // Reset any previous modifications
+                this.locationHint = "";
+                this.scoringMultiplier = 1;
+                this.distanceReductionFactor = 1;
+
+                // Apply character-specific ability
+                const selectedCharacter = document.querySelector('.character-select.selected').dataset.character;
+                const characterAbility = CHARACTER_ABILITIES[selectedCharacter];
+
+                // Apply new character ability
+                if (characterAbility) {
+                    characterAbility.modify(this);
+                }
+
+                document.getElementById('settings-modal').style.display = 'none';
+
+                // Ensure the ability is applied for the current round
+                if (this.currentLocation) {
+                    characterAbility.modify(this);
+                }
+
+                this.resetGame();
+            }
+        }
+
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', () => {
+            window.game = new GochiusaGeoGuesser();
+        });
+    </script>
+    <!-- jQuery, Bootstrap JS and Others-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Local JS -->
+    <script src="assets/js/usagi.js"></script>
+    <script src="assets/js/musicplayer.js"></script>
+    <script src="assets/js/fab.js"></script>
+    <script src="assets/js/cursor.js"></script>
+    <script src="assets/js/loading.js"></script>
+    <script src="assets/js/buttonEffects.js"></script>
+    <script src="assets/js/chinoChat.js"></script>
+    <script src="assets/js/lazy.js"></script>
+    <script src="assets/js/parallax.js"></script>
+    <script src="assets/js/performance.js"></script>
+    <script src="assets/js/gsap.js"></script>
+    <script src="assets/js/chatbot.js"></script>
+    <script type="module" src="./chino_custom_prompt.js"></script>
+</body>
+
+</html>
