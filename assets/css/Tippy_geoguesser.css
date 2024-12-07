@@ -1,0 +1,247 @@
+:root {
+    /* Gochiusa Color Palette */
+    --cafe-brown: #6B4423;
+    --button-color: #87CEEB;
+    --button-hover: #4682B4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-area {
+    display: flex;
+    height: 70vh;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+#street-view,
+#guess-area {
+    flex: 1;
+    padding: 10px;
+}
+
+#map-frame {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--primary-pink);
+    border-radius: 10px;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--secondary-pink);
+    border-radius: 10px;
+}
+
+.control-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    background-color: var(--secondary-pink);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.control-panel .left-section,
+.control-panel .right-section {
+    display: flex;
+    align-items: center;
+}
+
+.score-display {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 8px 15px;
+    margin-right: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-display .score-label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: var(--cafe-brown);
+    font-size: 0.9em;
+}
+
+.score-display #score {
+    color: var(--cafe-brown);
+    font-size: 1.1em;
+    min-width: 50px;
+    text-align: center;
+}
+
+.game-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.round-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.round-container .round-label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: var(--cafe-brown);
+    font-size: 0.9em;
+}
+
+.round-container #round {
+    color: var(--cafe-brown);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.round-container .round-separator {
+    color: var(--cafe-brown);
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+#make-guess,
+#settings-btn,
+#next-round {
+    background-color: var(--button-color);
+    border: 2px solid var(--button-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: center;
+}
+
+#make-guess::before,
+#settings-btn::before,
+#next-round::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    transition: all 0.5s ease;
+}
+
+
+#make-guess:hover,
+#settings-btn:hover,
+#next-round:hover {
+    background-color: var(--button-hover);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#make-guess:hover::before,
+#settings-btn:hover::before,
+#next-round:hover::before {
+    left: 100%;
+}
+
+#make-guess:active,
+#settings-btn:active,
+#next-round:active {
+    transform: scale(0.95);
+}
+
+button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+#score-panel {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+#settings-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+}
+
+.theme-characters {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.character-select {
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.character-select.selected {
+    opacity: 1;
+    border-bottom: 3px solid var(--primary-pink);
+}
+
+.character-select img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
