@@ -270,12 +270,12 @@ class GochiusaGeoGuesser {
         text-align: center;
         max-width: 500px;
         width: 90%;
-    ">
-        <h1 style="font-size: 3em; margin-bottom: 20px;">Gochiusa Geo Guesser</h1>
+    " data-aos="fade-up">
+        <h1 style="font-size: 3em; margin-bottom: 20px;" data-aos="fade-up">Gochiusa Geo Guesser</h1>
         <p style="font-size: 1.2em; margin-bottom: 30px;">Test your geography skills with your favorite Gochiusa characters!</p>
         
-        <div class="start-game-settings" style="margin-bottom: 20px;">
-            <h3>Character Abilities</h3>
+        <div class="start-game-settings" style="margin-bottom: 20px;" data-aos="fade-up">
+            <h3 data-aos="fade-up">Character Abilities</h3>
             <div class="theme-characters" style="display: flex; justify-content: space-around; margin-bottom: 15px;">
                 <div class="character-select" data-character="cocoa" style="text-align: center; cursor: pointer;">
                     <img src="assets/img/chibi/chibi_cocoa.webp" alt="Cocoa" style="width: 80px; height: 80px; border-radius: 50%; opacity: 0.6;">
@@ -392,7 +392,7 @@ class GochiusaGeoGuesser {
     `;
 
         modal.innerHTML = `
-        <div style="text-align: center;">
+        <div style="text-align: center;" data-aos="fade-up">
             <h2 id="round-result-title">Round Result</h2>
             <p id="round-result-distance" style="margin: 10px 0;">Distance: </p>
             <p id="round-result-points" style="margin: 10px 0;">Points Earned: </p>
@@ -911,12 +911,12 @@ class GochiusaGeoGuesser {
                 border-radius: 20px;
                 text-align: center;
                 max-width: 600px;
-            ">
+            " data-aos="fade-up">
                 <h1 style="font-size: 3em; margin-bottom: 20px;">Game Over!</h1>
                 <div style="background-color: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">
                     <p style="font-size: 1.2em;">Final Score: ${this.score}</p>
                     <p>Average Distance: ${Math.round(averageDistance)} meters</p>
-                    <div class="round-summary">
+                    <div class="round-summary" data-aos="fade-up">
                         ${this.roundResults.map(result => `
                             <p>Round ${result.round}: ${result.location} - ${Math.round(result.distance)}m (${result.points} pts)</p>
                         `).join('')}
