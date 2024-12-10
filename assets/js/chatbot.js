@@ -43,6 +43,12 @@ const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const chatContainer = document.getElementById('chat-container');
 
+// Function to get the current base URL dynamically
+function getBaseURL() {
+    // Use the current origin to make the URL dynamic
+    return window.location.origin;
+}
+
 // Function to append messages to the chat
 function appendMessage(sender, message, options = {}) {
     const messageDiv = document.createElement('div');
@@ -174,7 +180,7 @@ async function checkAPIStatus() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
-        const response = await fetch('http://localhost:3000/api-status', {
+        const response = await fetch(`${getBaseURL()}/api-status`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -218,6 +224,22 @@ async function checkAPIStatus() {
             stack: error.stack
         });
 
+        // Log detailed error to server
+        try {
+            await fetch(`${getBaseURL()}/log-error`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    error: error.message,
+                    stack: error.stack,
+                    context: 'API Status Check',
+                    timestamp: new Date().toISOString()
+                })
+            });
+        } catch (logError) {
+            console.error('Error logging failed:', logError);
+        }
+
         apiStatus = 'offline';
         if (apiStatusElement) {
             apiStatusElement.classList.remove('online');
@@ -247,7 +269,7 @@ sendBtn.addEventListener('click', async () => {
 
     // Check API status
     try {
-        const response = await fetch('http://localhost:3000/api-status');
+        const response = await fetch(`${getBaseURL()}/api-status`);
         if (response.ok) {
             apiStatusElement.classList.add('online');
             apiStatusElement.title = 'API Online';
@@ -288,54 +310,74 @@ sendBtn.addEventListener('click', async () => {
 
     // Send the message to the server
     const startTime = Date.now();
-    fetch('http://localhost:3000/chat', {
+    fetch(`${getBaseURL()}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message })
     })
-        .then((response) => response.text())
-        .then((botResponse) => {
-            const endTime = Date.now();
-            const actualResponseTime = ((endTime - startTime) / 1000).toFixed(2);
+    .then((response) => {
+        // Check if response is ok
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then((botResponse) => {
+        const endTime = Date.now();
+        const actualResponseTime = ((endTime - startTime) / 1000).toFixed(2);
 
-            // Hide thinking phase
-            thinkingPhase.style.display = 'none';
-            // Remove API status element
-            apiStatusElement.remove();
+        // Hide thinking phase
+        thinkingPhase.style.display = 'none';
+        // Remove API status element
+        apiStatusElement.remove();
 
-            // Store last bot response
-            lastBotResponse = botResponse;
+        // Store last bot response
+        lastBotResponse = botResponse;
 
-            // Create and add notification emoji
-            const chatBubble = document.querySelector('.chat-bubble');
-            const notificationEmoji = document.createElement('div');
-            notificationEmoji.classList.add('notification-emoji');
-            notificationEmoji.textContent = '1';
+        // Create and add notification emoji
+        const chatBubble = document.querySelector('.chat-bubble');
+        const notificationEmoji = document.createElement('div');
+        notificationEmoji.classList.add('notification-emoji');
+        notificationEmoji.textContent = '1';
 
-            // Select a random sound
-            const soundFile = getRandomAudioFile();
-            const pingSound = new Audio(soundFile);
-            pingSound.play();
+        // Select a random sound
+        const soundFile = getRandomAudioFile();
+        const pingSound = new Audio(soundFile);
+        pingSound.play();
 
-            // Add to chat bubble
-            chatBubble.appendChild(notificationEmoji);
+        // Add to chat bubble
+        chatBubble.appendChild(notificationEmoji);
 
-            // Display the bot's response
-            appendMessage('Chino', botResponse);
+        // Display the bot's response
+        appendMessage('Chino', botResponse);
 
-            setTimeout(() => {
-                notificationEmoji.remove();
-            }, 5000);
+        setTimeout(() => {
+            notificationEmoji.remove();
+        }, 5000);
 
-            console.log('Web Scraping Context:', botResponse);
-        })
-        .catch((error) => {
-            console.error('Error communicating with the chatbot:', error);
-            thinkingPhase.style.display = 'none';
-            // Remove API status element
-            apiStatusElement.remove();
-            appendMessage('Error', 'Failed to communicate with the chatbot.');
+        console.log('Web Scraping Context:', botResponse);
+    })
+    .catch((error) => {
+        console.error('Error communicating with the chatbot:', error);
+
+        // Log detailed error to server
+        fetch(`${getBaseURL()}/log-error`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                error: error.message,
+                stack: error.stack,
+                context: 'Chat Communication',
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            })
         });
+
+        thinkingPhase.style.display = 'none';
+        // Remove API status element
+        apiStatusElement.remove();
+        appendMessage('Error', `Failed to communicate with the chatbot: ${error.message}`);
+    });
 });
 
 // Regenerate button event listener
@@ -384,7 +426,7 @@ document.addEventListener('click', (e) => {
 });
 
 function resetChat() {
-    fetch('http://localhost:3000/reset-chat', {
+    fetch(`${getBaseURL()}/reset-chat`, {
         method: 'POST'
     });
 }
