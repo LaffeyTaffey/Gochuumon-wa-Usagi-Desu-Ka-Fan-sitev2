@@ -24,10 +24,20 @@ body {
 #game-area {
     display: flex;
     height: 70vh;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(255, 105, 180, 0.2);
     margin-bottom: 15px;
+    border: 2px solid rgba(255, 105, 180, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+#game-area:hover {
+    box-shadow: 0 6px 10px rgba(255, 105, 180, 0.3); /* Subtle hover effect */
+    transform: translateY(-2px);
 }
 
 #street-view,
@@ -70,7 +80,7 @@ body {
 .score-display {
     display: flex;
     align-items: center;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 8px;
     padding: 8px 15px;
     margin-right: 15px;
@@ -100,7 +110,7 @@ body {
 .round-container {
     display: flex;
     align-items: center;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     padding: 8px 15px;
     margin-right: 10px;
@@ -244,4 +254,98 @@ button:hover {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+}
+
+@media screen and (max-width: 768px) {
+    .game-container {
+        padding: 10px;
+    }
+
+    #game-area {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #street-view,
+    #guess-area {
+        width: 100%;
+        padding: 5px;
+    }
+
+    #street-view {
+        height: 400px;
+    }
+
+    #guess-area {
+        height: auto;
+    }
+
+    #map {
+        height: 200px;
+    }
+
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+     .control-panel .left-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .timer-container,
+    .score-display,
+    .round-container {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .timer-container span,
+    .score-display span,
+    .round-container span {
+        text-align: center;
+    }
+
+    .game-controls {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #make-guess,
+    #settings-btn,
+    #next-round {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 12px 15px;
+    }
+
+    .settings-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .theme-characters {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .character-select {
+        width: 30%;
+        margin: 5px;
+    }
+
+    .character-select img {
+        width: 60px;
+        height: 60px;
+    }
 }

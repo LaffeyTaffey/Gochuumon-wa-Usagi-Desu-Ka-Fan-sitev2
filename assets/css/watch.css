@@ -305,11 +305,152 @@
 }
 
 @media (max-width: 768px) {
+    .video-player-container {
+        padding: 15px;
+        border-radius: 10px;
+        margin: 0 10px;
+    }
 
-    .video-player-container,
-    .anime-details-container,
+    .video-canvas-container {
+        height: 250px; /* Reduced height for mobile */
+        padding-top: 56.25%; /* Maintain 16:9 aspect ratio */
+    }
+
+    .video-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .control-group {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .control-group select,
+    .control-group button {
+        width: 100%; /* Full width buttons and select */
+        margin-bottom: 10px;
+    }
+
+    .episode-select {
+        min-width: 100%; /* Full width episode selector */
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .control-btn {
+        padding: 12px 20px;
+        font-size: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .video-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .anime-details-container .row {
+        flex-direction: column;
+    }
+
+    .anime-details-container .col-md-6 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
     .anime-details {
-        max-width: 100%;
-        /* Allows full-width on smaller screens */
+        padding: 15px;
+    }
+
+    .anime-details h2 {
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .anime-details h3 {
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    .anime-details p {
+        font-size: 0.9em;
+        text-align: left;
+    }
+
+    /* Compact control layout */
+    .video-controls .control-group:first-child {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .video-controls .control-group:last-child {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .video-controls .control-group:last-child button {
+        padding: 10px;
+        font-size: 0.8em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .video-controls .control-group:last-child button i {
+        margin-bottom: 5px;
+        font-size: 1.2em;
+    }
+
+    /* Fullscreen and download video buttons */
+    #fullscreenBtn  {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+     #downloadFrameBtn,
+    #downloadVideoBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 10px;
+        font-size: 0.8em;
+    }
+
+    #downloadFrameBtn i,
+    #downloadVideoBtn i {
+        margin-right: 5px;
+        margin-bottom: 0;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-canvas-container {
+        height: 200px;
+    }
+
+    .video-controls .control-group:last-child {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .video-title {
+        font-size: 1.2em;
     }
 }

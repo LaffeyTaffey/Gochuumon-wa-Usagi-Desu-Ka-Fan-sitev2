@@ -33,8 +33,8 @@ app.use((req, res, next) => {
 
 // Enable CORS for all routes
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST'],
+  origin: ['https://gochuumon-wa-usagi-desu-ka-fan-sitev2.onrender.com', 'http://localhost:3000'],
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 

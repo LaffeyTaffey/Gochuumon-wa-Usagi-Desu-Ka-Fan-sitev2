@@ -380,8 +380,8 @@ class GochiusaGeoGuesser {
         modal.style.cssText = `
         position: fixed;
         top: 50%;
-        left: 20px;
-        transform: translateY(-50%);
+        left: 50%;
+        transform: translate(-50%, -50%);
         background-color: rgba(255,255,255,0.9);
         border-radius: 15px;
         padding: 20px;
@@ -392,7 +392,7 @@ class GochiusaGeoGuesser {
     `;
 
         modal.innerHTML = `
-        <div style="text-align: center;" data-aos="fade-up">
+        <div style="text-align: center; " data-aos="fade-up">
             <h2 id="round-result-title">Round Result</h2>
             <p id="round-result-distance" style="margin: 10px 0;">Distance: </p>
             <p id="round-result-points" style="margin: 10px 0;">Points Earned: </p>
@@ -1051,7 +1051,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerElement = document.createElement('div');
     timerElement.className = 'timer-container';
     timerElement.style.cssText = `
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.8);
         border-radius: 8px;
         padding: 8px 15px;
         margin-right: 15px;
