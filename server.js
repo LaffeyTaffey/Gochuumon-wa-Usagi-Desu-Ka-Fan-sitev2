@@ -33,9 +33,14 @@ app.use((req, res, next) => {
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: true,  // This allows all origins
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: [
+    'https://gochuumon-wa-usagi-desu-ka-fan-sitev2.onrender.com',
+    'http://localhost:3000',
+    'http://localhost:54537'
+  ],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.use(bodyParser.json());
