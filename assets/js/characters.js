@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (typeof AOS !== 'undefined') {
                         AOS.refresh();
                     }
-                }, 300); // Match this with your CSS transition time
+                }, 300);
             } else {
                 // If no active content, just show the new content
                 newContent.style.display = 'block';
@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Character sections functionality (keep this part as it was)
+    // Character sections functionality
     document.querySelectorAll('.character-sections li').forEach(section => {
         section.addEventListener('click', function () {
             const characterName = this.closest('.character-card').querySelector('h3').textContent.trim();

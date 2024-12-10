@@ -780,6 +780,15 @@ footer {
     }
 }
 
+#share-result-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#share-result-btn:hover {
+    background-color: #45a049;
+}
+
 /*social*/
 .social-share {
     display: flex;

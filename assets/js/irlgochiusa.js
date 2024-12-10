@@ -65,3 +65,58 @@ try {
         console.error(error); // For other errors, you can still log them
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImagelocations');
+    const modalCaption = document.getElementById('modal-caption');
+    const closeModal = document.querySelector('.close-modal');
+
+    // Function to open modal
+    function openImageModal(imgSrc, altText) {
+        imageModal.style.display = "block";
+        modalImage.src = imgSrc;
+        modalCaption.innerHTML = altText;
+    }
+
+    // Function to close modal
+    function closeImageModal() {
+        imageModal.style.display = "none";
+    }
+
+    // Add click event to static images
+    const staticAnimeImages = document.querySelectorAll('.static-anime-image img');
+    const staticIrlPhotos = document.querySelectorAll('.static-irl-photo img');
+
+    // Combine both image sets
+    const allStaticImages = [...staticAnimeImages, ...staticIrlPhotos];
+
+    allStaticImages.forEach(img => {
+        img.style.cursor = 'pointer'; // Show it's clickable
+        img.addEventListener('click', (e) => {
+            openImageModal(e.target.src, e.target.alt);
+        });
+    });
+
+    // Close modal when clicking on close button
+    if (closeModal) {
+        closeModal.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event from bubbling
+            closeImageModal();
+        });
+    }
+
+    // Close modal when clicking outside the image
+    imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+            closeImageModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal.style.display === 'block') {
+            closeImageModal();
+        }
+    });
+});
