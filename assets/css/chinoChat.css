@@ -285,6 +285,30 @@
     /* Ensure visibility */
 }
 
+@media (max-width: 768px) {
+    .coffee-menu {
+        left: 50%;
+        transform: translateX(-50%) scale(0);
+        width: calc(100% - 40px);
+        max-width: 350px;
+        bottom: 100px;
+        padding: 10px;
+    }
+
+    .coffee-menu li {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .coffee-menu li .description {
+        font-size: 0.75em;
+    }
+
+    .coffee-menu h4 {
+        font-size: 15px;
+    }
+}
+
 .chat-bot-circle {
     z-index: 1000;
 }

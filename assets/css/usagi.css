@@ -1497,8 +1497,9 @@ body {
 
     .mobile-nav-links {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        /* 3 column grid */
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+        /* 4 column grid */
         gap: 15px;
         justify-content: center;
         align-items: center;
