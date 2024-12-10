@@ -271,10 +271,10 @@ class GochiusaGeoGuesser {
         max-width: 500px;
         width: 90%;
     " data-aos="fade-up">
-        <h1 style="font-size: 3em; margin-bottom: 20px;" data-aos="fade-up">Gochiusa Geo Guesser</h1>
-        <p style="font-size: 1.2em; margin-bottom: 30px;">Test your geography skills with your favorite Gochiusa characters!</p>
+        <h2 style="font-size: 2em; margin-bottom: 20px;" data-aos="fade-up">Gochiusa Geo Guesser</h1>
+        <p style="font-size: 1em; margin-bottom: 20px;">Test your geography skills with your favorite Gochiusa characters!</p>
         
-        <div class="start-game-settings" style="margin-bottom: 20px;" data-aos="fade-up">
+        <div class="start-game-settings" style="margin-bottom: 10px;" data-aos="fade-up">
             <h3 data-aos="fade-up">Character Abilities</h3>
             <div class="theme-characters" style="display: flex; justify-content: space-around; margin-bottom: 15px;">
                 <div class="character-select" data-character="cocoa" style="text-align: center; cursor: pointer;">
