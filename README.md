@@ -18,6 +18,12 @@
 
 Welcome to the unofficial fan site dedicated to "Is the Order a Rabbit?" (ご注文はうさぎですか？). This project is a labor of love created by fans, for fans, featuring an interactive web experience centered around the beloved series.
 
+## 💀 Notice
+Finally hosted this repository on render, check it out! (nodejs stuff finally works)
+  - Will upgrade to a faster instance type sometime in January
+```bash
+https://gochuumon-wa-usagi-desu-ka-fan-sitev2.onrender.com
+```
 ## 📖 Info
 This is the new repository, since i did an opsy (used filter-branch) to the old one.
 > what i did:
