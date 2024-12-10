@@ -54,6 +54,7 @@
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
+    border-radius: 20px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -73,7 +74,7 @@
 .entry-card {
     position: relative;
     background-color: var(--background);
-    border-radius: 15px;
+    border-radius: 20px;
     overflow: visible;
     box-shadow: 0 4px 15px var(--nav-shadow);
     opacity: 0;
@@ -119,6 +120,7 @@
     object-fit: cover;
     transition: all 0.2s ease-out;
     z-index: 1;
+    border-radius: 20px;
 }
 
 /* Hover effect styles */

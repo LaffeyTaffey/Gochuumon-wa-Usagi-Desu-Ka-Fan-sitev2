@@ -788,6 +788,12 @@ body {
     flex: 1;
 }
 
+@media (max-width: 768px) {
+    .image-container {
+        display: none;
+    }
+}
+
 .character-intro {
     background: rgba(255, 255, 255, 0.9);
     margin: 20px auto;
@@ -1028,7 +1034,6 @@ body {
         max-height: 250px;
         object-fit: contain;
         margin: 0 auto 15px;
-        animation: bounce 2s infinite;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
