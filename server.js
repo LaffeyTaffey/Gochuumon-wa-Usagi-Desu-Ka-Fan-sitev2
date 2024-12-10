@@ -31,13 +31,24 @@ app.use((req, res, next) => {
     next();
 });
 
-// Enable CORS for all routes
 app.use(cors({
-  origin: [
-    'https://gochuumon-wa-usagi-desu-ka-fan-sitev2.onrender.com',
-    'http://localhost:3000',
-    'http://localhost:54537'
-  ],
+  origin: function(origin, callback){
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://gochuumon-wa-usagi-desu-ka-fan-sitev2.onrender.com', 
+      'http://localhost:3000', 
+      'http://localhost:54537',
+      /\.onrender\.com$/
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -283,6 +294,12 @@ let conversationHistory = [];
 const MAX_HISTORY_LENGTH = 5; // Limit to prevent excessive context
 
 app.post('/chat', async (req, res) => {
+    console.log('Chat Request Received:', {
+        body: req.body,
+        headers: req.headers,
+        origin: req.get('origin')
+    });
+
     const { message } = req.body;
 
     if (!message || message.trim() === '') {
@@ -373,9 +390,20 @@ app.post('/chat', async (req, res) => {
             res.status(500).send('*looks confused* Something went wrong...');
         }
     } catch (error) {
-        console.error('API Error:', error.response?.data || error.message);
-        res.status(500).send('*adjusts hair clip* I apologize, there seems to be an issue.');
+        console.error('Full Error Details:', {
+            message: error.message,
+            stack: error.stack,
+            responseData: error.response?.data,
+            responseStatus: error.response?.status
+        });
+        
+        res.status(500).json({
+            error: 'Detailed server error',
+            details: error.message,
+            stack: error.stack
+        });
     }
+    
 });
 
 function performanceMiddleware(req, res, next) {
