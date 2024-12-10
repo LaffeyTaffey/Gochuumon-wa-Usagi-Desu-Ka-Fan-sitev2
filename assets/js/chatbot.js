@@ -376,7 +376,7 @@ sendBtn.addEventListener('click', async () => {
         thinkingPhase.style.display = 'none';
         // Remove API status element
         apiStatusElement.remove();
-        appendMessage('Error', `Failed to communicate with the chatbot: ${error.message}`);
+        appendMessage('Error', `Failed to communicate with the chatbot: (I disabled the chatbot in these site, if you want to make the chatbot works, follow the repository steps -levs) ${error.message}`);
     });
 });
 
