@@ -264,15 +264,14 @@ class GochiusaGeoGuesser {
 
         startScreenModal.innerHTML = `
     <div class="start-content" style="
-        background-color: rgba(255,255,255,0.1); 
+        background-color: rgba(255,255,255,0.3); 
         padding: 40px; 
         border-radius: 20px; 
         text-align: center;
         max-width: 500px;
         width: 90%;
     " data-aos="fade-up">
-        <h2 style="font-size: 2em; margin-bottom: 20px;" data-aos="fade-up">Gochiusa Geo Guesser</h1>
-        <p style="font-size: 1em; margin-bottom: 20px;">Test your geography skills with your favorite Gochiusa characters!</p>
+        <p style="font-size: 1em; margin-bottom: 10px;">Test your geography skills with your favorite Gochiusa characters!</p>
         
         <div class="start-game-settings" style="margin-bottom: 10px;" data-aos="fade-up">
             <h3 data-aos="fade-up">Character Abilities</h3>

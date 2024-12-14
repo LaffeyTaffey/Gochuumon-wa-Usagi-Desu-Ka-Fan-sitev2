@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ]
             },
             {
-                question: "What is the name of Chino's older sister who appears in the series?",
+                question: "What is the name of Cocoa's older sister who appears in the series?",
                 answers: [
                     { text: "Mocha", correct: true },
                     { text: "Maya", correct: false },
