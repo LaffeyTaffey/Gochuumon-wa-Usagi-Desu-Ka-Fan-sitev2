@@ -385,6 +385,11 @@ body {
         width: 20px;
         height: 15px;
     }
+
+    .back-button {
+        opacity: 0;
+        display: none;
+    }
 }
 
 .site-title {

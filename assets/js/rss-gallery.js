@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Previous button
             const prevButton = document.createElement('button');
-            prevButton.innerHTML = '&#8592; Previous'; // Left arrow
+            prevButton.innerHTML = '&#8592; Prev'; // Left arrow
             prevButton.classList.add('show-more-btn');
             prevButton.disabled = currentPage === 1;
             prevButton.addEventListener('click', () => {
