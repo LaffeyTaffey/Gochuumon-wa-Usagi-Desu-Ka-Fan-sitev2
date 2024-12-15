@@ -33,9 +33,9 @@ app.use((req, res, next) => {
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: true,  // This allows all origins
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: true,  // This allows all origins
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(bodyParser.json());
@@ -78,13 +78,13 @@ app.get('/routes', (req, res) => {
 if (isMainThread) {
     function processFilesInParallel(filePaths) {
         const workers = filePaths.map(filePath => {
-            return new Worker(__filename, { 
-                workerData: { filePath } 
+            return new Worker(__filename, {
+                workerData: { filePath }
             });
         });
 
         return Promise.allSettled(
-            workers.map(worker => 
+            workers.map(worker =>
                 new Promise((resolve, reject) => {
                     worker.on('message', resolve);
                     worker.on('error', (err) => {
@@ -136,10 +136,10 @@ function loadFilesInMemory() {
 async function fastFileDiscovery() {
     try {
         const files = await fg([
-            './data/**/*.json', 
+            './data/**/*.json',
             './config/*.js',
             '!./node_modules'
-        ], { 
+        ], {
             dot: true,
             onlyFiles: true,
             absolute: true
@@ -204,6 +204,72 @@ function setupFastFileLoading() {
     return watcher;
 }
 
+// Character Rss Proxy Routes
+const characterRssUrls = {
+    'chino': 'https://www.reddit.com/search/.rss?q=kafuu+chino&cId=4f66e521-73fc-4223-b8ef-8de9d0d7932d&iId=766a8ba6-6492-4054-b18c-25b030bc5952.rss',
+    'cocoa': 'https://www.reddit.com/search/.rss?q=cocoa+hoto&cId=4fd85e1e-d424-4449-b580-bb204e1d016b&iId=29909bbd-e4ed-4231-b91e-3e2103786431',
+    'chiya': 'https://www.reddit.com/search/.rss?q=Chiya+Ujimatsu&cId=ce53aa8f-07a6-45b2-91bf-5359276270f7&iId=51733a81-d7b2-4309-867d-9cb8d954f910',
+    'syaro': 'https://www.reddit.com/search/.rss?q=Syaro+Kirima&cId=8e3d3c23-c955-4b88-870e-a4539f89a01a&iId=81977baf-6618-474e-9014-299c308971c3',
+    'mocha': 'https://www.reddit.com/search/.rss?q=Mocha+Hoto&cId=5507da12-c86b-412d-9e14-1ae3e84b42b2&iId=7ed7295f-7082-4ad5-a54a-39c41999b706'
+};
+
+app.get('/character-gallery/:character', async (req, res) => {
+    const { character } = req.params;
+    const rssUrl = characterRssUrls[character.toLowerCase()];
+
+    if (!rssUrl) {
+        return res.status(404).json({ error: 'Character not found' });
+    }
+
+    try {
+        const response = await axios.get(rssUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
+
+        // Similar XML conversion logic as animewallpaper-proxy
+        if (response.data.includes('<feed')) {
+            xml2js.parseString(response.data, (err, result) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Failed to parse feed' });
+                }
+
+                const entries = result.feed.entry || [];
+                const rssFeed = {
+                    rss: {
+                        $: { version: '2.0' },
+                        channel: [{
+                            title: [`${character.toUpperCase()} Fan Art`],
+                            link: ['https://www.reddit.com/'],
+                            item: entries.map(entry => ({
+                                title: [entry.title[0]],
+                                link: [entry.link[0].$.href],
+                                description: [entry.content ? entry.content[0]._ : '']
+                            }))
+                        }]
+                    }
+                };
+
+                const builder = new xml2js.Builder();
+                const xml = builder.buildObject(rssFeed);
+
+                res.set('Content-Type', 'application/xml');
+                res.send(xml);
+            });
+        } else {
+            res.set('Content-Type', 'application/xml');
+            res.send(response.data);
+        }
+    } catch (error) {
+        console.error(`Proxy error for ${character}:`, error);
+        res.status(500).json({
+            error: 'Failed to fetch RSS feed',
+            details: error.message
+        });
+    }
+});
+
 // URLs for scraping
 const urls = [
     'https://gochiusa.fandom.com/wiki/Category:Characters', // Character Category
@@ -233,9 +299,9 @@ async function scrapeData(url) {
         } else if (url.includes('Chino_Kaf%C5%AB') || url.includes('wiki/')) {
             const extractCharacterInfo = () => {
                 const infobox = $('.infobox');
-                const biography = $('#Biography').next().text().trim() || 
-                                  $('#mw-content-text p').first().text().trim();
-                
+                const biography = $('#Biography').next().text().trim() ||
+                    $('#mw-content-text p').first().text().trim();
+
                 return {
                     name: infobox.find('.infobox-title').text().trim() || 'Unknown',
                     biography: biography,
@@ -295,7 +361,7 @@ app.post('/chat', async (req, res) => {
 
         if (characterMatch) {
             const characterName = characterMatch[1].trim().toLowerCase();
-            
+
             // Search through knowledge base for character info
             for (let entry of knowledgeBase) {
                 if (entry.category === 'Characters') {
@@ -303,8 +369,8 @@ app.post('/chat', async (req, res) => {
                     if (character) {
                         // If character found in characters list, try to get more details
                         const detailedEntry = knowledgeBase.find(
-                            e => e.category === 'Character' && 
-                            e.data.name.toLowerCase().includes(characterName)
+                            e => e.category === 'Character' &&
+                                e.data.name.toLowerCase().includes(characterName)
                         );
 
                         if (detailedEntry) {
@@ -375,12 +441,12 @@ app.post('/chat', async (req, res) => {
 
 function performanceMiddleware(req, res, next) {
     const start = Date.now();
-    
+
     res.on('finish', () => {
         const duration = Date.now() - start;
         console.log(`${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`);
     });
-    
+
     next();
 }
 
@@ -432,7 +498,7 @@ app.get('/animewallpaper-proxy', async (req, res) => {
                     rss: {
                         $: { version: '2.0' },
                         channel: [{
-                            title: ['Filtered Posts'],
+                            title: ['Main Anime Wallpaper Gallery'],
                             link: ['https://www.reddit.com/r/AnimeWallpaper/'],
                             item: entries.map(entry => ({
                                 title: [entry.title[0]],
