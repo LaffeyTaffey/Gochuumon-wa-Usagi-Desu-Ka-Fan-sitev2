@@ -494,8 +494,12 @@ class MangaReader {
     }
 }
 
-// When opening fullscreen reader
-document.getElementById('fullscreenReader').classList.add('active');
+function openFullscreenReader() {
+    document.body.classList.add('fullscreen-reader-active');
+    document.getElementById('fullscreenReader').style.display = 'block';
+}
 
-// When closing fullscreen reader
-document.getElementById('fullscreenReader').classList.remove('active');
+function exitFullscreenReader() {
+    document.body.classList.remove('fullscreen-reader-active');
+    document.getElementById('fullscreenReader').style.display = 'none';
+}
