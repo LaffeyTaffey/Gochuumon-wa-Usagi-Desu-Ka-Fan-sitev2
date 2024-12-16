@@ -156,10 +156,10 @@ class MangaReader {
                 <div class="reader-controls">
                     <span class="page-info">Volume ${this.currentVolume} Chapter ${this.currentChapter} - Page ${this.currentPage}</span>
                     <button class="reader-btn download-page-fs">
-                        <i class="fas fa-download"></i> Download
+                        <i class="fas fa-download"></i>
                     </button>
                     <button class="reader-btn exit-fullscreen">
-                        <i class="fas fa-compress"></i> Exit
+                        <i class="fas fa-compress"></i>
                     </button>
                 </div>
             </div>
@@ -494,3 +494,8 @@ class MangaReader {
     }
 }
 
+// When opening fullscreen reader
+document.getElementById('fullscreenReader').classList.add('active');
+
+// When closing fullscreen reader
+document.getElementById('fullscreenReader').classList.remove('active');

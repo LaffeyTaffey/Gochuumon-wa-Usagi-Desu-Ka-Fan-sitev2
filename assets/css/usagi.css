@@ -419,51 +419,38 @@ body {
 @media (max-width: 768px) {
     .header-nav {
         padding: 5px 0;
-        /* Less padding on mobile */
     }
 
     .nav-logo {
         width: 50px;
-        /* Smaller logo on mobile */
         height: 50px;
-        /* Smaller logo on mobile */
     }
 
     .site-title {
         font-size: 18px;
-        /* Smaller title on mobile */
     }
 
     .nav-links {
         flex-direction: column;
-        /* Stack links vertically */
         align-items: center;
-        /* Center align links */
     }
 
     .nav-links a {
         font-size: 14px;
-        /* Font size for mobile links */
         padding: 5px;
-        /* Adjusted padding for mobile */
     }
 
     .nav-controls {
         flex-direction: column;
-        /* Stack controls vertically */
         align-items: center;
-        /* Center align controls */
         margin-right: 0;
-        /* Remove margin on mobile */
     }
 
     .back-button,
     .music-button,
     .theme-toggle {
         font-size: 18px;
-        /* Adjusted size for controls */
         padding: 5px;
-        /* Adjusted padding for controls */
     }
 }
 
