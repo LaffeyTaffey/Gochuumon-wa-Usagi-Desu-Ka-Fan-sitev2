@@ -538,14 +538,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.use((req, res) => {
-    console.log(`404 - Route Not Found: ${req.method} ${req.path}`);
-    res.status(404).json({
-        status: 'error',
-        message: 'Route not found'
-    });
-});
-
 app.post('/log-error', (req, res) => {
     const errorData = req.body;
     console.error('Image loading error:', errorData.error, errorData.details);
@@ -553,6 +545,7 @@ app.post('/log-error', (req, res) => {
 });
 
 app.use((req, res) => {
+    console.log(`404 - Route Not Found: ${req.method} ${req.path}`);
     res.status(404).sendFile(path.resolve('./404.html'));
 });
 
