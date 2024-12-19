@@ -404,23 +404,28 @@ class MangaReader {
 
 
     enterFullscreen() {
-        const currentPage = $('.manga-page').attr('src');
-        $('.manga-page-fs').attr('src', currentPage);
-        $('#fullscreenReader').fadeIn(300);
+    const currentPage = $('.manga-page').attr('src');
+    $('.manga-page-fs').attr('src', currentPage);
+    
+    // Fade in the fullscreen reader
+    $('#fullscreenReader').fadeIn(300, () => {
         $('body').addClass('no-scroll');
         this.updateFullscreenInfo();
+    });
 
-        // Hide the sign-board and related elements
-        $('.sign-board, .chain-system, .mounting-bracket').hide();
-    }
+    // Hide other elements with fade out
+    $('.chat-environment, .tippy-companion, .chat-bot-circle, .chat-bubble, .blushing-emoji, .sign-board, .chain-system, .mounting-bracket, .fab, .header-nav').fadeOut(300);
+}
 
-    exitFullscreen() {
-        $('#fullscreenReader').fadeOut(300);
+exitFullscreen() {
+    // Fade out the fullscreen reader
+    $('#fullscreenReader').fadeOut(300, () => {
         $('body').removeClass('no-scroll');
 
-        // Show the sign-board and related elements again
-        $('.sign-board, .chain-system, .mounting-bracket').show();
-    }
+        // Show other elements with fade in
+        $('.chat-environment, .tippy-companion, .chat-bot-circle, .chat-bubble, .blushing-emoji, .sign-board, .chain-system, .mounting-bracket, .fab, .header-nav').fadeIn(300);
+    });
+}
 
     updateFullscreenInfo() {
         $('.page-info').text(`Volume ${this.currentVolume} Chapter ${this.currentChapter} - Page ${this.currentPage}/${this.totalPages}`);
