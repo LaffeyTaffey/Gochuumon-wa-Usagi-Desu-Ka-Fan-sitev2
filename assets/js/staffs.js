@@ -1,4 +1,3 @@
-// staffs.js
 // Add event listeners to staff cards
 document.querySelectorAll('.staff-card').forEach((card) => {
     card.addEventListener('mouseover', () => {

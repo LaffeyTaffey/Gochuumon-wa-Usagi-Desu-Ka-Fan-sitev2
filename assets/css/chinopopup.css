@@ -87,3 +87,33 @@
     display: block;
     opacity: 1;
 }
+
+@media (max-width: 768px) {
+    .popup-container {
+        width: 90%;
+        max-width: none;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    .popup img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+    }
+
+    .popup-text {
+        font-size: 18px;
+        width: 90%;
+    }
+
+    .cute-decorations {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 5px;
+    }
+
+    .decoration {
+        font-size: 24px;
+    }
+}

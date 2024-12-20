@@ -114,9 +114,43 @@ function showNotification(message) {
 
 document.addEventListener('DOMContentLoaded', function () {
     AOS.init({
-        duration: 1000,
-        once: false,
-        mirror: true
+    offset: 100,
+    delay: 50,
+    duration: 600,
+    easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
+    once: true,
+    mirror: false,
+    anchorPlacement: 'top-bottom',
+    startEvent: 'DOMContentLoaded',
+    disableMutationObserver: false,
+    throttleDelay: 99,
+    debounceDelay: 50
+});
+    const staffImages = document.querySelectorAll('.staff-image[data-src]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px'
+    });
+
+    staffImages.forEach(img => imageObserver.observe(img));
+
+    // Event delegation for hover effects
+    document.querySelector('.staff-section').addEventListener('mouseover', (e) => {
+        const card = e.target.closest('.staff-card');
+        if (card) card.classList.add('hover');
+    });
+
+    document.querySelector('.staff-section').addEventListener('mouseout', (e) => {
+        const card = e.target.closest('.staff-card');
+        if (card) card.classList.remove('hover');
     });
 });
 
@@ -154,16 +188,16 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     // Dropdown functionality for desktop
     const dropdownContainers = document.querySelectorAll('.dropdown-container');
-    
+
     dropdownContainers.forEach(container => {
         const dropdownToggle = container.querySelector('.dropdown-toggle');
         const dropdownMenu = container.querySelector('.dropdown-menu');
-        
+
         // Hover events for desktop
         container.addEventListener('mouseenter', () => {
             dropdownMenu.classList.add('show');
         });
-        
+
         container.addEventListener('mouseleave', () => {
             dropdownMenu.classList.remove('show');
         });
