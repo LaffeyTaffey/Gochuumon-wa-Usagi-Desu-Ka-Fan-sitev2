@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -340,105 +341,6 @@ async function fetchKnowledgeBase() {
 fetchKnowledgeBase();
 setInterval(fetchKnowledgeBase, 24 * 60 * 60 * 1000); // Update daily
 
-let conversationHistory = [];
-const MAX_HISTORY_LENGTH = 5; // Limit to prevent excessive context
-
-app.post('/chat', async (req, res) => {
-    const { message } = req.body;
-
-    if (!message || message.trim() === '') {
-        return res.status(400).send('Message is required.');
-    }
-
-    try {
-        conversationHistory.push({ role: 'user', content: message });
-
-        let additionalContext = '';
-        let relevantContext = '';
-
-        // Check if message is asking about a specific character
-        const characterMatch = message.match(/who\s+(?:is)?\s*(.*?)\?/i);
-
-        if (characterMatch) {
-            const characterName = characterMatch[1].trim().toLowerCase();
-
-            // Search through knowledge base for character info
-            for (let entry of knowledgeBase) {
-                if (entry.category === 'Characters') {
-                    const character = entry.data[characterName];
-                    if (character) {
-                        // If character found in characters list, try to get more details
-                        const detailedEntry = knowledgeBase.find(
-                            e => e.category === 'Character' &&
-                                e.data.name.toLowerCase().includes(characterName)
-                        );
-
-                        if (detailedEntry) {
-                            additionalContext = `Additional context about ${character.name}: ${detailedEntry.data.biography}`;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Find relevant knowledge base entries
-        relevantContext = knowledgeBase
-            .filter(entry =>
-                message.toLowerCase().includes(entry.category.toLowerCase())
-            )
-            .map(entry => JSON.stringify(entry.data))
-            .join('\n');
-
-        // Combine additional context and relevant context
-        const enrichedContext = [additionalContext, relevantContext].filter(Boolean).join('\n\n');
-
-        // Prepare messages for API call
-        const apiMessages = [
-            {
-                role: 'system',
-                content: `${systemPrompt}\n\n${enrichedContext}`
-            },
-            ...conversationHistory.slice(-MAX_HISTORY_LENGTH)
-        ];
-
-        // Log API request settings
-        console.log(`🐰 Chino's API settings:
-- Model: cosmosrp
-- Messages: ${JSON.stringify(apiMessages, null, 2)}
-- Max Tokens: ${maxTokens}
-- Temperature: ${temperature}
-- Context Size: ${contextSize}`);
-
-        const apiResponse = await axios.post(
-            'https://api.pawan.krd/cosmosrp/v1/chat/completions',
-            {
-                model: 'cosmosrp',
-                messages: apiMessages,
-                maxTokens,
-                temperature,
-                contextSize
-            }
-        );
-
-        const botResponse = apiResponse.data?.choices?.[0]?.message?.content?.trim();
-        if (botResponse) {
-            conversationHistory.push({ role: 'assistant', content: botResponse });
-
-            if (conversationHistory.length > MAX_HISTORY_LENGTH * 2) {
-                conversationHistory = conversationHistory.slice(-MAX_HISTORY_LENGTH * 2);
-            }
-
-            res.send(botResponse);
-        } else {
-            res.status(500).send('*looks confused* Something went wrong...');
-        }
-    } catch (error) {
-        console.error('API Error:', error.response?.data || error.message);
-        res.status(500).send('*adjusts hair clip* I apologize, there seems to be an issue.');
-    }
-});
-
 function performanceMiddleware(req, res, next) {
     const start = Date.now();
 
@@ -449,6 +351,41 @@ function performanceMiddleware(req, res, next) {
 
     next();
 }
+
+// chatbot
+app.post('/chat', async (req, res) => {
+    const userMessage = req.body.message;
+
+    if (!userMessage) {
+        return res.status(400).json({ error: 'Message is required' });
+    }
+
+    try {
+        const response = await axios.post('https://api.arliai.com/v1/chat/completions', {
+            model: "Mistral-Nemo-12B-Instruct-2407",
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userMessage }
+            ],
+            temperature: 0.4,
+            repetition_penalty: 1.08,
+            top_p: 0.9,
+            min_p: 0.1,
+            dry_sequence_breakers: ["\n", ":", "*"]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${process.env.ARLIAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const botResponse = response.data.choices[0].message.content;
+        res.status(200).send(botResponse);
+    } catch (error) {
+        console.error('Error communicating with Arliai API:', error);
+        res.status(500).json({ error: 'Failed to communicate with the chatbot' });
+    }
+});
 
 app.use(performanceMiddleware);
 
