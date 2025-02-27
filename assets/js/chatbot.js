@@ -247,7 +247,7 @@ sendBtn.addEventListener('click', async () => {
     thinkingPhase.style.display = 'flex';
 
     // Estimate response time
-    const estimatedTime = Math.floor(Math.random() * (15 - 10 + 1)) + 10; // 10-15 seconds
+    const estimatedTime = Math.floor(Math.random() * (20 - 10 + 1)) + 15; // just freaking random, time to read the api documentation then :(
     estimatedTimeElement.textContent = `Estimated response time: ${estimatedTime} seconds`;
 
     // Array of audio file paths
@@ -336,7 +336,7 @@ sendBtn.addEventListener('click', async () => {
         thinkingPhase.style.display = 'none';
         // Remove API status element
         apiStatusElement.remove();
-        appendMessage('Error', `Failed to communicate with the chatbot: (I disabled the chatbot in these site, if you want to make the chatbot works, follow the repository steps -levs) ${error.message}`);
+        appendMessage('Error', `Failed to communicate with the chatbot: (I disabled the chatbot in these site, if you want to make the chatbot work, follow the repository steps -levs) ${error.message}`);
     });
 });
 

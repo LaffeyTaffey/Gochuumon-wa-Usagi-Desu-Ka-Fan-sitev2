@@ -24,7 +24,7 @@
     left: 60px;
     opacity: 0;
     animation: steam 3s infinite;
-    z-index: 99999;
+    z-index: 5;
     pointer-events: none;
     width: 20px;
     height: 30px;
@@ -279,7 +279,7 @@
     height: 40px;
     pointer-events: none;
     opacity: 0.15;
-    z-index: 99999;
+    z-index: 5;
     animation: rotate 20s linear infinite;
     display: block;
     /* Ensure visibility */

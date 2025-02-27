@@ -352,7 +352,8 @@ function performanceMiddleware(req, res, next) {
     next();
 }
 
-// chatbot
+const chatHistory = []; // Store conversation history
+
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
 
@@ -360,12 +361,20 @@ app.post('/chat', async (req, res) => {
         return res.status(400).json({ error: 'Message is required' });
     }
 
+    // Add user message to history
+    chatHistory.push({ role: "user", content: userMessage });
+
+    // Keep history within limits (avoid exceeding max tokens)
+    if (chatHistory.length > 20) {  // will adjust this number later based on token count of messages
+        chatHistory.shift(); // Remove oldest messages
+    }
+
     try {
         const response = await axios.post('https://api.arliai.com/v1/chat/completions', {
             model: "Mistral-Nemo-12B-Instruct-2407",
             messages: [
                 { role: "system", content: systemPrompt },
-                { role: "user", content: userMessage }
+                ...chatHistory // Send entire conversation history
             ],
             temperature: 0.4,
             repetition_penalty: 1.08,
@@ -380,6 +389,10 @@ app.post('/chat', async (req, res) => {
         });
 
         const botResponse = response.data.choices[0].message.content;
+        
+        // Add bot response to history
+        chatHistory.push({ role: "assistant", content: botResponse });
+
         res.status(200).send(botResponse);
     } catch (error) {
         console.error('Error communicating with Arliai API:', error);
