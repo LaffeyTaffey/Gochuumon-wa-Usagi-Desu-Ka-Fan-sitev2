@@ -896,8 +896,8 @@
     background-color: #ff4d4d;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
     transition: background-color 0.3s ease;
@@ -905,6 +905,33 @@
 
 #delete-chat-btn:hover {
     background-color: #ff1a1a;
+}
+
+.close-btn {
+    position: relative;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--chino-blue);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.close-btn:hover {
+    color: var(--rabbit-pink);
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px var(--chino-blue), 0 0 10px var(--chino-blue);
+    }
+    100% {
+        text-shadow: 0 0 10px var(--rabbit-pink), 0 0 20px var(--rabbit-pink);
+    }
 }
 
 #login-container {
@@ -916,13 +943,34 @@
     display: none;
     flex-direction: column;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    width: 300px;
+    background: var(--chat-background-light);
+    border-color: var(--chat-border-color-dark);
+    border-radius: 20px; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
     font-family: 'Comic Sans MS', cursive;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+[data-theme="dark"] #login-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1007;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: var(--chat-background-dark);
+    border-color: var(--chat-border-color-dark);
+    border-radius: 20px; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    width: 320px;
+    font-family: 'Comic Sans MS', cursive;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .login-box {
@@ -932,42 +980,49 @@
 .login-box h2 {
     color: var(--coffee-brown);
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 24px;
     background: linear-gradient(45deg, var(--chino-blue), var(--rabbit-pink));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
+    animation: glow 1.5s infinite alternate; /* Glowing effect */
 }
 
 .login-box input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid var(--chino-blue);
-    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid var(--chino-blue);
+    border-radius: 10px;
     font-family: 'Comic Sans MS', cursive;
-    transition: all 0.2s ease;
-    background: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
     color: var(--coffee-brown);
 }
 
 .login-box input:focus {
     outline: none;
-    box-shadow: 0 0 5px var(--chino-blue);
+    box-shadow: 0 0 10px var(--chino-blue);
     border-color: var(--rabbit-pink);
+}
+.button-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .login-box button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 10px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: var(--chino-blue);
     color: white;
     font-family: 'Comic Sans MS', cursive;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .login-box button:hover {
@@ -999,4 +1054,36 @@
     font-weight: bold;
     color: var(--chino-blue);
     margin: 10px;
+}
+
+#chinochat-notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.chinochatnotification {
+    background-color: #ffeb3b;
+    color: #000;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-out 2.5s;
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
 }

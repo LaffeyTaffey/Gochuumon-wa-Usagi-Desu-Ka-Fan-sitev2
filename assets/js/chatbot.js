@@ -239,10 +239,14 @@ document.getElementById('login-btn').addEventListener('click', async () => {
         chatContainer.style.display = 'block'; // Show chat container
         loadChatHistory(); // Load chat history for the new user
 
+        // Enable buttons
+        document.getElementById('user-profile-btn').disabled = false;
+        document.getElementById('delete-chat-btn').disabled = false;
+
         // Display the initial welcome message
         appendMessage('Chino', '*bows* Welcome to Rabbit House Café. *stares at you* oh its you again *smiles sweetly*');
     } else {
-        alert('Login failed');
+        showNotification('Login failed');
     }
 });
 
@@ -254,10 +258,8 @@ function toggleLoginSystem() {
         loginContainer.style.display = 'flex';
         loginContainer.style.animation = 'fadeIn 0.5s ease-in-out';
     } else {
-        loginContainer.style.animation = 'fadeOut 0.5s ease-in-out';
-        setTimeout(() => {
             loginContainer.style.display = 'none';
-        }, 500);
+            loginContainer.style.animation = 'fadeOut 0.5s ease-in-out';
     }
 }
 
@@ -276,7 +278,7 @@ document.getElementById('register-btn').addEventListener('click', async () => {
     });
 
     if (response.ok) {
-        alert('Registration successful! Logging you in...');
+        showNotification('Registration successful! Logging you in...');
 
         // Automatically log in the user after registration
         const loginResponse = await fetch('/login', {
@@ -288,7 +290,7 @@ document.getElementById('register-btn').addEventListener('click', async () => {
         if (loginResponse.ok) {
             const data = await loginResponse.json();
             currentUserId = data.userId; // Set the current user ID
-            document.getElementById('chat-username').innerText = `Logged in as: ${username}`; // Update the username in the header
+            document.getElementById('chat-username').innerText = `${username}`; // Update the username in the header
             toggleLoginSystem(); // Hide login container
             chatContainer.style.display = 'block'; // Show chat container
             loadChatHistory(); // Load chat history for the new user
@@ -296,10 +298,10 @@ document.getElementById('register-btn').addEventListener('click', async () => {
             // Display the initial welcome message
             appendMessage('Chino', '*bows* Welcome to Rabbit House Café. *stares at you* oh its you again *smiles sweetly*');
         } else {
-            alert('Login failed after registration');
+            showNotification('Login failed after registration');
         }
     } else {
-        alert('Registration failed');
+        showNotification('Registration failed');
     }
 });
 
@@ -330,6 +332,29 @@ if (response.ok) {
 }
 }
 
+function showNotification(message, type = 'info') {
+    const notificationContainer = document.getElementById('chinochat-notification-container');
+    const notification = document.createElement('div');
+    notification.classList.add('chinochatnotification');
+    notification.textContent = message;
+
+    // Add type-specific styling if needed
+    if (type === 'error') {
+        notification.style.backgroundColor = '#ff6b6b';
+        notification.style.color = '#fff';
+    } else if (type === 'success') {
+        notification.style.backgroundColor = '#4caf50';
+        notification.style.color = '#fff';
+    }
+
+    notificationContainer.appendChild(notification);
+
+    // Remove the notification after the animation ends
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
 // Function to handle logout
 function logout() {
     currentUserId = null; // Clear the current user ID
@@ -340,12 +365,25 @@ function logout() {
     // Clear the username display
     document.getElementById('chat-username').innerText = ''; // Clear the username
 
+    // Disable buttons
+    document.getElementById('user-profile-btn').disabled = true;
+    document.getElementById('delete-chat-btn').disabled = true;
+
     // Display the initial welcome message
     appendMessage('Chino', '*bows* Welcome to Rabbit House Café. *stares at you* oh its you again *smiles sweetly*');
 }
 
 // Add event listener to the logout button
 document.getElementById('logout-btn').addEventListener('click', logout);
+
+// Add event listener to the close button
+document.getElementById('close-login-btn').addEventListener('click', () => {
+    document.getElementById('login-container').style.display = 'none'; // Hide the login container
+});
+
+document.getElementById('user-profile-btn').addEventListener('click', () => {
+    window.location.href = 'profile.html'; // Redirect to profile.html
+});
 
 // Function to delete chat
 async function deleteChat() {
@@ -356,10 +394,10 @@ async function deleteChat() {
     });
 
     if (response.ok) {
-        alert('Chat history deleted');
+        showNotification('Chat history deleted');
         messagesContainer.innerHTML = ''; // Clear chat UI
     } else {
-        alert('Failed to delete chat history');
+        showNotification('Failed to delete chat history');
     }
 }
 

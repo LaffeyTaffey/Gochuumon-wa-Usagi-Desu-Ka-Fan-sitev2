@@ -52,6 +52,50 @@ const pool = new Pool({
     }
 });
 
+const session = require('express-session');
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+// Middleware to check if user is logged in
+function checkAuth(req, res, next) {
+    if (!req.session.userId) {
+        return res.redirect('/index.html'); // Redirect to index.html if not logged in
+    }
+    next();
+}
+
+// Route to get user profile data
+app.get('/profile', checkAuth, async (req, res) => {
+    const userId = req.session.userId;
+
+    try {
+        // Get user data
+        const userResult = await pool.query('SELECT username FROM users WHERE id = $1', [userId]);
+        const username = userResult.rows[0].username;
+
+        // Get total messages
+        const totalMessagesResult = await pool.query('SELECT COUNT(*) FROM chat_history WHERE user_id = $1', [userId]);
+        const totalMessages = totalMessagesResult.rows[0].count;
+
+        // Get messages for the last week
+        const weekMessagesResult = await pool.query(`
+            SELECT COUNT(*) FROM chat_history 
+            WHERE user_id = $1 AND timestamp >= NOW() - INTERVAL '7 days'`, [userId]);
+        const weekMessages = weekMessagesResult.rows[0].count;
+
+        // Send user data
+        res.json({ username, totalMessages, weekMessages });
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ error: 'Failed to fetch user profile' });
+    }
+});
+
 // User registration
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -91,6 +135,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid username or password' });
         }
 
+        req.session.userId = user.id; // Store user ID in session
         res.status(200).json({ userId: user.id });
     } catch (error) {
         console.error('Login error:', error);

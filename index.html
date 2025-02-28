@@ -2229,8 +2229,6 @@
 
     <div class="chat-bubble"></div>
 
-    <div class="chat-bubble"></div>
-
     <div id="chat-container" style="display: none;">
         <div id="chat-background"></div>
         <div id="chat-header">
@@ -2259,18 +2257,26 @@
     </div>
 
     <!-- Login/Register UI -->
+    <div id="chinochat-notification-container"></div>
     <div id="login-container" style="display: none;">
-        <div class="login-box">
-            <h2>Welcome to Rabbit House Café</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button id="login-btn">Login</button>
-            <button id="register-btn">Register</button>
-            <button id="logout-btn">Logout</button>
-            <button id="delete-chat-btn">Delete Chat</button>
+    <div class="login-box">
+        <button id="close-login-btn" class="close-btn">✖</button>
+        <h2>Welcome to Rabbit House Café</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        
+        <div class="button-group">
+            <button id="login-btn">🍵 Login</button>
+            <button id="register-btn">🐰 Register</button>
+        </div>
+        
+        <div class="button-group">
+            <button id="logout-btn">🚪 Logout</button>
+            <button id="user-profile-btn" disabled>👤 User Profile</button>
+            <button id="delete-chat-btn" disabled>🗑️ Delete Chat</button>
         </div>
     </div>
-
+</div>
 
     <div class="coffee-menu">
         <h4>🏠 Rabbit House Menu 🐰</h4>
