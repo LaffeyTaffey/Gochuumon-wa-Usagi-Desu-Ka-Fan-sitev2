@@ -42,6 +42,107 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL, // Uses the environment variable
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+// User registration
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const result = await pool.query(
+            'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id',
+            [username, hashedPassword]
+        );
+        res.status(201).json({ userId: result.rows[0].id });
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ error: 'Registration failed' });
+    }
+});
+
+// User login
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: 'Invalid username or password' });
+        }
+
+        const user = result.rows[0];
+        const validPassword = await bcrypt.compare(password, user.password_hash);
+        if (!validPassword) {
+            return res.status(401).json({ error: 'Invalid username or password' });
+        }
+
+        res.status(200).json({ userId: user.id });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Login failed' });
+    }
+});
+
+// Save chat history
+app.post('/save-chat', async (req, res) => {
+    const { userId, message, sender } = req.body;
+    if (!userId || !message || !sender) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        await pool.query(
+            'INSERT INTO chat_history (user_id, message, sender) VALUES ($1, $2, $3)',
+            [userId, message, sender]
+        );
+        res.status(201).send('Chat saved');
+    } catch (error) {
+        console.error('Chat save error:', error);
+        res.status(500).json({ error: 'Failed to save chat' });
+    }
+});
+
+// Get chat history
+app.get('/chat-history/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const result = await pool.query(
+            'SELECT * FROM chat_history WHERE user_id = $1 ORDER BY timestamp',
+            [userId]
+        );
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Chat history error:', error);
+        res.status(500).json({ error: 'Failed to retrieve chat history' });
+    }
+});
+
+app.delete('/delete-chat/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        await pool.query('DELETE FROM chat_history WHERE user_id = $1', [userId]);
+        res.status(200).send('Chat history deleted');
+    } catch (error) {
+        console.error('Chat deletion error:', error);
+        res.status(500).json({ error: 'Failed to delete chat history' });
+    }
+});
+
 // Serve static files from the current directory
 app.use(express.static(path.join(__dirname)));
 
