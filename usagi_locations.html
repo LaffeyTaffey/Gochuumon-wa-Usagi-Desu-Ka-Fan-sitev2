@@ -1320,6 +1320,8 @@
                 Kafuu Chino 🐰☕
                 <div id="api-status"></div>
             </div>
+            <i id="user-icon" class="fas fa-user-circle"></i>
+            <div class="chat-username" id="chat-username"></div>
         </div>
         <div id="messages"></div>
         <div id="thinking-phase" style="display: none;">
@@ -1334,6 +1336,28 @@
             <button id="send-btn">Send</button>
             <button id="regenerate-btn" style="display: none;">🔄 Regenerate</button>
             <button id="edit-btn" style="display: none;">✏️ Edit</button>
+        </div>
+    </div>
+
+    <!-- Login/Register UI -->
+    <div id="chinochat-notification-container"></div>
+    <div id="login-container" style="display: none;">
+        <div class="login-box">
+            <button id="close-login-btn" class="close-btn">✖</button>
+            <h2>Welcome to Rabbit House Café</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+
+            <div class="button-group">
+                <button id="login-btn">🍵 Login</button>
+                <button id="register-btn">🐰 Register</button>
+            </div>
+
+            <div class="button-group">
+                <button id="logout-btn">🚪 Logout</button>
+                <button id="user-profile-btn" disabled>👤 User Profile</button>
+                <button id="delete-chat-btn" disabled>🗑️ Delete Chat</button>
+            </div>
         </div>
     </div>
 
