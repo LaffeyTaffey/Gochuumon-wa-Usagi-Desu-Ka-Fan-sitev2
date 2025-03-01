@@ -13,7 +13,7 @@ function getBaseURL() {
 function appendMessage(sender, message, options = {}) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    
+
     // Determine the alignment based on the sender
     if (sender === 'You') {
         messageDiv.classList.add('user-message'); // User messages on the right
@@ -258,8 +258,8 @@ function toggleLoginSystem() {
         loginContainer.style.display = 'flex';
         loginContainer.style.animation = 'fadeIn 0.5s ease-in-out';
     } else {
-            loginContainer.style.display = 'none';
-            loginContainer.style.animation = 'fadeOut 0.5s ease-in-out';
+        loginContainer.style.display = 'none';
+        loginContainer.style.animation = 'fadeOut 0.5s ease-in-out';
     }
 }
 
@@ -324,12 +324,12 @@ async function loadChatHistory() {
     messagesContainer.innerHTML = '';
 
     const response = await fetch(`/chat-history/${currentUserId}`);
-if (response.ok) {
-    const history = await response.json();
-    history.forEach(msg => {
-        appendMessage(msg.sender, msg.message);
-    });
-}
+    if (response.ok) {
+        const history = await response.json();
+        history.forEach(msg => {
+            appendMessage(msg.sender, msg.message);
+        });
+    }
 }
 
 function showNotification(message, type = 'info') {
@@ -468,72 +468,72 @@ sendBtn.addEventListener('click', async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message })
     })
-    .then((response) => {
-        // Check if response is ok
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-    })
-    .then(async (botResponse) => { // Change to async to use await
-        const endTime = Date.now();
-        const actualResponseTime = ((endTime - startTime) / 1000).toFixed(2);
+        .then((response) => {
+            // Check if response is ok
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(async (botResponse) => { // Change to async to use await
+            const endTime = Date.now();
+            const actualResponseTime = ((endTime - startTime) / 1000).toFixed(2);
 
-        // Hide thinking phase
-        thinkingPhase.style.display = 'none';
-        // Remove API status element
-        apiStatusElement.remove();
+            // Hide thinking phase
+            thinkingPhase.style.display = 'none';
+            // Remove API status element
+            apiStatusElement.remove();
 
-        // Store last bot response
-        lastBotResponse = botResponse;
+            // Store last bot response
+            lastBotResponse = botResponse;
 
-        // Display the bot's response
-        appendMessage('Chino', botResponse);
+            // Display the bot's response
+            appendMessage('Chino', botResponse);
 
-        // Save the bot's response to the database
-        await saveChatMessage(botResponse, 'Chino'); // Save bot message
+            // Save the bot's response to the database
+            await saveChatMessage(botResponse, 'Chino'); // Save bot message
 
-        // Create and add notification emoji
-        const chatBubble = document.querySelector('.chat-bubble');
-        const notificationEmoji = document.createElement('div');
-        notificationEmoji.classList.add('notification-emoji');
-        notificationEmoji.textContent = '1';
+            // Create and add notification emoji
+            const chatBubble = document.querySelector('.chat-bubble');
+            const notificationEmoji = document.createElement('div');
+            notificationEmoji.classList.add('notification-emoji');
+            notificationEmoji.textContent = '1';
 
-        // Select a random sound
-        const soundFile = getRandomAudioFile();
-        const pingSound = new Audio(soundFile);
-        pingSound.play();
+            // Select a random sound
+            const soundFile = getRandomAudioFile();
+            const pingSound = new Audio(soundFile);
+            pingSound.play();
 
-        // Add to chat bubble
-        chatBubble.appendChild(notificationEmoji);
+            // Add to chat bubble
+            chatBubble.appendChild(notificationEmoji);
 
-        setTimeout(() => {
-            notificationEmoji.remove();
-        }, 5000);
+            setTimeout(() => {
+                notificationEmoji.remove();
+            }, 5000);
 
-        console.log('Web Scraping Context:', botResponse);
-    })
-    .catch((error) => {
-        console.error('Error communicating with the chatbot:', error);
+            console.log('Web Scraping Context:', botResponse);
+        })
+        .catch((error) => {
+            console.error('Error communicating with the chatbot:', error);
 
-        // Log detailed error to server
-        fetch(`${getBaseURL()}/log-error`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                error: error.message,
-                stack: error.stack,
-                context: 'Chat Communication',
-                timestamp: new Date().toISOString(),
-                userAgent: navigator.userAgent
-            })
+            // Log detailed error to server
+            fetch(`${getBaseURL()}/log-error`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    error: error.message,
+                    stack: error.stack,
+                    context: 'Chat Communication',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                })
+            });
+
+            thinkingPhase.style.display = 'none';
+            // Remove API status element
+            apiStatusElement.remove();
+            appendMessage('Error', `Failed to communicate with the chatbot: ${error.message}`);
         });
-
-        thinkingPhase.style.display = 'none';
-        // Remove API status element
-        apiStatusElement.remove();
-        appendMessage('Error', `Failed to communicate with the chatbot: ${error.message}`);
-    });
 });
 
 // Regenerate button event listener

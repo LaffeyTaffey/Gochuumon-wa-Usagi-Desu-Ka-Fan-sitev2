@@ -74,4 +74,7 @@ module.exports = {
 -Ama Usa An: a Japanese sweet shop and cafe run by Chiya and her family. It is also the Ujimatsu home and next to Sharo Kirima's house.
 -Fleur de Lapin: Fleur de Lapin is a rival café to Rabbit House and Ama Usa An that uses French motif and mainly serving adult tea drinks and snacks that compliment them. Sharo Kirima works part-time there. Megumi Natsu and Rize Tedeza also worked there at different points to lend a hand. A frequent customer is Aoyama, who comes to peek up girls skirts.
 `,
+contextSize: 16384,
+temperature: 0.4,
+maxTokens: 100,
 };

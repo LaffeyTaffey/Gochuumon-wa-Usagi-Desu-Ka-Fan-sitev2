@@ -7,13 +7,10 @@ const xml2js = require('xml2js');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio');
 const chinoCustomPrompt = require('./chino_custom_prompt');
-const chokidar = require('chokidar');
-const fg = require('fast-glob');
-const { promises: fsPromises } = require('fs');
 const { readFileSync } = require('fs');
 const NodeCache = require('node-cache');
 const { Volume } = require('memfs');
-const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+const { Worker, isMainThread, workerData } = require('worker_threads');
 
 console.log(`🐰 Kafuu Chino is ready! Loaded custom prompt settings:
 - System Prompt: ${chinoCustomPrompt.systemPrompt.split('\n')[0]}... 
@@ -21,7 +18,7 @@ console.log(`🐰 Kafuu Chino is ready! Loaded custom prompt settings:
 - Temperature: ${chinoCustomPrompt.temperature}
 - Max Tokens: ${chinoCustomPrompt.maxTokens}`);
 
-const { systemPrompt, contextSize, temperature, maxTokens } = chinoCustomPrompt;
+const { systemPrompt } = chinoCustomPrompt;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -266,91 +263,6 @@ async function fastFileRetrieval(filePath) {
 
 const vol = new Volume();
 
-function loadFilesInMemory() {
-    // Preload critical files into memory
-    const configFiles = {
-        '/config/chino_custom_prompt.js': readFileSync('./chino_custom_prompt.js'),
-        '/config/urls.json': readFileSync('./urls.json')
-    };
-
-    Object.entries(configFiles).forEach(([path, content]) => {
-        vol.writeFileSync(path, content);
-    });
-
-    return vol;
-}
-
-async function fastFileDiscovery() {
-    try {
-        const files = await fg([
-            './data/**/*.json',
-            './config/*.js',
-            '!./node_modules'
-        ], {
-            dot: true,
-            onlyFiles: true,
-            absolute: true
-        });
-
-        return files;
-    } catch (error) {
-        console.error('File Discovery Error:', error);
-        return [];
-    }
-}
-
-async function initializeFileManagement() {
-    try {
-        // Discover files
-        const discoveredFiles = await fastFileDiscovery();
-        console.log('Discovered Files:', discoveredFiles);
-
-        // Load files in memory (make sure readFileSync is imported)
-        const memoryVolume = loadFilesInMemory();
-
-        // Set up file watching
-        const watcher = setupFastFileLoading();
-
-        // Parallel file processing if needed
-        if (discoveredFiles.length > 0) {
-            await processFilesInParallel(discoveredFiles);
-        }
-    } catch (error) {
-        console.error('File Management Initialization Error:', error);
-    }
-}
-
-// Call function when server starts
-initializeFileManagement().catch(console.error);
-
-function setupFastFileLoading() {
-    const watcher = chokidar.watch(['./urls.json', './config.json', './data/**/*.json'], {
-        persistent: true,
-        ignoreInitial: false,
-        depth: 2,
-        awaitWriteFinish: {
-            stabilityThreshold: 200,
-            pollInterval: 100
-        }
-    });
-
-    watcher
-        .on('change', async (path) => {
-            console.log(`File ${path} has been changed`);
-            try {
-                await fetchKnowledgeBase();
-                console.log(`Successfully reloaded data after ${path} change`);
-            } catch (error) {
-                console.error(`Error reloading data after ${path} change:`, error);
-            }
-        })
-        .on('add', (path) => console.log(`File ${path} has been added`))
-        .on('unlink', (path) => console.log(`File ${path} has been removed`))
-        .on('error', error => console.error(`Watcher error: ${error}`));
-
-    return watcher;
-}
-
 // Character Rss Proxy Routes
 const characterRssUrls = {
     'chino': 'https://www.reddit.com/search/.rss?q=kafuu+chino&cId=4f66e521-73fc-4223-b8ef-8de9d0d7932d&iId=766a8ba6-6492-4054-b18c-25b030bc5952.rss',
@@ -535,7 +447,7 @@ app.post('/chat', async (req, res) => {
         });
 
         const botResponse = response.data.choices[0].message.content;
-        
+
         // Add bot response to history
         chatHistory.push({ role: "assistant", content: botResponse });
 
