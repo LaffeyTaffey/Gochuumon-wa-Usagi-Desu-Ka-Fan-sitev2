@@ -35,7 +35,7 @@
 
 </head>
 
-<body>
+<body onload="checkSession()">
     <nav class="header-nav">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center">
@@ -2265,10 +2265,9 @@
     </div>
 
     <!-- Login/Register UI -->
-    <div id="chinochat-notification-container"></div>
     <div id="login-container" style="display: none;">
+        <div id="chinochat-notification-container"></div>
         <div class="login-box">
-            <button id="close-login-btn" class="close-btn">✖</button>
             <h2>Welcome to Rabbit House Café</h2>
             <input type="text" id="username" placeholder="Username">
             <input type="password" id="password" placeholder="Password">
@@ -2282,6 +2281,7 @@
                 <button id="logout-btn">🚪 Logout</button>
                 <button id="user-profile-btn" disabled>👤 User Profile</button>
                 <button id="delete-chat-btn" disabled>🗑️ Delete Chat</button>
+                <button id="close-login-btn" class="close-btn">✖</button>
             </div>
         </div>
     </div>

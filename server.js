@@ -7,10 +7,6 @@ const xml2js = require('xml2js');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio');
 const chinoCustomPrompt = require('./chino_custom_prompt');
-const { readFileSync } = require('fs');
-const NodeCache = require('node-cache');
-const { Volume } = require('memfs');
-const { Worker, isMainThread, workerData } = require('worker_threads');
 
 console.log(`🐰 Kafuu Chino is ready! Loaded custom prompt settings:
 - System Prompt: ${chinoCustomPrompt.systemPrompt.split('\n')[0]}... 
@@ -218,50 +214,6 @@ app.get('/routes', (req, res) => {
         }));
     res.json(routes);
 });
-
-if (isMainThread) {
-    function processFilesInParallel(filePaths) {
-        const workers = filePaths.map(filePath => {
-            return new Worker(__filename, {
-                workerData: { filePath }
-            });
-        });
-
-        return Promise.allSettled(
-            workers.map(worker =>
-                new Promise((resolve, reject) => {
-                    worker.on('message', resolve);
-                    worker.on('error', (err) => {
-                        console.error(`Worker error for ${workerData.filePath}:`, err);
-                        reject(err);
-                    });
-                    worker.on('exit', (code) => {
-                        if (code !== 0) {
-                            console.warn(`Worker for ${workerData.filePath} exited with code ${code}`);
-                            reject(new Error(`Worker stopped with exit code ${code}`));
-                        }
-                    });
-                })
-            )
-        );
-    }
-}
-
-const fileCache = new NodeCache({
-    stdTTL: 60, // 1 minute cache
-    checkPeriod: 120 // check for expired keys every 2 minutes
-});
-
-async function fastFileRetrieval(filePath) {
-    const cachedFile = fileCache.get(filePath);
-    if (cachedFile) return cachedFile;
-
-    const fileContent = await readFile(filePath, 'utf8');
-    fileCache.set(filePath, fileContent);
-    return fileContent;
-}
-
-const vol = new Volume();
 
 // Character Rss Proxy Routes
 const characterRssUrls = {
