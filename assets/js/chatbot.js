@@ -356,21 +356,35 @@ function showNotification(message, type = 'info') {
 }
 
 // Function to handle logout
-function logout() {
-    currentUserId = null; // Clear the current user ID
-    messagesContainer.innerHTML = ''; // Clear chat messages
-    chatContainer.style.display = 'none'; // Hide chat container
-    toggleLoginSystem(); // Show login container
+async function logout() {
+    try {
+        const response = await fetch('/logout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-    // Clear the username display
-    document.getElementById('chat-username').innerText = ''; // Clear the username
+        if (response.ok) {
+            currentUserId = null; // Clear the current user ID
+            messagesContainer.innerHTML = ''; // Clear chat messages
+            chatContainer.style.display = 'none'; // Hide chat container
+            toggleLoginSystem(); // Show login container
 
-    // Disable buttons
-    document.getElementById('user-profile-btn').disabled = true;
-    document.getElementById('delete-chat-btn').disabled = true;
+            // Clear the username display
+            document.getElementById('chat-username').innerText = ''; // Clear the username
 
-    // Display the initial welcome message
-    appendMessage('Chino', '*bows* Welcome to Rabbit House Café. *stares at you* oh its you again *smiles sweetly*');
+            // Disable buttons
+            document.getElementById('user-profile-btn').disabled = true;
+            document.getElementById('delete-chat-btn').disabled = true;
+
+            // Display the initial welcome message
+            appendMessage('Chino', '*bows* Welcome to Rabbit House Café. *stares at you* oh its you again *smiles sweetly*');
+        } else {
+            showNotification('Logout failed', 'error');
+        }
+    } catch (error) {
+        console.error('Logout error:', error);
+        showNotification('Logout failed', 'error');
+    }
 }
 
 // Add event listener to the logout button

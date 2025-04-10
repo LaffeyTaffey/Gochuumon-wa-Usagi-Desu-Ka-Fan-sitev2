@@ -136,6 +136,18 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Logout route
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).json({ error: 'Failed to logout' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.status(200).json({ message: 'Logged out successfully' });
+    });
+});
+
 // Save chat history
 app.post('/save-chat', async (req, res) => {
     const { userId, message, sender } = req.body;
