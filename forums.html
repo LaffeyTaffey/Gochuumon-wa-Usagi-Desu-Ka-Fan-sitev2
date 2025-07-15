@@ -120,46 +120,7 @@
                 </div>
             </div>
             <!-- Left side logo -->
-            <div class="nav-logo">
-                <div class="sign-board">
-                    <div class="sign-front">
-                        <img data-src="assets/img/favico.webp" alt="Gochuumon wa Usagi Logo">
-                    </div>
-                    <div class="sign-side left"></div>
-                    <div class="sign-side right"></div>
-                    <div class="corner-piece corner-tl"></div>
-                    <div class="corner-piece corner-tr"></div>
-                    <div class="corner-piece corner-bl"></div>
-                    <div class="corner-piece corner-br"></div>
-                    <div class="wood-grain"></div>
-                </div>
-                <div class="chain-system">
-                    <div class="chain-strand left">
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                    </div>
-                    <div class="chain-strand right">
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                        <div class="chain-link"></div>
-                    </div>
-                </div>
-                <div class="mounting-bracket bracket-left">
-                    <div class="bracket-screw screw-tl"></div>
-                    <div class="bracket-screw screw-tr"></div>
-                    <div class="bracket-screw screw-bl"></div>
-                    <div class="bracket-screw screw-br"></div>
-                </div>
-                <div class="mounting-bracket bracket-right">
-                    <div class="bracket-screw screw-tl"></div>
-                    <div class="bracket-screw screw-tr"></div>
-                    <div class="bracket-screw screw-bl"></div>
-                    <div class="bracket-screw screw-br"></div>
-                </div>
-            </div>
+            
         </div>
     </nav>
     <div class="notification"></div>
@@ -170,20 +131,60 @@
         <div class="layer second-layer"></div>
         <div class="layer third-layer"></div>
     </div>
-
+  
     <main>
-        <div class="welcome-container">
-            <div class="welcome-content">
-                <h1>Welcome to the Forums</h1>
-                <p>to be updated</p>
-            </div>
-            </div>
+        
 
-        <video class="background-video" autoplay muted loop playsinline>
-            <source src="assets/videos/frames.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-
+<style>
+    
+    iframe {
+      border: none;
+      width: 90%;
+      height: 600px;
+      max-width: 1000px;
+    }
+    .button-group {
+      margin-bottom: 15px;
+    }
+    button, a.download {
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button:hover, a.download:hover {
+      background-color: #005fa3;
+    }
+  </style>
+        <div class="button-group">
+            <button onclick="openFullscreen()">🔎 Fullscreen View</button>
+            <a class="download" href="https://1drv.ms/x/c/673CB5FEE36434E5/IQQAMkxz5W7oQbm2HPbTOdWyAT7GBGwTO9PVV0Uh3us-92I" target="_blank">
+              ⬇️ Open Full Workbook (for Macros)
+            </a>
+          </div>
+        
+          <iframe id="excelFrame"
+            src="https://1drv.ms/x/c/673CB5FEE36434E5/IQQAMkxz5W7oQbm2HPbTOdWyAT7GBGwTO9PVV0Uh3us-92I"
+            allowfullscreen>
+          </iframe>
+        
+          <script>
+            function openFullscreen() {
+              const iframe = document.getElementById("excelFrame");
+              if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+              } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+              } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+              }
+            }
+          </script>
         </main>
 
     <!-- Addtional Features -->
